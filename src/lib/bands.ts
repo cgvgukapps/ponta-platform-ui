@@ -1,7 +1,15 @@
 import type { Band } from './types'
 
-/** Prototype thresholds on the decision-quality ratio V(actual) / V(best in ring). */
-export const BAND_THRESHOLDS = { suboptimal: 0.4, good: 0.7, optimal: 0.9 } as const
+/**
+ * Decision-quality bands, as specified for the engine (ANALYTICS_SPECIFICATION.md, section 7.1):
+ * unified across passes, carries and intercepted passes. The score is the value of the outcome at
+ * arrival divided by the best option at the moment of the decision, clipped to 0 to 1.5, so it can
+ * exceed 1.0 when a run made the outcome better than any option available at release.
+ */
+export const BAND_THRESHOLDS = { suboptimal: 0.55, good: 0.8, optimal: 0.95 } as const
+export const DQ_MAX = 1.5
+/** At or above this, the outcome beat every option available when the ball was played. */
+export const DQ_ELEVATED = 1.0
 export const BAND_ORDER: Band[] = ['poor', 'suboptimal', 'good', 'optimal']
 
 export function bandOf(ratio: number): Band {

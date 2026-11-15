@@ -73,7 +73,7 @@
    "fitness_linked": {
     "state": "blocked",
     "reason": "Relating physical load to decisions needs a second, paired source for the same match.",
-    "unlock": "Pair a wearable export with this match. Tier 3 is in development.",
+    "unlock": "Pair a wearable export with this match. Paired-source analysis is in development.",
     "inDevelopment": true
    }
   }
@@ -153,7 +153,7 @@
    "fitness_linked": {
     "state": "blocked",
     "reason": "Relating physical load to decisions needs a second, paired source for the same match.",
-    "unlock": "Pair a wearable export with this match. Tier 3 is in development.",
+    "unlock": "Pair a wearable export with this match. Paired-source analysis is in development.",
     "inDevelopment": true
    }
   }
@@ -230,7 +230,7 @@
    "fitness_linked": {
     "state": "blocked",
     "reason": "Needs paired tracking and wearable sources for the same match.",
-    "unlock": "Pair tracking and wearable exports. Tier 3 is in development.",
+    "unlock": "Pair tracking and wearable exports. Paired-source analysis is in development.",
     "inDevelopment": true
    }
   }
@@ -307,7 +307,7 @@
    "fitness_linked": {
     "state": "blocked",
     "reason": "Relating physical load to decisions needs tracking or events paired with this export.",
-    "unlock": "Pair an optical or event source. Tier 3 is in development.",
+    "unlock": "Pair an optical or event source. Paired-source analysis is in development.",
     "inDevelopment": true
    }
   }
@@ -387,7 +387,7 @@
    "fitness_linked": {
     "state": "blocked",
     "reason": "Needs tracking or events paired with this export.",
-    "unlock": "Pair an optical or event source. Tier 3 is in development.",
+    "unlock": "Pair an optical or event source. Paired-source analysis is in development.",
     "inDevelopment": true
    }
   }
@@ -466,7 +466,7 @@
    "fitness_linked": {
     "state": "blocked",
     "reason": "Fitness-linked decision analysis is in development. When released, it will show association only, with confidence bands.",
-    "unlock": "Available in a later release (Tier 3, in development).",
+    "unlock": "Available in a later release (paired sources, in development).",
     "inDevelopment": true
    }
   }

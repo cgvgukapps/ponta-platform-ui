@@ -65,7 +65,7 @@
     "bullets": [
      {
       "id": "b6",
-      "text": "Home 10 chose a square pass when a forward pass to a teammate in the ring had the higher value. The square pass kept possession, and the model rates it Suboptimal, not wrong.",
+      "text": "Home 10 played the ball back to Home 8 when a forward pass to a teammate in the ring had the higher value. The pass kept possession, and the model rates it Suboptimal, not wrong.",
       "citations": [
        "evt_99482"
       ]

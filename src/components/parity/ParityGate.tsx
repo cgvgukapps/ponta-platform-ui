@@ -26,14 +26,21 @@ function SummaryStat({ state, n }: { state: ParityState; n: number }) {
   )
 }
 
-function MetricRow({ id, report }: { id: MetricId; report: ReturnType<typeof parityFor> }) {
+function MetricRow({ id, report, familyState, familyLabel }: { id: MetricId; report: ReturnType<typeof parityFor>; familyState: ParityState; familyLabel: string }) {
   const m = report.metrics[id]
+  const label = t(`metric.${id}`)
+  // The family badge already states the common case. A row repeats a badge only when it differs,
+  // and drops its title when it would only repeat the family name.
+  const differs = m.state !== familyState
+  const showTitle = differs || label !== familyLabel
   return (
     <div className="flex flex-col gap-1.5 border-t border-hair py-3 first:border-t-0 first:pt-0 last:pb-0">
-      <div className="flex items-center justify-between gap-3">
-        <h4 className="text-sm font-medium text-fg-1">{t(`metric.${id}`)}</h4>
-        <ParityBadge state={m.state} />
-      </div>
+      {showTitle ? (
+        <div className="flex items-center justify-between gap-3">
+          <h4 className="text-sm font-medium text-fg-1">{label}</h4>
+          {differs ? <ParityBadge state={m.state} /> : null}
+        </div>
+      ) : null}
       <p className="text-sm leading-5 text-fg-2">{m.reason}</p>
       {m.measure ? <p className="font-mono text-xs text-fg-3">{m.measure}</p> : null}
       {m.state !== 'full' ? (
@@ -62,7 +69,7 @@ function FamilyCard({ family, report }: { family: (typeof FAMILIES)[number]; rep
       </header>
       <div className="flex flex-col px-4 py-3">
         {family.metrics.map((id) => (
-          <MetricRow key={id} id={id} report={report} />
+          <MetricRow key={id} id={id} report={report} familyState={state} familyLabel={t(`family.${family.id}`)} />
         ))}
       </div>
     </section>

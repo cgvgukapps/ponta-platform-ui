@@ -42,6 +42,9 @@ function Preview({ event, engine }: { event: MatchEvent; engine?: Engine }) {
   const frame = engine && engine.opts.players ? engine.frame(event.t) : undefined
   return (
     <div className="w-[260px]">
+      <p className="mb-1.5 px-0.5 font-mono text-2xs tabular-nums text-fg-4">
+        {event.id} · {t('chip.conf_full', { v: event.conf.toFixed(2) })}
+      </p>
       <MomentThumb event={event} frame={frame} />
       <div className="mt-2 flex items-center justify-between gap-2 px-0.5">
         <span className="text-xs font-medium text-fg-1">
@@ -58,13 +61,16 @@ function Preview({ event, engine }: { event: MatchEvent; engine?: Engine }) {
 }
 
 /**
- * Citation chip: `evt_99482 · 34:12 · conf 0.91`. Mono, compact. Low-confidence citations use the
- * confidence channel (dashed outline and a short level bar), never a hue. The chip is a real link to the
- * replay at that exact moment.
+ * Citation chip. It leads with what a coach reads, the minute and the action
+ * (`34:12 · Pass, Home 10 to Home 8 · 0.91`), and keeps the event id for audit: in the hover preview,
+ * the accessible name and the printed brief. `compact` drops the action when a caption already says it.
+ * Low-confidence citations use the confidence channel (dashed outline and a short level bar), never a hue.
+ * The chip is a real link to the replay at that exact moment.
  */
-export function CitationChip({ event, matchId, engine, index, className, variant = 'dark' }: { event: MatchEvent; matchId: string; engine?: Engine; index?: number; className?: string; variant?: 'dark' | 'print' }) {
+export function CitationChip({ event, matchId, engine, index, className, variant = 'dark', compact }: { event: MatchEvent; matchId: string; engine?: Engine; index?: number; className?: string; variant?: 'dark' | 'print'; compact?: boolean }) {
   const low = confLevel(event.conf) === 'low'
-  const label = `${event.id} · ${fmtClock(event.t)} · conf ${event.conf.toFixed(2)}`
+  const action = `${eventTypeLabel(event)}, ${describeEvent(event)}`
+  const label = `${fmtClock(event.t)} · ${action} · ${t('chip.conf_full', { v: event.conf.toFixed(2) })} · ${event.id}`
   return (
     <HoverPreview openDelay={180} closeDelay={60}>
       <HoverPreviewTrigger asChild>
@@ -72,21 +78,26 @@ export function CitationChip({ event, matchId, engine, index, className, variant
           to={`/matches/${matchId}/replay?event=${event.id}`}
           aria-label={`${t('chip.open')} ${label}${low ? `, ${t('conf.low')}` : ''}`}
           className={cn(
-            'group inline-flex h-[22px] items-center gap-1.5 whitespace-nowrap rounded-sm border px-1.5 font-mono text-[11px] leading-none tabular-nums transition-colors duration-[var(--dur-fast)]',
+            'group inline-flex h-[22px] max-w-full items-center gap-1.5 whitespace-nowrap rounded-sm border px-1.5 text-[11.5px] leading-none tabular-nums transition-colors duration-[var(--dur-fast)]',
             low ? 'border-dashed border-[var(--conf-ink)] bg-s1 text-fg-1 hover:border-accent' : 'border-hair-strong bg-s2 text-fg-1 hover:border-accent hover:bg-s3',
             variant === 'print' && 'bg-white',
             className,
           )}
         >
           {index !== undefined ? <span className="text-fg-3">[{index}]</span> : <Play className="size-2.5 fill-current text-fg-3 group-hover:text-accent-text" aria-hidden />}
-          <span>{event.id}</span>
+          <span className="font-mono">{fmtClock(event.t)}</span>
+          {!compact ? (
+            <>
+              <span className="text-fg-4">·</span>
+              <span className="min-w-0 truncate">{action}</span>
+            </>
+          ) : null}
           <span className="text-fg-4">·</span>
-          <span>{fmtClock(event.t)}</span>
-          <span className="text-fg-4">·</span>
-          <span className="inline-flex items-center gap-1">
+          <span className="inline-flex shrink-0 items-center gap-1 font-mono" title={t('chip.conf_full', { v: event.conf.toFixed(2) })}>
             <ConfidenceGlyph value={event.conf} size={9} />
-            <span>conf {event.conf.toFixed(2)}</span>
+            <span>{event.conf.toFixed(2)}</span>
           </span>
+          {variant === 'print' ? <span className="font-mono text-fg-4">{event.id}</span> : null}
         </Link>
       </HoverPreviewTrigger>
       <HoverPreviewContent>
@@ -104,7 +115,7 @@ export function MomentCard({ event, matchId, engine, caption, fluid }: { event: 
       <Link to={`/matches/${matchId}/replay?event=${event.id}`} tabIndex={-1} aria-hidden className="overflow-hidden rounded-md border border-hair-strong hover:border-accent">
         <MomentThumb event={event} frame={frame} />
       </Link>
-      <CitationChip event={event} matchId={matchId} engine={engine} />
+      <CitationChip event={event} matchId={matchId} engine={engine} compact />
       <p className="text-xs text-fg-3">{caption ?? `${eventTypeLabel(event)} · ${describeEvent(event)}`}</p>
     </div>
   )

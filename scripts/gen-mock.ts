@@ -30,6 +30,8 @@ interface KeySpec {
   confNote?: string
   outcome?: Outcome
   ratio?: number
+  /** Value at arrival as a multiple of the chosen option's score at release (a run that improved the outcome). */
+  arrival?: number
   vA?: number
   vB?: number
   beforeKey?: string
@@ -163,9 +165,10 @@ function generate(cfg: { seed: number; keys: KeySpec[]; eventOnly?: boolean; noR
       e.note = b // internal hint only
       delete e.note
     } else {
-      e.vA = r2(vA)
+      // vA is the value at arrival. Without a scripted run it equals the chosen option's score at release.
+      e.vA = r2(spec?.arrival ? vA * spec.arrival : vA)
       e.vB = r2(vB)
-      e.dq = r2(e.vA / e.vB)
+      e.dq = r2(clamp(e.vA / e.vB, 0, 1.5))
       e.band = bandOf(e.dq)
       e.alts = alts
     }
@@ -516,13 +519,13 @@ function generate(cfg: { seed: number; keys: KeySpec[]; eventOnly?: boolean; noR
 
 // --------------------------------------------------------------------------- key events
 const optical: KeySpec[] = [
-  { id: 'evt_41207', t: 468, type: 'pass', team: 'h', num: 5, toNum: 6, from: [25, 40], to: [48, 38], press: 0.27, conf: 0.94, ratio: 0.94 },
-  { id: 'evt_41893', t: 680, type: 'pass', team: 'h', num: 3, toNum: 11, from: [34, 12], to: [56, 14], press: 0.41, conf: 0.93, ratio: 0.78 },
-  { id: 'evt_52660', t: 1145, type: 'pass', team: 'h', num: 4, toNum: 6, from: [30, 30], to: [49, 38], press: 0.84, conf: 0.9, ratio: 0.52 },
+  { id: 'evt_41207', t: 468, type: 'pass', team: 'h', num: 5, toNum: 6, from: [25, 40], to: [48, 38], press: 0.27, conf: 0.94, ratio: 0.97, arrival: 1.18 },
+  { id: 'evt_41893', t: 680, type: 'pass', team: 'h', num: 3, toNum: 11, from: [34, 12], to: [56, 14], press: 0.41, conf: 0.93, ratio: 0.86 },
+  { id: 'evt_52660', t: 1145, type: 'pass', team: 'h', num: 4, toNum: 6, from: [30, 30], to: [49, 38], press: 0.84, conf: 0.9, ratio: 0.66 },
   { id: 'evt_60318', t: 1421, type: 'pass', team: 'h', num: 6, from: [44, 36], to: [58, 34], press: 0.88, conf: 0.92, outcome: 'lost', ratio: 0.22 },
   { id: 'evt_66190', t: 1660, type: 'pass', team: 'h', num: 8, toNum: 10, from: [53, 29], to: [61, 36], press: 0.86, conf: 0.58, confNote: 'Two players partly occluded near the ball', ratio: 0.6 },
   { id: 'evt_70055', t: 1790, type: 'pass', team: 'h', num: 5, toNum: 1, from: [27, 40], to: [6, 35], press: 0.78, conf: 0.91, ratio: 0.6 },
-  { id: 'evt_99482', t: 2052, type: 'pass', team: 'h', num: 10, toNum: 8, from: [62, 38], to: [57, 24], press: 0.34, conf: 0.91, vA: 0.18, vB: 0.42 },
+  { id: 'evt_99482', t: 2052, type: 'pass', team: 'h', num: 10, toNum: 8, from: [62, 38], to: [57, 24], press: 0.34, conf: 0.91, vA: 0.27, vB: 0.42 },
   { id: 'evt_84102', t: 3500, type: 'pass', team: 'h', num: 6, from: [47, 34], to: [60, 30], press: 0.76, conf: 0.9, outcome: 'lost', ratio: 0.3 },
   { id: 'evt_88420', t: 3156, type: 'pass', team: 'h', num: 8, from: [58, 30], to: [66, 33], press: 0.81, conf: 0.93, outcome: 'lost', ratio: 0.28, forceNext: { id: 'evt_88433', len: 26, press: 0.15, conf: 0.94 } },
   { id: 'evt_93017', t: 3676, type: 'pass', team: 'h', num: 6, toNum: 8, from: [60, 40], to: [57, 26], press: 0.46, conf: 0.9, ratio: 0.38 },
@@ -537,7 +540,7 @@ const eventOnlyKeys: KeySpec[] = [
   { id: 'evt_31220', t: 2210, type: 'pass', team: 'h', num: 4, from: [34, 28], to: [56, 33], press: 0.8, conf: 0.76, outcome: 'lost', ratio: 0.3 },
   { id: 'evt_36098', t: 3320, type: 'pass', team: 'h', num: 8, toNum: 9, from: [58, 30], to: [78, 34], press: 0.4, conf: 0.82, ratio: 0.62 },
   { id: 'evt_39871', t: 4210, type: 'pass', team: 'h', num: 6, from: [48, 36], to: [62, 33], press: 0.84, conf: 0.74, outcome: 'lost', ratio: 0.26 },
-  { id: 'evt_42650', t: 4880, type: 'pass', team: 'h', num: 10, toNum: 11, from: [72, 40], to: [84, 20], press: 0.35, conf: 0.8, ratio: 0.55 },
+  { id: 'evt_42650', t: 4880, type: 'pass', team: 'h', num: 10, toNum: 11, from: [72, 40], to: [84, 20], press: 0.35, conf: 0.8, ratio: 0.6 },
 ]
 
 // ----------------------------------------------------------------------------- build

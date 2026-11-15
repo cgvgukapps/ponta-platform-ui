@@ -125,3 +125,18 @@ Hard to implement faithfully
 1. **Light analyst desk, in the marketing site's white and blue.** Rejected: it reads as the website rather than a tool, and glare is wrong for long film sessions.
 2. **Broadcast graphics, with saturated team colours, glow and large type.** Rejected: it merges team, heat and status into one loud channel and sounds like hype.
 3. **Spreadsheet terminal, monospace everywhere in amber on black.** Rejected: it suits traders, not coaches, and leaves no room for the plain-language reasons the Parity Report depends on.
+
+## 6. Review changes (15 November 2026)
+
+Changes made after the first design review. The backend is not connected yet; everything is still mock data.
+
+1. **Decision quality follows the engine.** Bands are the engine's (`ANALYTICS_SPECIFICATION.md` 7.1): Poor below 0.55, Suboptimal 0.55 to 0.79, Good 0.80 to 0.94, Optimal 0.95 and above, unified across passes, carries and intercepted passes. The score is the value at arrival divided by the best option at release, clipped to 0 to 1.5, so it can exceed 1.0 when a run improved the outcome. The explain card shows a 0 to 1.5 scale with the cut-offs marked and explains any score above 1.0. The mock generator supports this (`arrival` on a key event); `evt_41207` is the example above 1.0. Key events were re-scripted so the brief's band wording still matches; event ids, times and positions are unchanged.
+2. **Citation chips lead with the moment.** A chip reads `07:48 · Pass, Home 5 to Home 6 · 0.94`. The event id moves to the hover preview, the accessible name and the printed brief, so the citation rule (`event_id`, timestamp, confidence) is still met. Where a caption already describes the action (Ask playlist), the chip is compact.
+3. **Plain names.** "Parity report" is now **Data check** everywhere, matching Ask. Tiers are named by sources: **One source**, **Two sources**, **Paired sources**, with a hover hint. Full, Degraded and Blocked keep their names.
+4. **Labelled counts.** The unlabelled `10 / 3 / 1` strip is replaced by `10 Full · 3 Degraded · 1 Blocked` with the parity marks, in the library and the match header.
+5. **Data check page rolls up.** A family badge states the common case; a metric repeats a badge only when it differs, and drops its title when it would only repeat the family name.
+6. **Replay.** The legend keeps every slot (dimmed when off), so toggling overlays no longer resizes the pitch. With Value on, control is drawn only where one team clearly controls a zone; confidence outlines only clearly uncertain zones. Player markers and numbers are larger. A disabled video button marks where a club-video link will go.
+7. **Library.** Error messages wrap in full instead of truncating. Two-source and paired-source matches show **Data checked**, not Ready, with "Brief and replay in development".
+8. **Navigation.** The "Coming later" group is hidden (`SHOW_LATER_NAV` in `AppShell.tsx`); the routes remain.
+
+Not changed: tokens, contrast (98 pairs re-verified, none failing), the three colour collisions and the three visual channels.

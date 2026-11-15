@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import * as Collapsible from '@radix-ui/react-collapsible'
-import { ChevronDown, Copy, Play, TriangleAlert } from 'lucide-react'
+import { ChevronDown, Copy, Play, TriangleAlert, Video } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 import type { MatchEvent } from '@/lib/types'
 import { fmtClock } from '@/lib/format'
 import { eventTypeLabel, describeEvent, periodName } from '@/lib/events'
-import { HIGH_PRESSURE, confLevel } from '@/lib/bands'
+import { BAND_THRESHOLDS, DQ_ELEVATED, DQ_MAX, HIGH_PRESSURE, confLevel } from '@/lib/bands'
 import { Button } from '@/components/ui/button'
 import { ConfidenceIndicator, DqBand, EstimateBand, TeamDot } from '@/components/ui/badges'
 import { Threshold } from '@/components/ui/threshold'
+import { Tooltip } from '@/components/ui/overlay'
 
 function Row({ label, children }: { label: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -101,6 +102,28 @@ function Tiles({ e }: { e: MatchEvent }) {
   )
 }
 
+/** The 0 to 1.5 scale with the band cut-offs marked, so a score is never read as a 0 to 1 ratio. */
+function DqScale({ value }: { value: number }) {
+  const pct = (v: number) => `${(Math.min(DQ_MAX, Math.max(0, v)) / DQ_MAX) * 100}%`
+  const cuts = [BAND_THRESHOLDS.suboptimal, BAND_THRESHOLDS.good, BAND_THRESHOLDS.optimal, DQ_ELEVATED]
+  return (
+    <div className="mt-2" role="img" aria-label={t('explain.scale_aria', { v: value.toFixed(2), max: DQ_MAX.toFixed(1) })}>
+      <div className="relative h-1.5 rounded-full bg-s3">
+        <span className="absolute inset-y-0 left-0 rounded-full bg-fg-3" style={{ width: pct(value) }} />
+        {cuts.map((c) => (
+          <span key={c} aria-hidden className="absolute -top-0.5 h-2.5 w-px bg-fg-4" style={{ left: pct(c) }} />
+        ))}
+        <span aria-hidden className="absolute -top-1 size-3.5 -translate-x-1/2 rounded-full border-2 border-canvas bg-fg-1" style={{ left: pct(value) }} />
+      </div>
+      <div aria-hidden className="relative mt-1 h-3 font-mono text-[10px] tabular-nums text-fg-4">
+        <span className="absolute left-0">0</span>
+        <span className="absolute -translate-x-1/2" style={{ left: pct(DQ_ELEVATED) }}>1.0</span>
+        <span className="absolute right-0">{DQ_MAX.toFixed(1)}</span>
+      </div>
+    </div>
+  )
+}
+
 function Measured({ e }: { e: MatchEvent }) {
   const alts = [...(e.alts ?? [])].sort((a, b) => a.rank - b.rank)
   const vA = e.vA ?? 0
@@ -116,11 +139,15 @@ function Measured({ e }: { e: MatchEvent }) {
           {(e.dq ?? 0).toFixed(2)}
         </p>
       </div>
+      <DqScale value={e.dq ?? 0} />
 
       <div className="mt-2.5 rounded-md border border-hair bg-canvas px-2.5 py-2">
         <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('explain.working')}</p>
-        <p className="mt-0.5 font-mono text-[12.5px] tabular-nums text-fg-1">V(actual) ÷ V(best in ring) = {vA.toFixed(2)} ÷ {vB.toFixed(2)}</p>
-        <p className="font-mono text-[12.5px] tabular-nums text-fg-2">= {(e.dq ?? 0).toFixed(2)}</p>
+        <p className="mt-0.5 font-mono text-[12.5px] tabular-nums text-fg-1">V(at arrival) ÷ V(best at release)</p>
+        <p className="font-mono text-[12.5px] tabular-nums text-fg-2">
+          = {vA.toFixed(2)} ÷ {vB.toFixed(2)} = {(e.dq ?? 0).toFixed(2)}
+        </p>
+        {(e.dq ?? 0) >= DQ_ELEVATED ? <p className="mt-1.5 text-xs text-fg-2">{t('explain.elevated')}</p> : null}
       </div>
 
       <div className="mt-2.5">
@@ -274,12 +301,19 @@ export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchE
       <Collapsible.Root open={how} onOpenChange={setHow} className="mt-3 border-t border-hair pt-2.5">
         <div className="flex items-center gap-2">
           {measured ? (
-            <Collapsible.Trigger className="flex items-center gap-1 text-xs text-accent-text hover:underline">
+            <Collapsible.Trigger className="flex items-center gap-1 whitespace-nowrap text-xs text-accent-text hover:underline">
               <ChevronDown className={cn('size-3 transition-transform', how && 'rotate-180')} aria-hidden />
               {t('explain.how')}
             </Collapsible.Trigger>
           ) : null}
           <div className="ml-auto flex items-center gap-1.5">
+            <Tooltip content={t('explain.video_later')}>
+              <span tabIndex={0} className="rounded-md">
+                <Button size="icon-sm" variant="ghost" disabled aria-label={t('explain.video')}>
+                  <Video className="size-3.5" aria-hidden />
+                </Button>
+              </span>
+            </Tooltip>
             <Button size="sm" variant="primary" onClick={() => onPlayFrom(e)}>
               <Play className="size-3 fill-current" aria-hidden />
               {t('explain.play_from')}

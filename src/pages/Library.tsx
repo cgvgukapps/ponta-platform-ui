@@ -139,9 +139,18 @@ function SortTh({ label, k, sort, setSort, className }: { label: string; k: Sort
 
 function StatusCell({ m }: { m: Match }) {
   const stage = m.status === 'processing' && m.stage !== undefined ? t(`stage.${PROCESSING_STAGES[m.stage]}`) : undefined
+  // Multi-source matches are checked but not analysed yet: say that, not "Ready".
+  const checkedOnly = m.status === 'ready' && m.tierStatus === 'in_development'
   return (
     <div className="flex min-w-[120px] flex-col gap-1">
-      <StatusBadge status={m.status} stage={stage} />
+      {checkedOnly ? (
+        <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-fg-2">
+          <Gauge className="size-3.5 text-fg-3" aria-hidden />
+          {t('status.checked_only')}
+        </span>
+      ) : (
+        <StatusBadge status={m.status} stage={stage} />
+      )}
       {m.status === 'processing' ? <ProgressBar value={((m.stage ?? 0) + (m.stageProgress ?? 0)) / PROCESSING_STAGES.length} label={t('status.processing')} className="w-28" /> : null}
     </div>
   )
@@ -232,7 +241,7 @@ export function Library() {
         <Select aria-label={t('lib.f_competition')} value={filters.competition} onValueChange={(v) => set({ competition: v })} className="w-44" options={[{ value: 'all', label: t('lib.f_competition_all') }, ...competitions.map((c) => ({ value: c, label: c }))]} />
         <Select aria-label={t('lib.f_date')} value={filters.date} onValueChange={(v) => set({ date: v })} className="w-36" options={[{ value: 'all', label: t('lib.f_date_all') }, { value: '7', label: t('lib.f_date_7') }, { value: '30', label: t('lib.f_date_30') }, { value: '60', label: t('lib.f_date_60') }]} />
         <Select aria-label={t('lib.f_provider')} value={filters.provider} onValueChange={(v) => set({ provider: v })} className="w-36" options={[{ value: 'all', label: t('lib.f_provider_all') }, ...Object.entries(PROVIDER_NAME).map(([k, v]) => ({ value: k, label: v }))]} />
-        <Select aria-label={t('lib.f_tier')} value={filters.tier} onValueChange={(v) => set({ tier: v })} className="w-32" options={[{ value: 'all', label: t('lib.f_tier_all') }, { value: '1', label: t('tier.label', { n: 1 }) }, { value: '2', label: t('tier.label', { n: 2 }) }, { value: '3', label: t('tier.label', { n: 3 }) }, { value: 'dev', label: t('tier.in_development') }]} />
+        <Select aria-label={t('lib.f_tier')} value={filters.tier} onValueChange={(v) => set({ tier: v })} className="w-36" options={[{ value: 'all', label: t('lib.f_tier_all') }, { value: '1', label: t('tier.name_1') }, { value: '2', label: t('tier.name_2') }, { value: '3', label: t('tier.name_3') }, { value: 'dev', label: t('tier.in_development') }]} />
         <Select aria-label={t('lib.f_parity')} value={filters.parity} onValueChange={(v) => set({ parity: v })} className="w-40" options={[{ value: 'all', label: t('lib.f_parity_all') }, { value: 'full', label: t('lib.f_parity_full') }, { value: 'degraded', label: t('lib.f_parity_degraded') }, { value: 'blocked', label: t('lib.f_parity_blocked') }]} />
         <Select aria-label={t('lib.f_status')} value={filters.status} onValueChange={(v) => set({ status: v })} className="w-36" options={[{ value: 'all', label: t('lib.f_status_all') }, { value: 'ready', label: t('status.ready') }, { value: 'processing', label: t('status.processing') }, { value: 'queued', label: t('status.queued') }, { value: 'attention', label: t('lib.saved_attention') }]} />
       </div>
@@ -296,7 +305,7 @@ export function Library() {
                     </Link>
                     {m.fixtureNote ? <span className="mt-0.5 block text-xs text-fg-3">{m.fixtureNote}</span> : null}
                     {m.issue && (m.status === 'failed' || m.status === 'needs_attention') ? (
-                      <span title={m.issue} className={cn('mt-0.5 block max-w-[220px] truncate text-xs', m.status === 'failed' ? 'text-danger' : 'text-warn')}>
+                      <span className={cn('mt-1 block max-w-[300px] text-xs leading-snug', m.status === 'failed' ? 'text-danger' : 'text-warn')}>
                         {m.issue}
                       </span>
                     ) : null}

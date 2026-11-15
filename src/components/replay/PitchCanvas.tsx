@@ -137,12 +137,14 @@ export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onP
         const a = (0.03 + 0.27 * Math.pow(strength, 1.1)) * fade(i)
         if (ov.value) {
           // Value is the fill; control is a smaller inner hexagon so the two channels never merge.
+          // Contested zones are left empty, which keeps the pitch readable with both overlays on.
+          if (strength < 0.6) continue
           const [cx, cy] = HEX_CENTRES[i]
           ctx.save()
           ctx.translate(cx, cy)
           ctx.scale(0.28 + 0.16 * strength, 0.28 + 0.16 * strength)
           ctx.translate(-cx, -cy)
-          const k = 0.8 * fade(i)
+          const k = 0.6 * fade(i)
           ctx.fillStyle = p > 0.5 ? `rgba(${hr},${hg},${hb},${k})` : `rgba(${ar},${ag},${ab},${k})`
           ctx.fill(HEX_PATHS[i])
           ctx.restore()
@@ -165,8 +167,8 @@ export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onP
       ctx.setLineDash([2.2 / s, 2.2 / s])
       for (let i = 0; i < HEX_COUNT; i++) {
         const c = zoneConf(i)
-        if (c >= 0.9) continue
-        ctx.globalAlpha = 0.1 + 0.4 * Math.min(1, (0.9 - c) / 0.4)
+        if (c >= 0.8) continue
+        ctx.globalAlpha = 0.15 + 0.45 * Math.min(1, (0.8 - c) / 0.3)
         ctx.stroke(HEX_PATHS[i])
       }
       ctx.restore()
@@ -320,8 +322,8 @@ export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onP
     }
 
     // Players
-    const r = Math.max(7.5, Math.min(11, s * 1.1))
-    ctx.font = `600 ${r > 9 ? 10 : 9}px "Geist Mono", ui-monospace, monospace`
+    const r = Math.max(9, Math.min(13, s * 1.35))
+    ctx.font = `600 ${r > 11 ? 12 : 11}px "Geist Mono", ui-monospace, monospace`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     for (const p of frame.players) {

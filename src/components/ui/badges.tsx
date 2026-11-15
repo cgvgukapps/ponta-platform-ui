@@ -75,16 +75,16 @@ export function ParitySummary({ summary, states, compact }: { summary: { full: n
   return (
     <Tooltip content={text}>
       <span className="inline-flex items-center gap-2 whitespace-nowrap text-xs text-fg-2" tabIndex={0}>
-        {states ? <ParityStrip states={states} /> : null}
+        {states && !compact ? <ParityStrip states={states} /> : null}
         <span className="sr-only">{text}</span>
-        <span aria-hidden className="font-mono tabular-nums text-fg-2">
-          {summary.full}
-          <span className="text-fg-4"> / </span>
-          {summary.degraded}
-          <span className="text-fg-4"> / </span>
-          {summary.blocked}
+        <span aria-hidden className="inline-flex items-center gap-2.5 tabular-nums">
+          {(['full', 'degraded', 'blocked'] as const).map((k) => (
+            <span key={k} className={cn('inline-flex items-center gap-1', k === 'blocked' ? 'text-parity-dim' : 'text-parity')}>
+              <ParityIcon state={k} size={10} />
+              <span className="text-fg-2">{t(`parity.count_${k}`, { n: summary[k] })}</span>
+            </span>
+          ))}
         </span>
-        {!compact ? <span aria-hidden className="text-fg-4">{t('parity.legend_short')}</span> : null}
       </span>
     </Tooltip>
   )
@@ -111,9 +111,10 @@ export function TierBadge({ tier, status = 'live', size = 'md', className }: { t
         dev ? 'border-dashed border-hair-dashed text-fg-2' : 'border-hair-strong text-fg-1',
         className,
       )}
+      title={dev ? `${t(`tier.hint_${tier}`)}, ${t('tier.in_development')}` : t(`tier.hint_${tier}`)}
     >
       <TierGlyph tier={tier} size={size === 'lg' ? 14 : 12} />
-      {t('tier.label', { n: tier })}
+      {t(`tier.name_${tier}`)}
       {dev ? (
         <>
           <Lock className="size-3 text-fg-3" aria-hidden />

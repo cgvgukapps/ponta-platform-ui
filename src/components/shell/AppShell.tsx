@@ -34,6 +34,12 @@ function NavItem({ to, icon, label, collapsed, tag, base }: { to: string; icon: 
   return collapsed ? <Tooltip content={tag ? `${label} (${tag})` : label} side="right">{link}</Tooltip> : link
 }
 
+/**
+ * Unbuilt areas (Players, Shortlists, Team dashboards) are hidden from the navigation so design
+ * partners are not shown a roadmap as product. Their routes still exist; set this to true to review them.
+ */
+const SHOW_LATER_NAV = false
+
 function DisabledNav({ icon, label, collapsed, tag }: { icon: React.ReactNode; label: string; collapsed: boolean; tag: string }) {
   const inner = (
     <div aria-disabled="true" className={cn('flex h-8 cursor-not-allowed items-center gap-2.5 rounded-md text-sm text-fg-4', collapsed ? 'justify-center' : 'px-3')}>
@@ -171,12 +177,14 @@ export function AppShell() {
           <NavItem to="/ask" icon={<MessageSquare />} label={t('nav.ask')} collapsed={collapsed} />
           <NavItem to="/settings/organisation" base="/settings" icon={<Settings />} label={t('nav.settings')} collapsed={collapsed} />
         </nav>
+        {SHOW_LATER_NAV ? (
         <div className="mt-5 flex flex-col gap-0.5 px-2" role="group" aria-label={t('nav.later_group')}>
           {!collapsed ? <p className="px-3 pb-1 font-mono text-2xs uppercase tracking-wider text-fg-4">{t('nav.later_group')}</p> : <div className="flex h-5 items-center px-3" aria-hidden><div className="h-px w-full bg-hair" /></div>}
           <NavItem to="/players/h10" base="/players" icon={<Users />} label={t('nav.players')} collapsed={collapsed} tag={t('nav.later')} />
           <DisabledNav icon={<Bookmark />} label={t('nav.shortlists')} collapsed={collapsed} tag={t('nav.later')} />
           <DisabledNav icon={<LayoutDashboard />} label={t('nav.team_dashboards')} collapsed={collapsed} tag={t('nav.later')} />
         </div>
+        ) : null}
         <div className="mt-auto flex flex-col gap-1 border-t border-hair p-2">
           <button
             onClick={() => setRailPref(!collapsed)}
