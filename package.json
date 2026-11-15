@@ -6,12 +6,13 @@
   "description": "Ponta platform: clickable design prototype (mock data only).",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/postbuild.mjs",
+    "build": "tsc -b && vite build && vite build --config vite.match-page.config.ts && node scripts/postbuild.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "gen:mock": "esbuild scripts/gen-mock.ts --bundle --platform=node --format=esm --outfile=.tmp/gen-mock.mjs --log-level=warning && node .tmp/gen-mock.mjs",
     "contrast": "esbuild scripts/contrast.ts --bundle --platform=node --format=esm --outfile=.tmp/contrast.mjs --log-level=warning && node .tmp/contrast.mjs",
-    "shots": "node scripts/screenshots.mjs"
+    "shots": "node scripts/screenshots.mjs",
+    "export:match-page": "node scripts/export-match-page.mjs"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.2",

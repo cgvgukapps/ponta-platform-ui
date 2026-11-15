@@ -28,6 +28,10 @@ Other scripts:
 | `npm run gen:mock` | Regenerates the deterministic mock tracking and event data. |
 | `npm run shots` | Captures `docs/screenshots/*` at 1440 × 900 with Playwright and system Chrome. |
 
+## Shareable match page
+
+`match-page.html` is a standalone, light, read-only page built from one JSON payload: the data check, coverage, rule-selected moments and optional analyst notes. `npm run build` writes `dist/match-page-sample.html` (synthetic sample, one self-contained file that opens offline). For a real match, see `docs/match-page-payload.md`.
+
 ## Where to start
 
 | Route | Screen |

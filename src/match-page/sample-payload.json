@@ -1,0 +1,1238 @@
+{
+ "payload_version": "1.0",
+ "schema_version": "1.0",
+ "engine_version": "plaiq-0.1.0 / matrix-0.1.0",
+ "generated_at": "2026-11-15T00:00:00Z",
+ "sample_data": true,
+ "match": {
+  "match_id": "synthetic_1",
+  "provider": "synthetic",
+  "home": "Home",
+  "away": "Away",
+  "duration_min": 0.2,
+  "sample_rate_hz": 25.0,
+  "pitch": {
+   "length_m": 106.0,
+   "width_m": 68.0
+  }
+ },
+ "data_check": {
+  "schema_version": "1.0",
+  "engine_version": "matrix-0.1.0",
+  "provider": "synthetic",
+  "mode": "full_tracking",
+  "fusion_tier": 1,
+  "inputs": {
+   "provider": "synthetic",
+   "mode": "full_tracking",
+   "sample_rate_hz": 25.0,
+   "teams_tracked": [
+    "away",
+    "home"
+   ],
+   "ball_detected_share": 1.0,
+   "player_dropout": 0.0,
+   "has_events": true,
+   "has_shot_events": false,
+   "events_derived_from_tracking": false,
+   "has_freeze_frames": false,
+   "physiological_channels": [],
+   "fusion_tier": 1
+  },
+  "summary": {
+   "full": 7,
+   "degraded": 3,
+   "blocked": 2
+  },
+  "coverage": {
+   "ball_detected_share": 1.0,
+   "player_observation_share": 1.0
+  },
+  "metrics": {
+   "hex_grid": {
+    "family": "spatial",
+    "label": "Hexagonal analysis grid",
+    "state": "full",
+    "reason": "The analysis grid is fixed pitch geometry.",
+    "measure": null,
+    "unlock": null
+   },
+   "xt_surface": {
+    "family": "spatial",
+    "label": "Threat surface (xT)",
+    "state": "full",
+    "reason": "The threat surface is a fixed model of the pitch.",
+    "measure": null,
+    "unlock": null
+   },
+   "pressure_1v1": {
+    "family": "pressure",
+    "label": "1v1 pressure",
+    "state": "full",
+    "reason": "Both teams are tracked throughout.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": null
+   },
+   "pressure_zonal": {
+    "family": "pressure",
+    "label": "Zonal pressure",
+    "state": "full",
+    "reason": "Both teams are tracked throughout.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": null
+   },
+   "control_zones": {
+    "family": "control",
+    "label": "Control zones",
+    "state": "full",
+    "reason": "Both teams are tracked throughout.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": null
+   },
+   "movement_value": {
+    "family": "movement",
+    "label": "Off-ball movement value",
+    "state": "full",
+    "reason": "Both teams are tracked throughout.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": null
+   },
+   "pass_option_value": {
+    "family": "decisions",
+    "label": "Pass option value",
+    "state": "degraded",
+    "reason": "No shot events, so terminal (shot) value is missing.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": "Add an event feed that includes shots."
+   },
+   "decision_quality": {
+    "family": "decisions",
+    "label": "Decision quality",
+    "state": "full",
+    "reason": "Both teams are tracked throughout.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": null
+   },
+   "event_delta_v": {
+    "family": "value",
+    "label": "Event value change (ΔV)",
+    "state": "degraded",
+    "reason": "No shot events, so the value of shots is missing.",
+    "measure": null,
+    "unlock": "Add an event feed that includes shots."
+   },
+   "shot_quality": {
+    "family": "value",
+    "label": "Shot quality",
+    "state": "blocked",
+    "reason": "No shot events in this feed.",
+    "measure": null,
+    "unlock": "Add an event feed that includes shots."
+   },
+   "physical_summary": {
+    "family": "physical",
+    "label": "Physical summary (distance, speed)",
+    "state": "degraded",
+    "reason": "Distance and speed derived from optical positions, not measured by a wearable.",
+    "measure": "25 Hz",
+    "unlock": "Add a wearable export for the same match."
+   },
+   "load_and_fatigue": {
+    "family": "physical",
+    "label": "Load and fatigue context",
+    "state": "blocked",
+    "reason": "No physiological source (heart rate or IMU) for this match.",
+    "measure": null,
+    "unlock": "Pair a wearable export with this match. Paired-source analysis is in development."
+   }
+  }
+ },
+ "coverage": {
+  "decisions_total": 4,
+  "decisions_scored": 2,
+  "scored_share": 0.5,
+  "not_scored_causes": {
+   "goalkeeper": 1,
+   "set_piece": 1,
+   "no_score_from_engine": 0
+  },
+  "ball_detected_share": 1.0,
+  "player_observation_share": 1.0
+ },
+ "moment_groups": [
+  {
+   "id": "poor_under_pressure",
+   "title": "Lowest-rated decisions under pressure",
+   "rule": "Passes and carries rated Poor or Suboptimal with 1v1 pressure of 7 or more, lowest decision quality first.",
+   "moments": []
+  },
+  {
+   "id": "losses",
+   "title": "Passes that lost the ball",
+   "rule": "Failed passes the engine scored, highest pressure first.",
+   "moments": []
+  },
+  {
+   "id": "best_progressive",
+   "title": "Best decisions that moved the ball forward in value",
+   "rule": "Completed passes and carries rated Optimal, largest value gain first.",
+   "moments": [
+    {
+     "event_id": "evt_synthetic_1_00002",
+     "event_idx": 2,
+     "timestamp_s": 2.4,
+     "minute_display": "00:02",
+     "period": 1,
+     "actor_player_ref": "home_4",
+     "actor_team": "home",
+     "action_type": "pass",
+     "action_outcome": "completed",
+     "target_player_ref": "home_6",
+     "inferred_intended_ref": null,
+     "inference_confidence": null,
+     "dq_score": 1.066,
+     "dq_band": "optimal",
+     "chosen_option_pov": 0.0718,
+     "best_option_player_ref": "home_6",
+     "best_option_pov": 0.0718,
+     "xt_delta": 0.05,
+     "movement_value": null,
+     "opposition_pressure": 9.0,
+     "pitch_zone": "right_half_space_middle_third",
+     "ball_detected": true,
+     "players_observed": 22,
+     "snapshot": {
+      "frame": 61,
+      "players": [
+       {
+        "ref": "home_1",
+        "team": "home",
+        "x": -46.52,
+        "y": -1.85
+       },
+       {
+        "ref": "home_2",
+        "team": "home",
+        "x": -29.7,
+        "y": -25.41
+       },
+       {
+        "ref": "home_3",
+        "team": "home",
+        "x": -24.33,
+        "y": -20.16
+       },
+       {
+        "ref": "home_4",
+        "team": "home",
+        "x": -19.46,
+        "y": -15.17
+       },
+       {
+        "ref": "home_5",
+        "team": "home",
+        "x": -12.63,
+        "y": -7.6
+       },
+       {
+        "ref": "home_6",
+        "team": "home",
+        "x": -5.84,
+        "y": -5.25
+       },
+       {
+        "ref": "home_7",
+        "team": "home",
+        "x": -0.2,
+        "y": -0.48
+       },
+       {
+        "ref": "home_8",
+        "team": "home",
+        "x": 5.24,
+        "y": 4.72
+       },
+       {
+        "ref": "home_9",
+        "team": "home",
+        "x": 12.35,
+        "y": 9.83
+       },
+       {
+        "ref": "home_10",
+        "team": "home",
+        "x": 18.69,
+        "y": 14.86
+       },
+       {
+        "ref": "home_11",
+        "team": "home",
+        "x": 24.02,
+        "y": 21.12
+       },
+       {
+        "ref": "away_1",
+        "team": "away",
+        "x": 47.61,
+        "y": 0.37
+       },
+       {
+        "ref": "away_2",
+        "team": "away",
+        "x": 30.13,
+        "y": 24.61
+       },
+       {
+        "ref": "away_3",
+        "team": "away",
+        "x": 22.6,
+        "y": 20.19
+       },
+       {
+        "ref": "away_4",
+        "team": "away",
+        "x": 18.18,
+        "y": 14.28
+       },
+       {
+        "ref": "away_5",
+        "team": "away",
+        "x": 12.64,
+        "y": 10.21
+       },
+       {
+        "ref": "away_6",
+        "team": "away",
+        "x": 5.36,
+        "y": 4.58
+       },
+       {
+        "ref": "away_7",
+        "team": "away",
+        "x": -0.07,
+        "y": -0.48
+       },
+       {
+        "ref": "away_8",
+        "team": "away",
+        "x": -3.96,
+        "y": -5.74
+       },
+       {
+        "ref": "away_9",
+        "team": "away",
+        "x": -11.31,
+        "y": -8.79
+       },
+       {
+        "ref": "away_10",
+        "team": "away",
+        "x": -18.2,
+        "y": -15.51
+       },
+       {
+        "ref": "away_11",
+        "team": "away",
+        "x": -23.68,
+        "y": -19.22
+       }
+      ],
+      "ball": {
+       "x": -12.0,
+       "y": -10.0
+      },
+      "start": {
+       "x": -12.0,
+       "y": -10.0
+      },
+      "end": {
+       "x": 0.0,
+       "y": -5.0
+      }
+     }
+    },
+    {
+     "event_id": "evt_synthetic_1_00003",
+     "event_idx": 3,
+     "timestamp_s": 4.8,
+     "minute_display": "00:04",
+     "period": 1,
+     "actor_player_ref": "home_6",
+     "actor_team": "home",
+     "action_type": "carry",
+     "action_outcome": "completed",
+     "target_player_ref": null,
+     "inferred_intended_ref": null,
+     "inference_confidence": null,
+     "dq_score": 1.014,
+     "dq_band": "optimal",
+     "chosen_option_pov": null,
+     "best_option_player_ref": null,
+     "best_option_pov": null,
+     "xt_delta": 0.019,
+     "movement_value": null,
+     "opposition_pressure": 7.0,
+     "pitch_zone": "centre_middle_third",
+     "ball_detected": true,
+     "players_observed": 22,
+     "snapshot": {
+      "frame": 121,
+      "players": [
+       {
+        "ref": "home_1",
+        "team": "home",
+        "x": -45.05,
+        "y": -3.69
+       },
+       {
+        "ref": "home_2",
+        "team": "home",
+        "x": -29.4,
+        "y": -25.82
+       },
+       {
+        "ref": "home_3",
+        "team": "home",
+        "x": -24.65,
+        "y": -20.31
+       },
+       {
+        "ref": "home_4",
+        "team": "home",
+        "x": -20.92,
+        "y": -15.34
+       },
+       {
+        "ref": "home_5",
+        "team": "home",
+        "x": -13.25,
+        "y": -5.2
+       },
+       {
+        "ref": "home_6",
+        "team": "home",
+        "x": -5.67,
+        "y": -5.51
+       },
+       {
+        "ref": "home_7",
+        "team": "home",
+        "x": -0.41,
+        "y": -0.97
+       },
+       {
+        "ref": "home_8",
+        "team": "home",
+        "x": 4.47,
+        "y": 4.43
+       },
+       {
+        "ref": "home_9",
+        "team": "home",
+        "x": 12.7,
+        "y": 9.66
+       },
+       {
+        "ref": "home_10",
+        "team": "home",
+        "x": 19.38,
+        "y": 14.71
+       },
+       {
+        "ref": "home_11",
+        "team": "home",
+        "x": 24.04,
+        "y": 22.23
+       },
+       {
+        "ref": "away_1",
+        "team": "away",
+        "x": 47.21,
+        "y": 0.73
+       },
+       {
+        "ref": "away_2",
+        "team": "away",
+        "x": 30.26,
+        "y": 24.22
+       },
+       {
+        "ref": "away_3",
+        "team": "away",
+        "x": 21.2,
+        "y": 20.39
+       },
+       {
+        "ref": "away_4",
+        "team": "away",
+        "x": 18.35,
+        "y": 13.55
+       },
+       {
+        "ref": "away_5",
+        "team": "away",
+        "x": 13.28,
+        "y": 10.42
+       },
+       {
+        "ref": "away_6",
+        "team": "away",
+        "x": 4.72,
+        "y": 4.16
+       },
+       {
+        "ref": "away_7",
+        "team": "away",
+        "x": -0.13,
+        "y": -0.97
+       },
+       {
+        "ref": "away_8",
+        "team": "away",
+        "x": -1.91,
+        "y": -6.48
+       },
+       {
+        "ref": "away_9",
+        "team": "away",
+        "x": -10.61,
+        "y": -7.59
+       },
+       {
+        "ref": "away_10",
+        "team": "away",
+        "x": -18.4,
+        "y": -16.01
+       },
+       {
+        "ref": "away_11",
+        "team": "away",
+        "x": -23.36,
+        "y": -18.44
+       }
+      ],
+      "ball": {
+       "x": 0.0,
+       "y": -5.0
+      },
+      "start": {
+       "x": 0.0,
+       "y": -5.0
+      },
+      "end": {
+       "x": 6.0,
+       "y": 0.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "off_ball_runs",
+   "title": "Most valuable off-ball runs",
+   "rule": "Movements the engine rewarded, highest movement value first.",
+   "moments": [
+    {
+     "event_id": "evt_synthetic_1_00004_run_away_11",
+     "event_idx": 4,
+     "timestamp_s": 7.2,
+     "minute_display": "00:07",
+     "period": 1,
+     "actor_player_ref": "away_11",
+     "actor_team": "away",
+     "action_type": "off_ball_run",
+     "action_outcome": null,
+     "target_player_ref": null,
+     "inferred_intended_ref": null,
+     "inference_confidence": null,
+     "dq_score": null,
+     "dq_band": null,
+     "chosen_option_pov": null,
+     "best_option_player_ref": null,
+     "best_option_pov": null,
+     "xt_delta": 0.0002,
+     "movement_value": 0.2637,
+     "opposition_pressure": 10.0,
+     "pitch_zone": null,
+     "ball_detected": true,
+     "players_observed": 22,
+     "snapshot": {
+      "frame": 181,
+      "players": [
+       {
+        "ref": "home_1",
+        "team": "home",
+        "x": -43.57,
+        "y": -5.54
+       },
+       {
+        "ref": "home_2",
+        "team": "home",
+        "x": -29.09,
+        "y": -26.23
+       },
+       {
+        "ref": "home_3",
+        "team": "home",
+        "x": -24.98,
+        "y": -20.47
+       },
+       {
+        "ref": "home_4",
+        "team": "home",
+        "x": -22.38,
+        "y": -15.5
+       },
+       {
+        "ref": "home_5",
+        "team": "home",
+        "x": -13.88,
+        "y": -2.79
+       },
+       {
+        "ref": "home_6",
+        "team": "home",
+        "x": -5.51,
+        "y": -5.76
+       },
+       {
+        "ref": "home_7",
+        "team": "home",
+        "x": -0.61,
+        "y": -1.45
+       },
+       {
+        "ref": "home_8",
+        "team": "home",
+        "x": 3.71,
+        "y": 4.15
+       },
+       {
+        "ref": "home_9",
+        "team": "home",
+        "x": 13.05,
+        "y": 9.48
+       },
+       {
+        "ref": "home_10",
+        "team": "home",
+        "x": 20.08,
+        "y": 14.57
+       },
+       {
+        "ref": "home_11",
+        "team": "home",
+        "x": 24.05,
+        "y": 23.35
+       },
+       {
+        "ref": "away_1",
+        "team": "away",
+        "x": 46.82,
+        "y": 1.1
+       },
+       {
+        "ref": "away_2",
+        "team": "away",
+        "x": 30.4,
+        "y": 23.83
+       },
+       {
+        "ref": "away_3",
+        "team": "away",
+        "x": 19.8,
+        "y": 20.58
+       },
+       {
+        "ref": "away_4",
+        "team": "away",
+        "x": 18.53,
+        "y": 12.83
+       },
+       {
+        "ref": "away_5",
+        "team": "away",
+        "x": 13.92,
+        "y": 10.63
+       },
+       {
+        "ref": "away_6",
+        "team": "away",
+        "x": 4.09,
+        "y": 3.74
+       },
+       {
+        "ref": "away_7",
+        "team": "away",
+        "x": -0.2,
+        "y": -1.45
+       },
+       {
+        "ref": "away_8",
+        "team": "away",
+        "x": 0.13,
+        "y": -7.21
+       },
+       {
+        "ref": "away_9",
+        "team": "away",
+        "x": -9.92,
+        "y": -6.38
+       },
+       {
+        "ref": "away_10",
+        "team": "away",
+        "x": -18.6,
+        "y": -16.52
+       },
+       {
+        "ref": "away_11",
+        "team": "away",
+        "x": -23.04,
+        "y": -17.67
+       }
+      ],
+      "ball": {
+       "x": 6.0,
+       "y": 0.0
+      },
+      "start": {
+       "x": 6.0,
+       "y": 0.0
+      },
+      "end": {
+       "x": 10.0,
+       "y": 4.0
+      }
+     }
+    },
+    {
+     "event_id": "evt_synthetic_1_00003_run_away_11",
+     "event_idx": 3,
+     "timestamp_s": 4.8,
+     "minute_display": "00:04",
+     "period": 1,
+     "actor_player_ref": "away_11",
+     "actor_team": "away",
+     "action_type": "off_ball_run",
+     "action_outcome": null,
+     "target_player_ref": null,
+     "inferred_intended_ref": null,
+     "inference_confidence": null,
+     "dq_score": null,
+     "dq_band": null,
+     "chosen_option_pov": null,
+     "best_option_player_ref": null,
+     "best_option_pov": null,
+     "xt_delta": 0.0002,
+     "movement_value": 0.2636,
+     "opposition_pressure": 9.0,
+     "pitch_zone": null,
+     "ball_detected": true,
+     "players_observed": 22,
+     "snapshot": {
+      "frame": 121,
+      "players": [
+       {
+        "ref": "home_1",
+        "team": "home",
+        "x": -45.05,
+        "y": -3.69
+       },
+       {
+        "ref": "home_2",
+        "team": "home",
+        "x": -29.4,
+        "y": -25.82
+       },
+       {
+        "ref": "home_3",
+        "team": "home",
+        "x": -24.65,
+        "y": -20.31
+       },
+       {
+        "ref": "home_4",
+        "team": "home",
+        "x": -20.92,
+        "y": -15.34
+       },
+       {
+        "ref": "home_5",
+        "team": "home",
+        "x": -13.25,
+        "y": -5.2
+       },
+       {
+        "ref": "home_6",
+        "team": "home",
+        "x": -5.67,
+        "y": -5.51
+       },
+       {
+        "ref": "home_7",
+        "team": "home",
+        "x": -0.41,
+        "y": -0.97
+       },
+       {
+        "ref": "home_8",
+        "team": "home",
+        "x": 4.47,
+        "y": 4.43
+       },
+       {
+        "ref": "home_9",
+        "team": "home",
+        "x": 12.7,
+        "y": 9.66
+       },
+       {
+        "ref": "home_10",
+        "team": "home",
+        "x": 19.38,
+        "y": 14.71
+       },
+       {
+        "ref": "home_11",
+        "team": "home",
+        "x": 24.04,
+        "y": 22.23
+       },
+       {
+        "ref": "away_1",
+        "team": "away",
+        "x": 47.21,
+        "y": 0.73
+       },
+       {
+        "ref": "away_2",
+        "team": "away",
+        "x": 30.26,
+        "y": 24.22
+       },
+       {
+        "ref": "away_3",
+        "team": "away",
+        "x": 21.2,
+        "y": 20.39
+       },
+       {
+        "ref": "away_4",
+        "team": "away",
+        "x": 18.35,
+        "y": 13.55
+       },
+       {
+        "ref": "away_5",
+        "team": "away",
+        "x": 13.28,
+        "y": 10.42
+       },
+       {
+        "ref": "away_6",
+        "team": "away",
+        "x": 4.72,
+        "y": 4.16
+       },
+       {
+        "ref": "away_7",
+        "team": "away",
+        "x": -0.13,
+        "y": -0.97
+       },
+       {
+        "ref": "away_8",
+        "team": "away",
+        "x": -1.91,
+        "y": -6.48
+       },
+       {
+        "ref": "away_9",
+        "team": "away",
+        "x": -10.61,
+        "y": -7.59
+       },
+       {
+        "ref": "away_10",
+        "team": "away",
+        "x": -18.4,
+        "y": -16.01
+       },
+       {
+        "ref": "away_11",
+        "team": "away",
+        "x": -23.36,
+        "y": -18.44
+       }
+      ],
+      "ball": {
+       "x": 0.0,
+       "y": -5.0
+      },
+      "start": {
+       "x": 0.0,
+       "y": -5.0
+      },
+      "end": {
+       "x": 6.0,
+       "y": 0.0
+      }
+     }
+    },
+    {
+     "event_id": "evt_synthetic_1_00002_run_away_11",
+     "event_idx": 2,
+     "timestamp_s": 2.4,
+     "minute_display": "00:02",
+     "period": 1,
+     "actor_player_ref": "away_11",
+     "actor_team": "away",
+     "action_type": "off_ball_run",
+     "action_outcome": null,
+     "target_player_ref": null,
+     "inferred_intended_ref": null,
+     "inference_confidence": null,
+     "dq_score": null,
+     "dq_band": null,
+     "chosen_option_pov": null,
+     "best_option_player_ref": null,
+     "best_option_pov": null,
+     "xt_delta": 0.0003,
+     "movement_value": 0.2634,
+     "opposition_pressure": 9.0,
+     "pitch_zone": null,
+     "ball_detected": true,
+     "players_observed": 22,
+     "snapshot": {
+      "frame": 61,
+      "players": [
+       {
+        "ref": "home_1",
+        "team": "home",
+        "x": -46.52,
+        "y": -1.85
+       },
+       {
+        "ref": "home_2",
+        "team": "home",
+        "x": -29.7,
+        "y": -25.41
+       },
+       {
+        "ref": "home_3",
+        "team": "home",
+        "x": -24.33,
+        "y": -20.16
+       },
+       {
+        "ref": "home_4",
+        "team": "home",
+        "x": -19.46,
+        "y": -15.17
+       },
+       {
+        "ref": "home_5",
+        "team": "home",
+        "x": -12.63,
+        "y": -7.6
+       },
+       {
+        "ref": "home_6",
+        "team": "home",
+        "x": -5.84,
+        "y": -5.25
+       },
+       {
+        "ref": "home_7",
+        "team": "home",
+        "x": -0.2,
+        "y": -0.48
+       },
+       {
+        "ref": "home_8",
+        "team": "home",
+        "x": 5.24,
+        "y": 4.72
+       },
+       {
+        "ref": "home_9",
+        "team": "home",
+        "x": 12.35,
+        "y": 9.83
+       },
+       {
+        "ref": "home_10",
+        "team": "home",
+        "x": 18.69,
+        "y": 14.86
+       },
+       {
+        "ref": "home_11",
+        "team": "home",
+        "x": 24.02,
+        "y": 21.12
+       },
+       {
+        "ref": "away_1",
+        "team": "away",
+        "x": 47.61,
+        "y": 0.37
+       },
+       {
+        "ref": "away_2",
+        "team": "away",
+        "x": 30.13,
+        "y": 24.61
+       },
+       {
+        "ref": "away_3",
+        "team": "away",
+        "x": 22.6,
+        "y": 20.19
+       },
+       {
+        "ref": "away_4",
+        "team": "away",
+        "x": 18.18,
+        "y": 14.28
+       },
+       {
+        "ref": "away_5",
+        "team": "away",
+        "x": 12.64,
+        "y": 10.21
+       },
+       {
+        "ref": "away_6",
+        "team": "away",
+        "x": 5.36,
+        "y": 4.58
+       },
+       {
+        "ref": "away_7",
+        "team": "away",
+        "x": -0.07,
+        "y": -0.48
+       },
+       {
+        "ref": "away_8",
+        "team": "away",
+        "x": -3.96,
+        "y": -5.74
+       },
+       {
+        "ref": "away_9",
+        "team": "away",
+        "x": -11.31,
+        "y": -8.79
+       },
+       {
+        "ref": "away_10",
+        "team": "away",
+        "x": -18.2,
+        "y": -15.51
+       },
+       {
+        "ref": "away_11",
+        "team": "away",
+        "x": -23.68,
+        "y": -19.22
+       }
+      ],
+      "ball": {
+       "x": -12.0,
+       "y": -10.0
+      },
+      "start": {
+       "x": -12.0,
+       "y": -10.0
+      },
+      "end": {
+       "x": 0.0,
+       "y": -5.0
+      }
+     }
+    },
+    {
+     "event_id": "evt_synthetic_1_00003_run_home_10",
+     "event_idx": 3,
+     "timestamp_s": 4.8,
+     "minute_display": "00:04",
+     "period": 1,
+     "actor_player_ref": "home_10",
+     "actor_team": "home",
+     "action_type": "off_ball_run",
+     "action_outcome": null,
+     "target_player_ref": null,
+     "inferred_intended_ref": null,
+     "inference_confidence": null,
+     "dq_score": null,
+     "dq_band": null,
+     "chosen_option_pov": null,
+     "best_option_player_ref": null,
+     "best_option_pov": null,
+     "xt_delta": 0.0018,
+     "movement_value": 0.2633,
+     "opposition_pressure": 8.0,
+     "pitch_zone": null,
+     "ball_detected": true,
+     "players_observed": 22,
+     "snapshot": {
+      "frame": 121,
+      "players": [
+       {
+        "ref": "home_1",
+        "team": "home",
+        "x": -45.05,
+        "y": -3.69
+       },
+       {
+        "ref": "home_2",
+        "team": "home",
+        "x": -29.4,
+        "y": -25.82
+       },
+       {
+        "ref": "home_3",
+        "team": "home",
+        "x": -24.65,
+        "y": -20.31
+       },
+       {
+        "ref": "home_4",
+        "team": "home",
+        "x": -20.92,
+        "y": -15.34
+       },
+       {
+        "ref": "home_5",
+        "team": "home",
+        "x": -13.25,
+        "y": -5.2
+       },
+       {
+        "ref": "home_6",
+        "team": "home",
+        "x": -5.67,
+        "y": -5.51
+       },
+       {
+        "ref": "home_7",
+        "team": "home",
+        "x": -0.41,
+        "y": -0.97
+       },
+       {
+        "ref": "home_8",
+        "team": "home",
+        "x": 4.47,
+        "y": 4.43
+       },
+       {
+        "ref": "home_9",
+        "team": "home",
+        "x": 12.7,
+        "y": 9.66
+       },
+       {
+        "ref": "home_10",
+        "team": "home",
+        "x": 19.38,
+        "y": 14.71
+       },
+       {
+        "ref": "home_11",
+        "team": "home",
+        "x": 24.04,
+        "y": 22.23
+       },
+       {
+        "ref": "away_1",
+        "team": "away",
+        "x": 47.21,
+        "y": 0.73
+       },
+       {
+        "ref": "away_2",
+        "team": "away",
+        "x": 30.26,
+        "y": 24.22
+       },
+       {
+        "ref": "away_3",
+        "team": "away",
+        "x": 21.2,
+        "y": 20.39
+       },
+       {
+        "ref": "away_4",
+        "team": "away",
+        "x": 18.35,
+        "y": 13.55
+       },
+       {
+        "ref": "away_5",
+        "team": "away",
+        "x": 13.28,
+        "y": 10.42
+       },
+       {
+        "ref": "away_6",
+        "team": "away",
+        "x": 4.72,
+        "y": 4.16
+       },
+       {
+        "ref": "away_7",
+        "team": "away",
+        "x": -0.13,
+        "y": -0.97
+       },
+       {
+        "ref": "away_8",
+        "team": "away",
+        "x": -1.91,
+        "y": -6.48
+       },
+       {
+        "ref": "away_9",
+        "team": "away",
+        "x": -10.61,
+        "y": -7.59
+       },
+       {
+        "ref": "away_10",
+        "team": "away",
+        "x": -18.4,
+        "y": -16.01
+       },
+       {
+        "ref": "away_11",
+        "team": "away",
+        "x": -23.36,
+        "y": -18.44
+       }
+      ],
+      "ball": {
+       "x": 0.0,
+       "y": -5.0
+      },
+      "start": {
+       "x": 0.0,
+       "y": -5.0
+      },
+      "end": {
+       "x": 6.0,
+       "y": 0.0
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "Sample notes appear here, written by the analyst who prepared the page. This sample uses a synthetic ten-second match with fictional players."
+ ],
+ "statement": "Every figure on this page comes from Ponta's deterministic engines. Moments were selected by the rules shown. No language model wrote any part of it."
+}
