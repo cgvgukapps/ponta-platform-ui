@@ -1,0 +1,222 @@
+{
+ "optical": {
+  "model": "Ponta brief model 0.4 (sample)",
+  "generatedOffsetMin": 190,
+  "themes": [
+   {
+    "id": "build_up",
+    "title": "Build-up",
+    "bullets": [
+     {
+      "id": "b1",
+      "text": "Home built out through the left side. Home 5 found Home 6 between Away's first and second lines with a pass rated Optimal, and Home 3 repeated the pattern into the left half-space.",
+      "citations": [
+       "evt_41207",
+       "evt_41893"
+      ]
+     },
+     {
+      "id": "b2",
+      "text": "When Away pressed with both forwards, Home's passes out of the back were more often rated Suboptimal or Poor. Two clear cases: a pass under high pressure that kept the ball, and one that was lost.",
+      "citations": [
+       "evt_52660",
+       "evt_60318"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "pressure",
+    "title": "Pressure",
+    "bullets": [
+     {
+      "id": "b3",
+      "text": "Away's pressing trigger was a pass back to Home 1. In the cited sequence Home 5 played back under high pressure with few forward options in the ring.",
+      "citations": [
+       "evt_70055"
+      ]
+     },
+     {
+      "id": "b4",
+      "text": "Home 8 received under high pressure while facing his own goal. This moment has lower tracking confidence, so treat the pressure reading with care.",
+      "citations": [
+       "evt_66190"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "transitions",
+    "title": "Transitions",
+    "bullets": [
+     {
+      "id": "b5",
+      "text": "In the second half Home lost the ball in midfield under high pressure, and Away's first action was a long carry through the centre.",
+      "citations": [
+       "evt_88420",
+       "evt_88433"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "decisions",
+    "title": "Individual decisions",
+    "bullets": [
+     {
+      "id": "b6",
+      "text": "Home 10 chose a square pass when a forward pass to a teammate in the ring had the higher value. The square pass kept possession, and the model rates it Suboptimal, not wrong.",
+      "citations": [
+       "evt_99482"
+      ]
+     },
+     {
+      "id": "b7",
+      "text": "Home 9 made an off-ball run into the channel that carried a high movement value, and the next pass from Home 6 went square instead. The run was not found.",
+      "citations": [
+       "evt_93012",
+       "evt_93017"
+      ]
+     }
+    ]
+   }
+  ],
+  "limitations": [
+   "Decision quality is a model estimate from tracked positions. It is not a ground-truth rating of a player.",
+   "Readings on frames below 0.75 confidence are marked and should be checked on the pitch before use.",
+   "No wearable data is connected, so this brief contains no physical load context."
+  ]
+ },
+ "events": {
+  "model": "Ponta brief model 0.4 (sample)",
+  "generatedOffsetMin": 160,
+  "themes": [
+   {
+    "id": "build_up",
+    "title": "Build-up",
+    "bullets": [
+     {
+      "id": "b1",
+      "text": "Home progressed through the centre early in the match. Home 5 and Home 6 played forward into midfield, and both passes carry an event-only estimate rather than a measured rating.",
+      "citations": [
+       "evt_23104",
+       "evt_27355"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "pressure",
+    "title": "Pressure",
+    "bullets": [
+     {
+      "id": "b2",
+      "text": "A pass out from the back was lost after the feed tagged a pressure event. The feed records that pressure happened, not how close the opponent was.",
+      "citations": [
+       "evt_31220"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "transitions",
+    "title": "Transitions",
+    "bullets": [
+     {
+      "id": "b3",
+      "text": "A second-half loss in the middle third handed Away the next possession. With no off-ball positions in this feed, Ponta cannot show what Home's shape looked like at that moment.",
+      "citations": [
+       "evt_39871"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "decisions",
+    "title": "Individual decisions",
+    "bullets": [
+     {
+      "id": "b4",
+      "text": "Home 8 played a long pass to Home 9, more direct than the passes around it. Alternatives cannot be ranked without player positions.",
+      "citations": [
+       "evt_36098"
+      ]
+     },
+     {
+      "id": "b5",
+      "text": "Home 10 played wide to Home 11 late in the match. The event-only estimate for this pass spans more than one band, and should be read as a range.",
+      "citations": [
+       "evt_42650"
+      ]
+     }
+    ]
+   }
+  ],
+  "limitations": [
+   "This match has event data only. Decision quality is an estimate from start and end locations, shown as a range, and is not comparable with measured ratings from tracking data.",
+   "Opposition pressure, control zones and off-ball movement are Blocked for this match.",
+   "Event coordinates in the feed are rounded, so confidence is lower throughout."
+  ]
+ },
+ "gps": {
+  "model": "Ponta brief model 0.4 (sample)",
+  "generatedOffsetMin": 120,
+  "themes": [
+   {
+    "id": "load",
+    "title": "Load profile",
+    "bullets": [
+     {
+      "id": "b1",
+      "text": "Sprint efforts were spread across both periods rather than concentrated early. Home 7 and Home 11 each appear in the cited efforts.",
+      "citations": [
+       "evt_71013",
+       "evt_71190"
+      ]
+     },
+     {
+      "id": "b2",
+      "text": "Home 9 completed two sprint efforts close together in the second period. The cluster coincided with a rise in high-speed distance for that block, and is shown as context only.",
+      "citations": [
+       "evt_71105",
+       "evt_71131"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "efforts",
+    "title": "Efforts",
+    "bullets": [
+     {
+      "id": "b3",
+      "text": "One sprint effort has lower signal quality, so its peak speed should be read as approximate.",
+      "citations": [
+       "evt_71131"
+      ]
+     },
+     {
+      "id": "b4",
+      "text": "The last cited effort came late in the session. Load is described as context only: Ponta makes no medical, readiness or injury claims.",
+      "citations": [
+       "evt_71226"
+      ]
+     },
+     {
+      "id": "b5",
+      "text": "Home 11 repeated sprint efforts across the first period, with a longer gap before the second-half cluster.",
+      "citations": [
+       "evt_71042",
+       "evt_71077"
+      ]
+     }
+    ]
+   }
+  ],
+  "limitations": [
+   "This session has wearable data only. Opposition pressure, control zones, passes and carries are Blocked.",
+   "Physical context is shown as association with confidence bands. Nothing here predicts injury or fatigue.",
+   "Peak speeds come from unit samples at 10 Hz and carry measurement error."
+  ]
+ }
+}

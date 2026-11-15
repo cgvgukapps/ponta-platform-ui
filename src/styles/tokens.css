@@ -1,0 +1,122 @@
+/* ==========================================================================
+   Ponta platform: design tokens
+   Every colour, radius and type size in the app comes from here. Components
+   never hard-code colour. Tune the product centrally by editing this file.
+   Contrast ratios for the text pairs are verified by `npm run contrast`.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* ---- Surfaces: lightly cool near-black, layered by small steps ---------- */
+  --canvas: #0b0d12;
+  --surface-1: #11141b;
+  --surface-2: #171b24;
+  --surface-3: #1e232e;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.14);
+  --hairline-hover: rgba(255, 255, 255, 0.26);
+  --control-border: rgba(255, 255, 255, 0.42); /* form control edges: 3:1 on surfaces */
+  --hairline-dashed: rgba(255, 255, 255, 0.32);
+  --scrim: rgba(5, 6, 9, 0.7);
+  --desk: #0a0c11;
+
+  /* ---- Text: 4 steps, quaternary is the floor (4.5:1 on surface 2) -------- */
+  --fg-1: #ededed;
+  --fg-2: #c3c3c3;
+  --fg-3: #a7a7a7;
+  --fg-4: #8a8a8a;
+
+  /* ---- Brand accent: interaction only. Never drawn on the pitch canvas ---- */
+  --accent: #1e76fa; /* graphics, focus rings, selection */
+  --accent-text: #4a90fb; /* blue text on dark */
+  --accent-fill: #1558c9; /* filled primary button (white text 6.4:1) */
+  --accent-fill-hover: #1a63de;
+  --accent-fill-active: #114aa8;
+  --accent-tint: rgba(30, 118, 250, 0.14);
+  --on-accent: #ffffff;
+
+  /* ---- Analytics semantics: identical on every screen --------------------- */
+  --team-home: #d6293d; /* crimson, circles on the pitch and team chips only */
+  --team-away: #2bc7b9; /* teal; deliberately far from brand blue */
+  --on-team-home: #ffffff;
+  --on-team-away: #0b0d12;
+  --highlight: #ffd700; /* event highlight and citation markers */
+  --pitch: #16231b; /* dark, desaturated */
+  --pitch-line: rgba(255, 255, 255, 0.26);
+  --pitch-hex: rgba(255, 255, 255, 0.07);
+
+  /* Heat (pressure, value): OKLCH-built, lightness-monotonic, hue 280 to 350 */
+  --heat-0: #111034;
+  --heat-1: #2c1171;
+  --heat-2: #4f1a9f;
+  --heat-3: #772ebf;
+  --heat-4: #a149d4;
+  --heat-5: #c869de;
+  --heat-6: #ea8de4;
+  --heat-7: #ffb7ea;
+  --heat-8: #ffdff8;
+
+  /* Decision quality bands: the only place traffic-light colours are used */
+  --dq-poor: #f2603c;
+  --dq-suboptimal: #f29d2e;
+  --dq-good: #a3d93b;
+  --dq-optimal: #33c26b;
+
+  /* Parity states: one restrained stone hue, carried by fill, pattern, icon */
+  --parity-ink: #d2cbbb; /* Full: solid fill; Degraded: outline; Blocked: dimmer */
+  --parity-ink-dim: #a39d90;
+  --on-parity: #14110b;
+
+  /* Confidence: no hue. Texture and opacity only */
+  --conf-ink: rgba(255, 255, 255, 0.62);
+  --pattern-diag: rgba(255, 255, 255, 0.1);
+  --pattern-rule: rgba(255, 255, 255, 0.09);
+
+  /* Product status (not analytics): errors never share a container with the home colour */
+  --danger: #f2603c;
+  --danger-tint: rgba(242, 96, 60, 0.12);
+  --warn: #f29d2e;
+  --warn-tint: rgba(242, 157, 46, 0.12);
+
+  /* ---- Radii: three steps only -------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* ---- Motion -------------------------------------------------------------- */
+  --dur-fast: 120ms;
+  --dur-base: 160ms;
+  --dur-slow: 200ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* The printable brief is the only light surface in the product. */
+[data-theme='print'] {
+  color-scheme: light;
+  --canvas: #ffffff;
+  --surface-1: #ffffff;
+  --surface-2: #f4f5f7;
+  --surface-3: #eceef2;
+  --hairline: rgba(10, 13, 20, 0.12);
+  --hairline-strong: rgba(10, 13, 20, 0.24);
+  --hairline-hover: rgba(10, 13, 20, 0.4);
+  --control-border: rgba(10, 13, 20, 0.55);
+  --hairline-dashed: rgba(10, 13, 20, 0.4);
+  --desk: #e9ebef;
+  --fg-1: #0b0d12;
+  --fg-2: #2b303b;
+  --fg-3: #454b58;
+  --fg-4: #5a606d;
+  --accent-text: #1558c9;
+  --conf-ink: rgba(10, 13, 20, 0.7);
+  --pattern-diag: rgba(10, 13, 20, 0.2);
+  --pattern-rule: rgba(10, 13, 20, 0.18);
+  --parity-ink: #5c5340;
+  --parity-ink-dim: #6d6552;
+  --on-parity: #ffffff;
+  --dq-poor: #b83a1c;
+  --dq-suboptimal: #8f5a00;
+  --dq-good: #4a6b00;
+  --dq-optimal: #11703a;
+}

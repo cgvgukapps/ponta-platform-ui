@@ -1,0 +1,62 @@
+[
+ {
+  "id": "high_pressure",
+  "term": "High pressure",
+  "short": "pressure index at or above 0.7",
+  "definition": "Pressure index runs from 0 to 1 and falls as the nearest opponent moves away: 1 at about 1 m, 0 at about 9 m. A reading of 0.7 or more means the nearest opponent was within about 3.4 m when the ball was played."
+ },
+ {
+  "id": "low_confidence",
+  "term": "Low confidence",
+  "short": "confidence below 0.75",
+  "definition": "Confidence is the share of the information needed for a reading that was actually observed in that frame. Below 0.75, positions are partly estimated and the reading is marked with a dotted style."
+ },
+ {
+  "id": "progressive_pass",
+  "term": "Progressive pass",
+  "short": "completed pass moving the ball 15 m or more towards goal",
+  "definition": "A completed pass whose destination is at least 15 m closer to the opposition goal than its origin, measured along the length of the pitch."
+ },
+ {
+  "id": "ball_loss",
+  "term": "Ball loss",
+  "short": "pass or carry that ends with the opposition in possession",
+  "definition": "A pass, carry or touch after which the opposition's next action is a recovery. Set pieces and clearances out of play are excluded."
+ },
+ {
+  "id": "ring",
+  "term": "Ring",
+  "short": "the set of options available at release",
+  "definition": "The ring is every pass or carry option a player had at that moment, given positions on the pitch. Each option is scored by the value of where it ends, times the likelihood it succeeds."
+ },
+ {
+  "id": "decision_quality",
+  "term": "Decision quality",
+  "short": "V(actual) divided by V(best in ring)",
+  "definition": "The score of the option taken divided by the score of the best option in the ring. Bands: Poor below 0.40, Suboptimal 0.40 to 0.69, Good 0.70 to 0.89, Optimal 0.90 and above. These cut-offs are prototype values."
+ },
+ {
+  "id": "control_zone",
+  "term": "Control zone",
+  "short": "area a team could reach first",
+  "definition": "Each hexagon is shaded by which team could reach it first, given positions and speeds in that frame. Darker means a clearer advantage."
+ },
+ {
+  "id": "value_surface",
+  "term": "Value surface",
+  "short": "how valuable the ball is at each location",
+  "definition": "A pitch-wide surface of how much possession at each location is worth to the team with the ball. It is shown per hexagon and is the same on every screen."
+ },
+ {
+  "id": "event_only",
+  "term": "Event-only estimate",
+  "short": "decision quality from event data, without positions",
+  "definition": "When a match has an event feed but no tracking, Ponta can estimate decision quality from start and end locations and outcomes. It cannot rank alternatives, so it is shown as a range and never as a single measured score."
+ },
+ {
+  "id": "counter",
+  "term": "Transition carry",
+  "short": "carry beginning within 10 s of a turnover and moving 20 m or more forward",
+  "definition": "A carry by the team that has just won the ball, starting within ten seconds of the turnover and covering at least 20 m towards goal."
+ }
+]

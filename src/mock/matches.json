@@ -1,0 +1,425 @@
+[
+ {
+  "id": "m_0412",
+  "home": "Harlow Athletic",
+  "away": "Brackenridge Town",
+  "squad": "first",
+  "competition": "Eastern Counties League",
+  "date": "2026-11-14T15:00:00Z",
+  "score": [
+   2,
+   1
+  ],
+  "sources": [
+   {
+    "provider": "metrica",
+    "kind": "optical",
+    "label": "Tracking and events, 25 Hz"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "optical_full",
+  "status": "ready",
+  "briefStatus": "ready",
+  "lastOpened": "2026-11-15T10:12:00Z",
+  "pack": "optical",
+  "ingest": {
+   "hz": 25,
+   "occludedPct": 1.8,
+   "droppedPct": 0.4,
+   "durationMin": 94,
+   "players": 22,
+   "format": "Metrica EPTS tracking and event CSV"
+  }
+ },
+ {
+  "id": "m_0409",
+  "home": "Harlow Athletic",
+  "away": "Stoneford Rovers",
+  "squad": "first",
+  "competition": "Eastern Counties League",
+  "date": "2026-11-07T15:00:00Z",
+  "score": [
+   0,
+   0
+  ],
+  "sources": [
+   {
+    "provider": "skillcorner",
+    "kind": "optical",
+    "label": "Broadcast tracking, 10 Hz"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "optical_broadcast",
+  "status": "ready",
+  "briefStatus": "ready",
+  "lastOpened": "2026-11-12T16:40:00Z",
+  "pack": "optical",
+  "confDelta": -0.09,
+  "ingest": {
+   "hz": 10,
+   "occludedPct": 7.4,
+   "droppedPct": 1.1,
+   "durationMin": 96,
+   "players": 22,
+   "format": "SkillCorner tracking JSON and match data"
+  }
+ },
+ {
+  "id": "m_0405",
+  "home": "Harlow Athletic",
+  "away": "Ashgrove Wanderers",
+  "squad": "first",
+  "competition": "Eastern Counties League",
+  "date": "2026-11-01T14:00:00Z",
+  "score": [
+   1,
+   3
+  ],
+  "sources": [
+   {
+    "provider": "statsbomb",
+    "kind": "events",
+    "label": "Event feed"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "events_only",
+  "status": "ready",
+  "briefStatus": "ready",
+  "lastOpened": "2026-11-09T09:05:00Z",
+  "pack": "events",
+  "ingest": {
+   "hz": null,
+   "occludedPct": null,
+   "droppedPct": null,
+   "durationMin": 95,
+   "players": 22,
+   "format": "StatsBomb events JSON"
+  }
+ },
+ {
+  "id": "m_0402",
+  "home": "Harlow Athletic",
+  "away": "Internal 11v11 session",
+  "squad": "first",
+  "competition": "Training",
+  "date": "2026-10-29T10:30:00Z",
+  "score": null,
+  "sources": [
+   {
+    "provider": "statsports",
+    "kind": "gps",
+    "label": "Wearable export, 10 Hz"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "gps_only",
+  "status": "ready",
+  "briefStatus": "ready",
+  "lastOpened": "2026-11-03T08:20:00Z",
+  "pack": "gps",
+  "ingest": {
+   "hz": 10,
+   "occludedPct": null,
+   "droppedPct": 0.9,
+   "durationMin": 94,
+   "players": 11,
+   "format": "STATSports session CSV"
+  },
+  "fixtureNote": "GPS-only session"
+ },
+ {
+  "id": "m_0418",
+  "home": "Harlow Athletic",
+  "away": "Millbrook United",
+  "squad": "first",
+  "competition": "Friendly",
+  "date": "2026-11-15T11:00:00Z",
+  "score": [
+   3,
+   2
+  ],
+  "sources": [
+   {
+    "provider": "metrica",
+    "kind": "optical",
+    "label": "Tracking and events, 25 Hz"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "optical_full",
+  "status": "processing",
+  "stage": 3,
+  "stageProgress": 0.6,
+  "briefStatus": "not_generated",
+  "lastOpened": null,
+  "pack": null,
+  "ingest": {
+   "hz": 25,
+   "occludedPct": null,
+   "droppedPct": null,
+   "durationMin": 92,
+   "players": 22,
+   "format": "Metrica EPTS tracking and event CSV"
+  }
+ },
+ {
+  "id": "m_0415",
+  "home": "Harlow Athletic U21",
+  "away": "Cobham Park U21",
+  "squad": "u21",
+  "competition": "U21 Development League",
+  "date": "2026-11-13T19:00:00Z",
+  "score": [
+   2,
+   2
+  ],
+  "sources": [
+   {
+    "provider": "statsbomb",
+    "kind": "events",
+    "label": "Event feed"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "events_only",
+  "status": "queued",
+  "briefStatus": "not_generated",
+  "lastOpened": null,
+  "pack": null,
+  "ingest": {
+   "hz": null,
+   "occludedPct": null,
+   "droppedPct": null,
+   "durationMin": 93,
+   "players": 22,
+   "format": "StatsBomb events JSON"
+  }
+ },
+ {
+  "id": "m_0398",
+  "home": "Wexcombe Town",
+  "away": "Harlow Athletic",
+  "squad": "first",
+  "competition": "Eastern Counties League",
+  "date": "2026-10-24T15:00:00Z",
+  "score": [
+   1,
+   1
+  ],
+  "sources": [
+   {
+    "provider": "metrica",
+    "kind": "optical",
+    "label": "Tracking and events, 25 Hz"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "optical_full",
+  "status": "needs_attention",
+  "briefStatus": "not_generated",
+  "lastOpened": "2026-10-27T13:02:00Z",
+  "pack": null,
+  "issue": "The tracking file and the event file do not look like the same match. Team identifiers differ and the kick-off times are 41 minutes apart.",
+  "ingest": {
+   "hz": 25,
+   "occludedPct": null,
+   "droppedPct": null,
+   "durationMin": 94,
+   "players": 22,
+   "format": "Metrica EPTS tracking and event CSV"
+  }
+ },
+ {
+  "id": "m_0391",
+  "home": "Harlow Athletic",
+  "away": "Dunmore Rangers",
+  "squad": "first",
+  "competition": "Eastern Counties League",
+  "date": "2026-10-17T15:00:00Z",
+  "score": [
+   2,
+   0
+  ],
+  "sources": [
+   {
+    "provider": "skillcorner",
+    "kind": "optical",
+    "label": "Broadcast tracking, 10 Hz"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "optical_broadcast",
+  "status": "failed",
+  "briefStatus": "not_generated",
+  "lastOpened": null,
+  "pack": null,
+  "issue": "The tracking file ends at 61:40 but the match ran to 94:12. Upload the complete file and reprocess.",
+  "ingest": {
+   "hz": 10,
+   "occludedPct": null,
+   "droppedPct": null,
+   "durationMin": 62,
+   "players": 22,
+   "format": "SkillCorner tracking JSON and match data"
+  }
+ },
+ {
+  "id": "m_0386",
+  "home": "Harlow Athletic",
+  "away": "Kestrel Vale",
+  "squad": "first",
+  "competition": "Eastern Counties League",
+  "date": "2026-10-10T15:00:00Z",
+  "score": [
+   1,
+   0
+  ],
+  "sources": [
+   {
+    "provider": "statsports",
+    "kind": "gps",
+    "label": "Wearable export, earlier season"
+   },
+   {
+    "provider": "statsports",
+    "kind": "gps",
+    "label": "Wearable export, current season"
+   }
+  ],
+  "tier": 2,
+  "tierStatus": "in_development",
+  "parityProfile": "gps_pair_dev",
+  "status": "ready",
+  "briefStatus": "locked",
+  "lastOpened": null,
+  "pack": null,
+  "ingest": {
+   "hz": 10,
+   "occludedPct": null,
+   "droppedPct": 1.4,
+   "durationMin": 94,
+   "players": 11,
+   "format": "STATSports session CSV (two exports)"
+  },
+  "fixtureNote": "Two unpaired GPS sources"
+ },
+ {
+  "id": "m_0379",
+  "home": "Harlow Athletic",
+  "away": "Roxbourne City",
+  "squad": "first",
+  "competition": "Regional Cup",
+  "date": "2026-10-03T19:45:00Z",
+  "score": [
+   2,
+   2
+  ],
+  "sources": [
+   {
+    "provider": "metrica",
+    "kind": "optical",
+    "label": "Tracking and events, 25 Hz"
+   },
+   {
+    "provider": "statsports",
+    "kind": "gps",
+    "label": "Wearable export, 10 Hz"
+   }
+  ],
+  "tier": 3,
+  "tierStatus": "in_development",
+  "parityProfile": "paired_dev",
+  "status": "ready",
+  "briefStatus": "locked",
+  "lastOpened": null,
+  "pack": null,
+  "ingest": {
+   "hz": 25,
+   "occludedPct": 2.1,
+   "droppedPct": 0.7,
+   "durationMin": 96,
+   "players": 22,
+   "format": "Metrica EPTS plus STATSports CSV (paired)"
+  },
+  "fixtureNote": "Paired optical and GPS"
+ },
+ {
+  "id": "m_0372",
+  "home": "Harlow Athletic U21",
+  "away": "Ashgrove U21",
+  "squad": "u21",
+  "competition": "U21 Development League",
+  "date": "2026-09-26T19:00:00Z",
+  "score": [
+   4,
+   1
+  ],
+  "sources": [
+   {
+    "provider": "metrica",
+    "kind": "optical",
+    "label": "Tracking and events, 25 Hz"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "optical_full",
+  "status": "ready",
+  "briefStatus": "not_generated",
+  "lastOpened": "2026-09-30T12:15:00Z",
+  "pack": "optical",
+  "ingest": {
+   "hz": 25,
+   "occludedPct": 2.6,
+   "droppedPct": 0.5,
+   "durationMin": 93,
+   "players": 22,
+   "format": "Metrica EPTS tracking and event CSV"
+  }
+ },
+ {
+  "id": "m_0366",
+  "home": "Harlow Athletic U18",
+  "away": "Fenwick Academy U18",
+  "squad": "u18",
+  "competition": "U18 Academy League",
+  "date": "2026-09-19T11:00:00Z",
+  "score": [
+   0,
+   2
+  ],
+  "sources": [
+   {
+    "provider": "statsbomb",
+    "kind": "events",
+    "label": "Event feed"
+   }
+  ],
+  "tier": 1,
+  "tierStatus": "live",
+  "parityProfile": "events_only",
+  "status": "ready",
+  "briefStatus": "generating",
+  "lastOpened": null,
+  "pack": "events",
+  "ingest": {
+   "hz": null,
+   "occludedPct": null,
+   "droppedPct": null,
+   "durationMin": 91,
+   "players": 22,
+   "format": "StatsBomb events JSON"
+  }
+ }
+]

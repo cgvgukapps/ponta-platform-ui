@@ -1,0 +1,37 @@
+[
+ {
+  "id": "org_harlow",
+  "name": "Harlow Athletic FC",
+  "kind": "Club",
+  "squads": [
+   {
+    "id": "all",
+    "name": "All squads"
+   },
+   {
+    "id": "first",
+    "name": "First team"
+   },
+   {
+    "id": "u21",
+    "name": "Under-21"
+   },
+   {
+    "id": "u18",
+    "name": "Under-18"
+   }
+  ]
+ },
+ {
+  "id": "org_northbridge",
+  "name": "Northbridge Academy",
+  "kind": "Academy (new workspace)",
+  "empty": true,
+  "squads": [
+   {
+    "id": "all",
+    "name": "All squads"
+   }
+  ]
+ }
+]

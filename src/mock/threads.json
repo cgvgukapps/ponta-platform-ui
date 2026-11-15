@@ -1,0 +1,38 @@
+[
+ {
+  "id": "th_01",
+  "title": "Second-half ball losses under pressure",
+  "matchId": "m_0412",
+  "updatedAt": "2026-11-15T09:40:00Z",
+  "questions": [
+   "Where did we lose the ball under high pressure in the second half?"
+  ]
+ },
+ {
+  "id": "th_02",
+  "title": "Passes that broke Away's midfield",
+  "matchId": "m_0412",
+  "updatedAt": "2026-11-14T19:12:00Z",
+  "questions": [
+   "Show the progressive passes that were rated Optimal"
+  ]
+ },
+ {
+  "id": "th_03",
+  "title": "Fatigue after 70 minutes",
+  "matchId": "m_0412",
+  "updatedAt": "2026-11-14T18:30:00Z",
+  "questions": [
+   "Which players looked fatigued after the 70th minute?"
+  ]
+ },
+ {
+  "id": "th_04",
+  "title": "Counter-attacks conceded",
+  "matchId": "m_0409",
+  "updatedAt": "2026-11-10T14:05:00Z",
+  "questions": [
+   "Show the counter-attacks we conceded after losing the ball"
+  ]
+ }
+]

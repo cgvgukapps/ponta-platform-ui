@@ -1,0 +1,474 @@
+[
+ {
+  "id": "optical_full",
+  "label": "Optical tracking, full coverage",
+  "metrics": {
+   "pressure_index": {
+    "state": "full",
+    "reason": "Sampled at {hz} Hz with {occ}% of frames occluded. Opposition positions are tracked throughout.",
+    "unlock": "Nothing further needed."
+   },
+   "pressure_received": {
+    "state": "full",
+    "reason": "Every outfield player is tracked, so pressure received is measured per player and per frame.",
+    "unlock": "Nothing further needed."
+   },
+   "control_surface": {
+    "state": "full",
+    "reason": "Both teams are tracked, so first-to-reach zones can be computed for the whole pitch.",
+    "unlock": "Nothing further needed."
+   },
+   "control_share": {
+    "state": "full",
+    "reason": "Control share is computed from the same tracked positions as the control surface.",
+    "unlock": "Nothing further needed."
+   },
+   "pass_value": {
+    "state": "full",
+    "reason": "Pass origin, destination and all 22 positions are known at the moment of release.",
+    "unlock": "Nothing further needed."
+   },
+   "pass_alternatives": {
+    "state": "full",
+    "reason": "Teammate and opponent positions at release give a complete ring of alternatives.",
+    "unlock": "Nothing further needed."
+   },
+   "carry_value": {
+    "state": "full",
+    "reason": "Carry start, end and surrounding positions are tracked frame by frame.",
+    "unlock": "Nothing further needed."
+   },
+   "carry_alternatives": {
+    "state": "full",
+    "reason": "Alternative carry directions are scored against tracked opponents.",
+    "unlock": "Nothing further needed."
+   },
+   "run_value": {
+    "state": "full",
+    "reason": "Off-ball movement is measured from tracked positions, not inferred.",
+    "unlock": "Nothing further needed."
+   },
+   "space_created": {
+    "state": "degraded",
+    "reason": "{occ}% of frames fall below the 0.75 confidence threshold and are withheld, so totals may read slightly low.",
+    "unlock": "Re-export with a lower occlusion rate, or add a second tracking source."
+   },
+   "distance_speed": {
+    "state": "full",
+    "reason": "Distance and speed zones come from optical positions at {hz} Hz.",
+    "unlock": "Nothing further needed."
+   },
+   "high_intensity": {
+    "state": "degraded",
+    "reason": "Optical tracking has no accelerometer. High-speed efforts are measured, accelerations are estimated and carry more error.",
+    "unlock": "Add a wearable export for the same match.",
+    "inDevelopment": true
+   },
+   "load_trend": {
+    "state": "degraded",
+    "reason": "Load trend uses optical distance only. No wearable load is connected.",
+    "unlock": "Add a wearable export for the same match.",
+    "inDevelopment": true
+   },
+   "fitness_linked": {
+    "state": "blocked",
+    "reason": "Relating physical load to decisions needs a second, paired source for the same match.",
+    "unlock": "Pair a wearable export with this match. Tier 3 is in development.",
+    "inDevelopment": true
+   }
+  }
+ },
+ {
+  "id": "optical_broadcast",
+  "label": "Optical tracking, broadcast-derived",
+  "metrics": {
+   "pressure_index": {
+    "state": "degraded",
+    "reason": "Sampled at {hz} Hz. Players outside the broadcast frame are estimated, so pressure is withheld when fewer than 18 players are visible.",
+    "unlock": "Add an optical tracking export that includes both teams. Or re-export from a full-pitch source."
+   },
+   "pressure_received": {
+    "state": "degraded",
+    "reason": "Pressure received is measured only for players visible in the frame at that moment.",
+    "unlock": "Use a full-pitch tracking export."
+   },
+   "control_surface": {
+    "state": "degraded",
+    "reason": "Control zones use estimated positions for players who are off screen. Edges of the pitch carry lower confidence.",
+    "unlock": "Use a full-pitch tracking export."
+   },
+   "control_share": {
+    "state": "full",
+    "reason": "Control share is aggregated over the whole match and is not sensitive to short gaps in visibility.",
+    "unlock": "Nothing further needed."
+   },
+   "pass_value": {
+    "state": "full",
+    "reason": "Ball and nearby players are visible in most frames, so pass value is measured at release.",
+    "unlock": "Nothing further needed."
+   },
+   "pass_alternatives": {
+    "state": "degraded",
+    "reason": "Teammates who are off screen at release are missing from the ring in some events.",
+    "unlock": "Use a full-pitch tracking export."
+   },
+   "carry_value": {
+    "state": "full",
+    "reason": "Carries are tracked while the ball is in view, and carry value is measured at start and end.",
+    "unlock": "Nothing further needed."
+   },
+   "carry_alternatives": {
+    "state": "degraded",
+    "reason": "Alternative directions are scored against visible opponents only.",
+    "unlock": "Use a full-pitch tracking export."
+   },
+   "run_value": {
+    "state": "degraded",
+    "reason": "Off-ball runs are measured only while the runner is in the frame.",
+    "unlock": "Use a full-pitch tracking export."
+   },
+   "space_created": {
+    "state": "blocked",
+    "reason": "Space created needs every player visible. {occ}% of frames lack at least one player, and the gaps are not random.",
+    "unlock": "Use a full-pitch tracking export."
+   },
+   "distance_speed": {
+    "state": "degraded",
+    "reason": "Distance is under-counted whenever a player leaves the frame. Speeds are measured at {hz} Hz.",
+    "unlock": "Add a wearable export for the same match.",
+    "inDevelopment": true
+   },
+   "high_intensity": {
+    "state": "blocked",
+    "reason": "{hz} Hz sampling is too coarse to measure accelerations reliably.",
+    "unlock": "Add a wearable export for the same match.",
+    "inDevelopment": true
+   },
+   "load_trend": {
+    "state": "degraded",
+    "reason": "Load trend uses visible distance only, so quieter periods can look lower than they were.",
+    "unlock": "Add a wearable export for the same match.",
+    "inDevelopment": true
+   },
+   "fitness_linked": {
+    "state": "blocked",
+    "reason": "Relating physical load to decisions needs a second, paired source for the same match.",
+    "unlock": "Pair a wearable export with this match. Tier 3 is in development.",
+    "inDevelopment": true
+   }
+  }
+ },
+ {
+  "id": "events_only",
+  "label": "Event data only",
+  "metrics": {
+   "pressure_index": {
+    "state": "blocked",
+    "reason": "Opposition pressure is a distance measure, and the event feed has no off-ball positions.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "pressure_received": {
+    "state": "degraded",
+    "reason": "Uses the feed's tagged pressure events. These are counts per player, not distance to the nearest opponent.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "control_surface": {
+    "state": "blocked",
+    "reason": "Control zones need the position of every player. The event feed has no player positions.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "control_share": {
+    "state": "blocked",
+    "reason": "Control share needs the position of every player. The event feed has no player positions.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "pass_value": {
+    "state": "degraded",
+    "reason": "Estimated from start and end location and outcome. Teammate and opponent positions are not in this feed.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "pass_alternatives": {
+    "state": "blocked",
+    "reason": "Alternatives cannot be ranked without teammate and opponent positions.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "carry_value": {
+    "state": "degraded",
+    "reason": "Estimated from start and end location and outcome.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "carry_alternatives": {
+    "state": "blocked",
+    "reason": "Alternative carry directions cannot be scored without opponent positions.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "run_value": {
+    "state": "blocked",
+    "reason": "Off-ball movement is not recorded in an event feed.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "space_created": {
+    "state": "blocked",
+    "reason": "Space created needs positions for both teams.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "distance_speed": {
+    "state": "blocked",
+    "reason": "No positional or wearable data in this match.",
+    "unlock": "Add a wearable or tracking export for the same match."
+   },
+   "high_intensity": {
+    "state": "blocked",
+    "reason": "No positional or wearable data in this match.",
+    "unlock": "Add a wearable export for the same match."
+   },
+   "load_trend": {
+    "state": "blocked",
+    "reason": "No positional or wearable data in this match.",
+    "unlock": "Add a wearable export for the same match."
+   },
+   "fitness_linked": {
+    "state": "blocked",
+    "reason": "Needs paired tracking and wearable sources for the same match.",
+    "unlock": "Pair tracking and wearable exports. Tier 3 is in development.",
+    "inDevelopment": true
+   }
+  }
+ },
+ {
+  "id": "gps_only",
+  "label": "Wearable data only",
+  "metrics": {
+   "pressure_index": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "pressure_received": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "control_surface": {
+    "state": "blocked",
+    "reason": "Control zones need both teams. GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "control_share": {
+    "state": "blocked",
+    "reason": "Control share needs both teams. GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "pass_value": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "pass_alternatives": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "carry_value": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "carry_alternatives": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "run_value": {
+    "state": "blocked",
+    "reason": "Movement value needs the ball and opposition. GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "space_created": {
+    "state": "blocked",
+    "reason": "Space created needs positions for both teams.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "distance_speed": {
+    "state": "full",
+    "reason": "Distance and speed zones come from {hz} Hz GPS, with {drop}% of samples dropped.",
+    "unlock": "Nothing further needed."
+   },
+   "high_intensity": {
+    "state": "full",
+    "reason": "Accelerations and high-speed efforts are measured directly by each unit's accelerometer.",
+    "unlock": "Nothing further needed."
+   },
+   "load_trend": {
+    "state": "full",
+    "reason": "Load is summarised in five-minute blocks across the session. Descriptive only, with no readiness or medical claims.",
+    "unlock": "Nothing further needed."
+   },
+   "fitness_linked": {
+    "state": "blocked",
+    "reason": "Relating physical load to decisions needs tracking or events paired with this export.",
+    "unlock": "Pair an optical or event source. Tier 3 is in development.",
+    "inDevelopment": true
+   }
+  }
+ },
+ {
+  "id": "gps_pair_dev",
+  "label": "Two unpaired wearable sources (in development)",
+  "metrics": {
+   "pressure_index": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "pressure_received": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "control_surface": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "control_share": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "run_value": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "space_created": {
+    "state": "blocked",
+    "reason": "GPS covers one squad only. Opposition and ball positions are not in the export.",
+    "unlock": "Add an optical tracking export that includes both teams."
+   },
+   "pass_value": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "pass_alternatives": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "carry_value": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "carry_alternatives": {
+    "state": "blocked",
+    "reason": "A wearable export has no ball or event data.",
+    "unlock": "Add an event feed for the same match."
+   },
+   "distance_speed": {
+    "state": "degraded",
+    "reason": "Two unpaired exports. Calibration is applied only where both cover the same minutes. Distance totals outside the overlap use one source only.",
+    "unlock": "Overlap both exports for the whole session.",
+    "inDevelopment": true
+   },
+   "high_intensity": {
+    "state": "degraded",
+    "reason": "Two unpaired exports. Calibration is applied only where both cover the same minutes. Effort thresholds are aligned only inside the overlap.",
+    "unlock": "Overlap both exports for the whole session.",
+    "inDevelopment": true
+   },
+   "load_trend": {
+    "state": "degraded",
+    "reason": "Load trend across the vendor switch is calibrated only where the exports overlap.",
+    "unlock": "Overlap both exports for the whole session.",
+    "inDevelopment": true
+   },
+   "fitness_linked": {
+    "state": "blocked",
+    "reason": "Needs tracking or events paired with this export.",
+    "unlock": "Pair an optical or event source. Tier 3 is in development.",
+    "inDevelopment": true
+   }
+  }
+ },
+ {
+  "id": "paired_dev",
+  "label": "Paired optical and wearable (in development)",
+  "metrics": {
+   "pressure_index": {
+    "state": "full",
+    "reason": "Sampled at {hz} Hz with {occ}% of frames occluded. Opposition positions are tracked throughout.",
+    "unlock": "Nothing further needed."
+   },
+   "pressure_received": {
+    "state": "full",
+    "reason": "Every outfield player is tracked, so pressure received is measured per player and per frame.",
+    "unlock": "Nothing further needed."
+   },
+   "control_surface": {
+    "state": "full",
+    "reason": "Both teams are tracked, so first-to-reach zones can be computed for the whole pitch.",
+    "unlock": "Nothing further needed."
+   },
+   "control_share": {
+    "state": "full",
+    "reason": "Control share is computed from the same tracked positions as the control surface.",
+    "unlock": "Nothing further needed."
+   },
+   "pass_value": {
+    "state": "full",
+    "reason": "Pass origin, destination and all 22 positions are known at the moment of release.",
+    "unlock": "Nothing further needed."
+   },
+   "pass_alternatives": {
+    "state": "full",
+    "reason": "Teammate and opponent positions at release give a complete ring of alternatives.",
+    "unlock": "Nothing further needed."
+   },
+   "carry_value": {
+    "state": "full",
+    "reason": "Carry start, end and surrounding positions are tracked frame by frame.",
+    "unlock": "Nothing further needed."
+   },
+   "carry_alternatives": {
+    "state": "full",
+    "reason": "Alternative carry directions are scored against tracked opponents.",
+    "unlock": "Nothing further needed."
+   },
+   "run_value": {
+    "state": "full",
+    "reason": "Off-ball movement is measured from tracked positions, not inferred.",
+    "unlock": "Nothing further needed."
+   },
+   "space_created": {
+    "state": "degraded",
+    "reason": "{occ}% of frames fall below the 0.75 confidence threshold and are withheld, so totals may read slightly low.",
+    "unlock": "Re-export with a lower occlusion rate, or add a second tracking source."
+   },
+   "distance_speed": {
+    "state": "full",
+    "reason": "Distance and speed zones come from optical positions at {hz} Hz.",
+    "unlock": "Nothing further needed."
+   },
+   "high_intensity": {
+    "state": "full",
+    "reason": "Accelerations come from the paired wearable. Optical speeds are used to cross-check.",
+    "unlock": "Nothing further needed.",
+    "inDevelopment": true
+   },
+   "load_trend": {
+    "state": "full",
+    "reason": "Load trend uses the paired wearable load, aligned to optical time.",
+    "unlock": "Nothing further needed.",
+    "inDevelopment": true
+   },
+   "fitness_linked": {
+    "state": "blocked",
+    "reason": "Fitness-linked decision analysis is in development. When released, it will show association only, with confidence bands.",
+    "unlock": "Available in a later release (Tier 3, in development).",
+    "inDevelopment": true
+   }
+  }
+ }
+]

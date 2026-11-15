@@ -1,0 +1,130 @@
+{
+ "org": {
+  "name": "Harlow Athletic FC",
+  "kind": "Club",
+  "timezone": "Europe/London",
+  "region": "United Kingdom",
+  "squads": [
+   "First team",
+   "Under-21",
+   "Under-18"
+  ]
+ },
+ "members": [
+  {
+   "id": "u1",
+   "name": "Priya Nair",
+   "email": "priya.nair@example.invalid",
+   "role": "Owner",
+   "lastActive": "Today"
+  },
+  {
+   "id": "u2",
+   "name": "Tom Lindqvist",
+   "email": "tom.lindqvist@example.invalid",
+   "role": "Analyst",
+   "lastActive": "Today"
+  },
+  {
+   "id": "u3",
+   "name": "Mara Castellan",
+   "email": "mara.castellan@example.invalid",
+   "role": "Coaching staff",
+   "lastActive": "Yesterday"
+  },
+  {
+   "id": "u4",
+   "name": "Jon Whitby",
+   "email": "jon.whitby@example.invalid",
+   "role": "Sports science",
+   "lastActive": "3 days ago"
+  },
+  {
+   "id": "u5",
+   "name": "Eleni Marsh",
+   "email": "eleni.marsh@example.invalid",
+   "role": "Viewer",
+   "lastActive": "2 weeks ago"
+  }
+ ],
+ "roles": [
+  {
+   "role": "Owner",
+   "can": "Manage members, data, retention and settings"
+  },
+  {
+   "role": "Analyst",
+   "can": "Upload data, process matches, generate briefs"
+  },
+  {
+   "role": "Coaching staff",
+   "can": "Read briefs, replay and Ask Ponta"
+  },
+  {
+   "role": "Sports science",
+   "can": "Read briefs and physical context"
+  },
+  {
+   "role": "Viewer",
+   "can": "Read shared briefs only"
+  }
+ ],
+ "connections": [
+  {
+   "provider": "metrica",
+   "name": "Metrica",
+   "kind": "Optical tracking",
+   "status": "upload",
+   "detail": "File upload"
+  },
+  {
+   "provider": "skillcorner",
+   "name": "SkillCorner",
+   "kind": "Optical tracking",
+   "status": "upload",
+   "detail": "File upload"
+  },
+  {
+   "provider": "statsbomb",
+   "name": "StatsBomb",
+   "kind": "Event data",
+   "status": "upload",
+   "detail": "File upload"
+  },
+  {
+   "provider": "statsports",
+   "name": "STATSports",
+   "kind": "GPS and wearables",
+   "status": "upload",
+   "detail": "File upload"
+  },
+  {
+   "provider": "catapult",
+   "name": "Catapult",
+   "kind": "GPS and wearables",
+   "status": "soon",
+   "detail": "Coming soon"
+  },
+  {
+   "provider": "secondspectrum",
+   "name": "Second Spectrum",
+   "kind": "Optical tracking",
+   "status": "soon",
+   "detail": "Coming soon"
+  },
+  {
+   "provider": "hawkeye",
+   "name": "Hawk-Eye",
+   "kind": "Optical tracking",
+   "status": "soon",
+   "detail": "Coming soon"
+  },
+  {
+   "provider": "tracab",
+   "name": "TRACAB",
+   "kind": "Optical tracking",
+   "status": "soon",
+   "detail": "Coming soon"
+  }
+ ]
+}
