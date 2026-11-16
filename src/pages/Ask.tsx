@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Activity, Info, MessageSquarePlus } from 'lucide-react'
+import { Activity, Info, MessageSquarePlus, Search } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 import { useApp } from '@/state/app'
@@ -9,47 +9,93 @@ import { listMatches, parityFor } from '@/api'
 import { loadPack } from '@/api/packs'
 import { ask, ensureLoaded, seedThreads, useAskStore, type Thread } from '@/state/askStore'
 import { Button } from '@/components/ui/button'
-import { Select } from '@/components/ui/form'
+import { Input, Select } from '@/components/ui/form'
 import { EmptyState, Skeleton } from '@/components/ui/feedback'
 import { ParityIcon, ParitySummary, TierBadge } from '@/components/ui/badges'
-import { fmtDate, fmtRelative } from '@/lib/format'
+import { NOW, fmtDate, fmtRelative } from '@/lib/format'
 import { FAMILIES, type Match, type MetricId } from '@/lib/types'
 import { fillRefs, makeWho, WhoProvider } from '@/lib/names'
 import { AnswerView, Composer, PROMPTS, TOPIC_ICON, label, opponent, weakest } from '@/components/ask/parts'
 
 /* ---------------- Sidebar ---------------- */
+type Group = 'today' | 'yesterday' | 'week' | 'older'
+const GROUPS: Group[] = ['today', 'yesterday', 'week', 'older']
+function groupOf(iso: string): Group {
+  // Calendar days relative to the prototype's fixed "now", so screenshots stay stable.
+  const day = (d: Date) => Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())
+  const diff = Math.round((day(NOW) - day(new Date(iso))) / 86400000)
+  return diff <= 0 ? 'today' : diff === 1 ? 'yesterday' : diff < 7 ? 'week' : 'older'
+}
+
+/**
+ * Conversations list. Same language as the rest of the shell: it sits on the page background with
+ * a hairline edge, starts with one full-width action, can be searched, groups by day, and marks the
+ * open conversation with the same grey highlight as the rail (no coloured fill or underline).
+ */
 function Sidebar({ threads, activeId, matches }: { threads: Thread[]; activeId: string | null; matches: Match[] }) {
   const nav = useNavigate()
   const { nameMode } = useApp()
+  const [q, setQ] = useState('')
+  const titleOf = (th: Thread) => fillRefs(th.title, makeWho(matches.find((x) => x.id === th.matchId), nameMode))
+  const shown = threads.filter((th) => {
+    if (!q.trim()) return true
+    const m = matches.find((x) => x.id === th.matchId)
+    return `${titleOf(th)} ${m ? label(m) : ''}`.toLowerCase().includes(q.trim().toLowerCase())
+  })
   return (
-    <aside aria-label={t('ask.threads')} className="flex w-[272px] shrink-0 flex-col border-r border-hair bg-s1">
-      <div className="flex h-[52px] shrink-0 items-center justify-between border-b border-hair px-4">
-        <h2 className="text-sm font-semibold text-fg-1">{t('ask.threads')}</h2>
-        <Button size="sm" variant="secondary" onClick={() => nav('/ask')}>
-          <MessageSquarePlus className="size-3.5" aria-hidden />
+    <aside aria-label={t('ask.threads')} className="flex w-[264px] shrink-0 flex-col border-r border-hair bg-canvas">
+      <div className="flex flex-col gap-2 px-3 pb-2 pt-3">
+        <button
+          type="button"
+          onClick={() => nav('/ask')}
+          className="flex h-9 items-center gap-2 rounded-lg border border-hair bg-s1 px-3 text-sm font-medium text-fg-1 transition-colors hover:bg-s2"
+        >
+          <MessageSquarePlus className="size-4 text-fg-3" aria-hidden />
           {t('ask.new_thread')}
-        </Button>
+        </button>
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-fg-4" aria-hidden />
+          <Input aria-label={t('ask.search_threads')} placeholder={t('ask.search_threads')} value={q} onChange={(e) => setQ(e.target.value)} className="h-8 bg-transparent pl-8 text-[13px] hover:bg-s1" />
+        </div>
       </div>
-      <nav className="min-h-0 flex-1 overflow-y-auto p-2" aria-label={t('ask.threads')}>
+      <nav className="min-h-0 flex-1 overflow-y-auto px-2 pb-3" aria-label={t('ask.threads')}>
         {threads.length === 0 ? <p className="px-2 py-3 text-sm text-fg-3">{t('ask.no_threads')}</p> : null}
-        <ul className="flex flex-col gap-0.5">
-          {threads.map((th) => {
-            const m = matches.find((x) => x.id === th.matchId)
-            const active = th.id === activeId
-            return (
-              <li key={th.id}>
-                <Link to={`/ask/${th.id}`} aria-current={active ? 'page' : undefined} className={cn('block rounded-md px-3 py-2 transition-colors duration-[var(--dur-fast)]', active ? 'bg-accent-tint shadow-[inset_0_-2px_0_var(--accent)]' : 'hover:bg-s2')}>
-                  <span className={cn('line-clamp-2 text-sm leading-5', active ? 'text-fg-1' : 'text-fg-2')}>{fillRefs(th.title, makeWho(m, nameMode))}</span>
-                  <span className="mt-1 flex items-center gap-1.5 text-xs text-fg-4">
-                    <span className="truncate">{m ? opponent(m) : th.matchId}</span>
-                    <span aria-hidden>·</span>
-                    <span className="shrink-0 whitespace-nowrap">{fmtRelative(th.updatedAt)}</span>
-                  </span>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+        {threads.length > 0 && shown.length === 0 ? <p className="px-2 py-3 text-sm text-fg-3">{t('ask.no_threads_match')}</p> : null}
+        {GROUPS.map((g) => {
+          const list = shown.filter((th) => groupOf(th.updatedAt) === g)
+          if (!list.length) return null
+          return (
+            <section key={g} aria-labelledby={`grp-${g}`} className="mt-3 first:mt-1">
+              <h3 id={`grp-${g}`} className="px-2 pb-1 text-xs font-medium text-fg-4">
+                {t(`ask.group_${g}`)}
+              </h3>
+              <ul className="flex flex-col gap-px">
+                {list.map((th) => {
+                  const m = matches.find((x) => x.id === th.matchId)
+                  const active = th.id === activeId
+                  const title = titleOf(th)
+                  return (
+                    <li key={th.id}>
+                      <Link
+                        to={`/ask/${th.id}`}
+                        aria-current={active ? 'page' : undefined}
+                        title={title}
+                        className={cn('block rounded-lg px-2 py-1.5 transition-colors duration-[var(--dur-fast)]', active ? 'bg-s2' : 'hover:bg-s1')}
+                      >
+                        <span className={cn('block truncate text-[13px] leading-5', active ? 'text-fg-1' : 'text-fg-2')}>{title}</span>
+                        <span className="mt-px flex items-center gap-1.5 text-xs text-fg-4">
+                          <span className="truncate">{m ? opponent(m) : th.matchId}</span>
+                          <span aria-hidden>·</span>
+                          <span className="shrink-0 whitespace-nowrap">{fmtRelative(th.updatedAt)}</span>
+                        </span>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </section>
+          )
+        })}
       </nav>
     </aside>
   )

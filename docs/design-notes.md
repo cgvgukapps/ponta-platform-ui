@@ -217,3 +217,14 @@ A metric can be Full while some decisions go unscored. The Data check carries a 
 ## 14. Field focus (16 November 2026)
 
 Text inputs and dropdown fields show focus the way the Ask composer does: their own 1 px edge turns Ponta blue, with no outer ring. The 2 px offset ring stays for buttons, links, tabs, rows and other controls, where there is no field edge to light up. Dropdown and menu options show focus as their grey highlight, and the chosen option is marked by its check only.
+
+## 15. Conversations list on the Ask page (16 November 2026)
+
+The old threads column kept earlier choices: a grey column with a hard edge, a bordered header with a small "Threads" label and a boxed "New thread" button, two-line titles in one flat list, and the blue tint with underline for the open thread. It now matches the shell and the match panel:
+
+- It sits on the page background with a hairline edge, 264 px wide.
+- One full-width **New conversation** action at the top, then **Search conversations** (filters by title and match).
+- Grouped by day: Today, Yesterday, Previous 7 days, Older (against the prototype's fixed "now").
+- Each row is one 13 px title line (full title on hover) and a quiet line with the opponent and time.
+- The open conversation takes the grey highlight the rail uses; no coloured fill or underline.
+- "Threads" is now "Conversations" everywhere, matching the panel's "New conversation".
