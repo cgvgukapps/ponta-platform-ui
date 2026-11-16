@@ -1,0 +1,35 @@
+{
+  "_note": "Fictional names, invented for the prototype. They stand in for a club's own roster, which only the client ever sees: the AI layer works on codes (home_5). Long names, diacritics and non-Latin scripts are deliberate. Teams without a roster, and players missing from one, fall back to their code.",
+  "Harlow Athletic": {
+    "1": "Ewan Thistlecombe",
+    "2": "Tomáš Vrběcký",
+    "3": "Kofi Ashworth-Lindqvist",
+    "4": "Rory Fenmarch",
+    "5": "Георгий Ветрогонов",
+    "6": "Maximilian Ravensworth-Delacroix",
+    "7": "Joaquín Ezcurdia Mendibil",
+    "8": "Callum Brightwater",
+    "9": "朝霧 透真",
+    "10": "Ilias Marrowfield",
+    "11": "Søren Halvbrekke"
+  },
+  "Brackenridge Town": {
+    "1": "Niall Cardew",
+    "2": "Benedikt Østervold",
+    "3": "Ruairí Mac Giolla Phádraig",
+    "4": "Lewin Stoughfold",
+    "5": "Adebayo Quillfeather",
+    "6": "يوسف القمراني",
+    "7": "Teodor Brzęczyk",
+    "8": "Hamish Wrenwood",
+    "9": "Florian Ashbourne-Whitlock",
+    "10": "Θεόδωρος Ανεμογιάννης",
+    "11": "Marcus Penhallow"
+  },
+  "Stoneford Rovers": {
+    "1": "Declan Hollowmere",
+    "4": "Émile Varnecourt",
+    "8": "Owain ap Rhydderch",
+    "9": "Lukas Feldenkirch-Moravec"
+  }
+}

@@ -11,14 +11,16 @@ import { describeEvent, eventTypeLabel } from '@/lib/events'
 import { t } from '@/i18n'
 import { ConfidenceGlyph, DqBand, EstimateBand } from './badges'
 import { HoverPreview, HoverPreviewTrigger, HoverPreviewContent } from './overlay'
+import { useWho } from '@/lib/names'
 
 /** Small SVG picture of a moment: pitch, the players at that instant, and the event vector. */
 export function MomentThumb({ event, frame, className, labels = false }: { event: MatchEvent; frame?: Frame; className?: string; labels?: boolean }) {
   const [x0, y0] = event.from
   const [x1, y1] = event.to
   const moving = Math.hypot(x1 - x0, y1 - y0) > 1.5
+  const who = useWho()
   return (
-    <svg viewBox={`-3 -3 ${PITCH_L + 6} ${PITCH_W + 6}`} className={cn('block h-auto w-full rounded-sm', className)} role="img" aria-label={`${eventTypeLabel(event)}, ${describeEvent(event)}, ${fmtClock(event.t)}`}>
+    <svg viewBox={`-3 -3 ${PITCH_L + 6} ${PITCH_W + 6}`} className={cn('block h-auto w-full rounded-sm', className)} role="img" aria-label={`${eventTypeLabel(event)}, ${describeEvent(event, who)}, ${fmtClock(event.t)}`}>
       <rect x="-3" y="-3" width={PITCH_L + 6} height={PITCH_W + 6} style={{ fill: 'var(--pitch)' }} />
       {PITCH_PATHS.map((d, i) => (
         <path key={i} d={d} fill="none" style={{ stroke: 'var(--pitch-line)' }} strokeWidth={0.5} />
@@ -40,6 +42,7 @@ export function MomentThumb({ event, frame, className, labels = false }: { event
 
 function Preview({ event, engine }: { event: MatchEvent; engine?: Engine }) {
   const frame = engine && engine.opts.players ? engine.frame(event.t) : undefined
+  const who = useWho()
   return (
     <div className="w-[260px]">
       <p className="mb-1.5 px-0.5 font-mono text-2xs tabular-nums text-fg-4">
@@ -47,8 +50,8 @@ function Preview({ event, engine }: { event: MatchEvent; engine?: Engine }) {
       </p>
       <MomentThumb event={event} frame={frame} />
       <div className="mt-2 flex items-center justify-between gap-2 px-0.5">
-        <span className="text-xs font-medium text-fg-1">
-          {eventTypeLabel(event)} <span className="text-fg-3">· {describeEvent(event)}</span>
+        <span className="min-w-0 text-xs font-medium text-fg-1">
+          {eventTypeLabel(event)} <span className="text-fg-3">· {describeEvent(event, who)}</span>
         </span>
         {event.band ? <DqBand band={event.band} size="sm" /> : event.est ? <EstimateBand lo={event.est.lo} hi={event.est.hi} size="sm" /> : null}
       </div>
@@ -69,7 +72,8 @@ function Preview({ event, engine }: { event: MatchEvent; engine?: Engine }) {
  */
 export function CitationChip({ event, matchId, engine, index, className, variant = 'dark', compact }: { event: MatchEvent; matchId: string; engine?: Engine; index?: number; className?: string; variant?: 'dark' | 'print'; compact?: boolean }) {
   const low = confLevel(event.conf) === 'low'
-  const action = `${eventTypeLabel(event)}, ${describeEvent(event)}`
+  const who = useWho()
+  const action = `${eventTypeLabel(event)}, ${describeEvent(event, who)}`
   const label = `${fmtClock(event.t)} · ${action} · ${t('chip.conf_full', { v: event.conf.toFixed(2) })} · ${event.id}`
   return (
     <HoverPreview openDelay={180} closeDelay={60}>
@@ -89,7 +93,9 @@ export function CitationChip({ event, matchId, engine, index, className, variant
           {!compact ? (
             <>
               <span className="text-fg-4">·</span>
-              <span className="min-w-0 truncate">{action}</span>
+              <span className="min-w-0 truncate" title={action}>
+                {action}
+              </span>
             </>
           ) : null}
           <span className="text-fg-4">·</span>
@@ -110,13 +116,14 @@ export function CitationChip({ event, matchId, engine, index, className, variant
 /** Playlist item: thumbnail of the moment above its citation chip. */
 export function MomentCard({ event, matchId, engine, caption, fluid }: { event: MatchEvent; matchId: string; engine?: Engine; caption?: string; fluid?: boolean }) {
   const frame = engine && engine.opts.players ? engine.frame(event.t) : undefined
+  const who = useWho()
   return (
     <div className={cn('flex shrink-0 flex-col gap-1.5', fluid ? 'w-full min-w-0' : 'w-[236px]')}>
       <Link to={`/matches/${matchId}/replay?event=${event.id}`} tabIndex={-1} aria-hidden className="overflow-hidden rounded-lg border border-transparent hover:border-accent">
         <MomentThumb event={event} frame={frame} />
       </Link>
       <CitationChip event={event} matchId={matchId} engine={engine} compact />
-      <p className="text-xs text-fg-3">{caption ?? `${eventTypeLabel(event)} · ${describeEvent(event)}`}</p>
+      <p className="line-clamp-2 text-xs text-fg-3">{caption ?? `${eventTypeLabel(event)} · ${describeEvent(event, who)}`}</p>
     </div>
   )
 }

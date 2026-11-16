@@ -7,7 +7,7 @@ import { t } from '@/i18n'
 import { useApp } from '@/state/app'
 import { getMatchesSync, getOrgsSync } from '@/api'
 import { fmtDate } from '@/lib/format'
-import { Menu, MenuContent, MenuItem, MenuLabel, MenuSeparator, MenuTrigger, Tooltip } from '@/components/ui/overlay'
+import { Menu, MenuContent, MenuItem, MenuLabel, MenuRadioGroup, MenuRadioItem, MenuSeparator, MenuTrigger, Tooltip } from '@/components/ui/overlay'
 import { Toaster } from '@/components/ui/feedback'
 
 // The link gets a plain string className: Radix Tooltip (asChild) merges props by string concatenation,
@@ -92,7 +92,7 @@ function OrgSwitcher() {
 
 /** Account menu as an avatar in the top bar (reference). */
 function UserMenu() {
-  const { signOut } = useApp()
+  const { signOut, nameMode, setNameMode } = useApp()
   const nav = useNavigate()
   return (
     <Menu>
@@ -106,6 +106,13 @@ function UserMenu() {
           <p className="truncate text-sm text-fg-1">Tom Lindqvist</p>
           <p className="truncate text-xs text-fg-3">{t('shell.role_analyst')}</p>
         </div>
+        <MenuSeparator />
+        {/* Names live only in this browser, from the club's roster; the AI layer always works on codes. */}
+        <MenuLabel>{t('shell.players_as')}</MenuLabel>
+        <MenuRadioGroup value={nameMode} onValueChange={(v) => setNameMode(v === 'codes' ? 'codes' : 'names')}>
+          <MenuRadioItem value="names">{t('shell.show_names')}</MenuRadioItem>
+          <MenuRadioItem value="codes">{t('shell.show_codes')}</MenuRadioItem>
+        </MenuRadioGroup>
         <MenuSeparator />
         <MenuItem disabled>
           <UserIcon className="size-3.5" aria-hidden />

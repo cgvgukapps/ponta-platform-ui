@@ -5,9 +5,9 @@ import { HEX_CENTRES, HEX_COUNT, HEX_CORNERS, PITCH_PATHS, PITCH_SPOTS } from '@
 import { PITCH_L, PITCH_W, type Frame, type PlayerFrame } from '@/lib/engine'
 import { computeControl, computeValue, makeFields, pressureIndex } from '@/lib/overlay'
 import { heatLUT, readTheme, rgbOf } from '@/lib/theme'
-import { playerLabel } from '@/lib/events'
 import { t as tx } from '@/i18n'
 import type { PlaybackStore } from './playback'
+import { useWho } from '@/lib/names'
 
 export interface Overlays {
   control: boolean
@@ -50,6 +50,7 @@ interface Props {
 
 export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onPlayerClick }: Props) {
   const wrap = useRef<HTMLDivElement>(null)
+  const who = useWho()
   const canvas = useRef<HTMLCanvasElement>(null)
   const [size, setSize] = useState({ w: 900, h: 600 })
   const lastFrame = useRef<Frame | null>(null)
@@ -360,7 +361,9 @@ export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onP
     if (selP) {
       const p = frame.players.find((q) => `${q.team}${q.num}` === selP)
       if (p) {
-        const label = playerLabel(p.team as Team, p.num)
+        // The callout may carry a name; markers keep shirt numbers. Long names are cut on the canvas.
+        const full = who(p.team as Team, p.num)
+        const label = full.length > 24 ? `${full.slice(0, 23)}…` : full
         ctx.font = '500 11px "Geist", system-ui, sans-serif'
         const tw = ctx.measureText(label).width + 10
         const lx = X(p.x) - tw / 2
@@ -409,7 +412,7 @@ export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onP
       ctx.font = '400 12px "Geist", system-ui, sans-serif'
       ctx.fillText(tx('replay.half_time_sub'), w / 2, h / 2 + 12)
     }
-  }, [size, lp, store, fields, lut, visible])
+  }, [size, lp, store, fields, lut, visible, who])
 
   // Redraw on any store change (coalesced to one per animation frame) and on prop changes.
   useEffect(() => {
@@ -469,7 +472,7 @@ export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onP
           className="pointer-events-none absolute z-10 rounded-sm border border-hair-strong bg-s3 px-2 py-1 text-xs shadow-lg"
           style={{ left: Math.min(hover.x + 14, size.w - 150), top: Math.max(4, hover.y - 46) }}
         >
-          <p className="font-medium text-fg-1">{playerLabel(hover.p.team, hover.p.num)}</p>
+          <p className="max-w-[220px] truncate font-medium text-fg-1">{who(hover.p.team, hover.p.num)}</p>
           <p className="font-mono tabular-nums text-fg-3">
             {(hover.p.speed * 3.6).toFixed(1)} km/h · {tx('replay.pressure_short')} {pressure.toFixed(2)}
           </p>

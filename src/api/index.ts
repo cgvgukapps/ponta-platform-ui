@@ -3,6 +3,7 @@
  * API client can replace this file without touching a screen. Latency is simulated.
  */
 import orgsJson from '@/mock/orgs.json'
+import rostersJson from '@/mock/rosters.json'
 import matchesJson from '@/mock/matches.json'
 import profilesJson from '@/mock/parity-profiles.json'
 import briefsJson from '@/mock/briefs.json'
@@ -61,6 +62,12 @@ export function parityFor(m: Match): ParityReport {
     metrics.distance_speed.measure = `${m.ingest.hz} Hz, ${m.ingest.droppedPct}% dropped`
   }
   return { matchId: m.id, metrics, summary, coverage: m.coverage ?? null, engineVersion: 'engine 0.8.2 (sample)', generatedAt: new Date(new Date(m.date).getTime() + 95 * 60000 + 14 * 60000).toISOString() }
+}
+
+/** The club's roster for one team, as the client holds it (names never leave the client). Null when there is none. */
+export function getRosterSync(team: string): Record<number, string> | null {
+  const r = (rostersJson as Record<string, Record<string, string> | string>)[team]
+  return r && typeof r === 'object' ? (Object.fromEntries(Object.entries(r).map(([k, v]) => [Number(k), v])) as Record<number, string>) : null
 }
 
 export function paritySummarySync(m: Match) {

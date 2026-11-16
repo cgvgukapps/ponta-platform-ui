@@ -4,7 +4,7 @@ import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import * as Dropdown from '@radix-ui/react-dropdown-menu'
 import * as HoverCard from '@radix-ui/react-hover-card'
-import { X } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 
@@ -58,6 +58,27 @@ export function MenuContent({ children, className, align = 'start', side }: { ch
     </Dropdown.Portal>
   )
 }
+/** A one-of-several choice inside a menu (Radix radio items: announced as checked). */
+export function MenuRadioGroup({ value, onValueChange, children }: { value: string; onValueChange: (v: string) => void; children: ReactNode }) {
+  return (
+    <Dropdown.RadioGroup value={value} onValueChange={onValueChange}>
+      {children}
+    </Dropdown.RadioGroup>
+  )
+}
+export function MenuRadioItem({ value, children }: { value: string; children: ReactNode }) {
+  return (
+    <Dropdown.RadioItem value={value} className="flex h-8 cursor-default select-none items-center gap-2 rounded-sm px-2 text-fg-1 outline-none data-[highlighted]:bg-s3">
+      <span className="flex size-3.5 items-center justify-center">
+        <Dropdown.ItemIndicator>
+          <Check className="size-3.5 text-accent" aria-hidden />
+        </Dropdown.ItemIndicator>
+      </span>
+      {children}
+    </Dropdown.RadioItem>
+  )
+}
+
 export function MenuItem({ children, onSelect, disabled, danger, className }: { children: ReactNode; onSelect?: () => void; disabled?: boolean; danger?: boolean; className?: string }) {
   return (
     <Dropdown.Item onSelect={onSelect} disabled={disabled} className={cn('flex h-8 cursor-default select-none items-center gap-2 rounded-sm px-2 text-fg-1 outline-none data-[highlighted]:bg-s3 data-[disabled]:opacity-45', danger && 'text-danger', className)}>

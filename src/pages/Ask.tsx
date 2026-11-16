@@ -18,6 +18,7 @@ import { Threshold } from '@/components/ui/threshold'
 import { fmtDate, fmtRelative } from '@/lib/format'
 import { FAMILIES, type Match, type MetricId, type ParityState } from '@/lib/types'
 import { PROVIDER_NAME } from '@/lib/providers'
+import { fillRefs, makeWho, WhoProvider } from '@/lib/names'
 
 interface Prompt {
   q: string
@@ -398,7 +399,7 @@ export function AskPage() {
   const { threadId } = useParams()
   const [params] = useSearchParams()
   const nav = useNavigate()
-  const { orgId } = useApp()
+  const { orgId, nameMode } = useApp()
   const store = useAskStore()
   const matchesQ = useAsync(() => listMatches(orgId), [orgId])
   const matches = useMemo(() => (matchesQ.data ?? []).filter((m) => m.status === 'ready' && m.pack), [matchesQ.data])
@@ -540,15 +541,17 @@ export function AskPage() {
                 {thread.turns.map((turn, i) => {
                   const m = matches.find((x) => x.id === turn.matchId) ?? ctxMatch
                   return (
-                    <article key={turn.id} aria-label={turn.question} className={cn('flex flex-col gap-5', i > 0 && 'mt-10 border-t border-hair pt-10')}>
+                    <WhoProvider key={turn.id} match={m}>
+                    <article aria-label={fillRefs(turn.question, makeWho(m, nameMode))} className={cn('flex flex-col gap-5', i > 0 && 'mt-10 border-t border-hair pt-10')}>
                       <div className="flex justify-end">
                         <div className="max-w-[78%] rounded-2xl rounded-tr-md bg-s2 px-4 py-2.5">
                           <p className="sr-only">{t('ask.you_asked')}</p>
-                          <p className="text-base leading-6 text-fg-1">{turn.question}</p>
+                          <p className="text-base leading-6 text-fg-1">{fillRefs(turn.question, makeWho(m, nameMode))}</p>
                         </div>
                       </div>
                       <AnswerView turn={turn} match={m} lp={packQ.data && packQ.data.match.id === turn.matchId ? packQ.data : undefined} onAsk={send} />
                     </article>
+                    </WhoProvider>
                   )
                 })}
               </div>

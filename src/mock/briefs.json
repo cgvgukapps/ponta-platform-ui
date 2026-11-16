@@ -9,7 +9,7 @@
     "bullets": [
      {
       "id": "b1",
-      "text": "Home built out through the left side. Home 5 found Home 6 between Away's first and second lines with a pass rated Optimal, and Home 3 repeated the pattern into the left half-space.",
+      "text": "Home built out through the left side. {home_5} found {home_6} between Away's first and second lines with a pass rated Optimal, and {home_3} repeated the pattern into the left half-space.",
       "citations": [
        "evt_41207",
        "evt_41893"
@@ -31,14 +31,14 @@
     "bullets": [
      {
       "id": "b3",
-      "text": "Away's pressing trigger was a pass back to Home 1. In the cited sequence Home 5 played back under high pressure with few forward options in the ring.",
+      "text": "Away's pressing trigger was a pass back to {home_1}. In the cited sequence {home_5} played back under high pressure with few forward options in the ring.",
       "citations": [
        "evt_70055"
       ]
      },
      {
       "id": "b4",
-      "text": "Home 8 received under high pressure while facing his own goal. This moment has lower tracking confidence, so treat the pressure reading with care.",
+      "text": "{home_8} received under high pressure while facing his own goal. This moment has lower tracking confidence, so treat the pressure reading with care.",
       "citations": [
        "evt_66190"
       ]
@@ -65,14 +65,14 @@
     "bullets": [
      {
       "id": "b6",
-      "text": "Home 10 played the ball back to Home 8 when a forward pass to a teammate in the ring had the higher value. The pass kept possession, and the model rates it Suboptimal, not wrong.",
+      "text": "{home_10} played the ball back to {home_8} when a forward pass to a teammate in the ring had the higher value. The pass kept possession, and the model rates it Suboptimal, not wrong.",
       "citations": [
        "evt_99482"
       ]
      },
      {
       "id": "b7",
-      "text": "Home 9 made an off-ball run into the channel that carried a high movement value, and the next pass from Home 6 went square instead. The run was not found.",
+      "text": "{home_9} made an off-ball run into the channel that carried a high movement value, and the next pass from {home_6} went square instead. The run was not found.",
       "citations": [
        "evt_93012",
        "evt_93017"
@@ -97,7 +97,7 @@
     "bullets": [
      {
       "id": "b1",
-      "text": "Home progressed through the centre early in the match. Home 5 and Home 6 played forward into midfield, and both passes carry an event-only estimate rather than a measured rating.",
+      "text": "Home progressed through the centre early in the match. {home_5} and {home_6} played forward into midfield, and both passes carry an event-only estimate rather than a measured rating.",
       "citations": [
        "evt_23104",
        "evt_27355"
@@ -137,14 +137,14 @@
     "bullets": [
      {
       "id": "b4",
-      "text": "Home 8 played a long pass to Home 9, more direct than the passes around it. Alternatives cannot be ranked without player positions.",
+      "text": "{home_8} played a long pass to {home_9}, more direct than the passes around it. Alternatives cannot be ranked without player positions.",
       "citations": [
        "evt_36098"
       ]
      },
      {
       "id": "b5",
-      "text": "Home 10 played wide to Home 11 late in the match. The event-only estimate for this pass spans more than one band, and should be read as a range.",
+      "text": "{home_10} played wide to {home_11} late in the match. The event-only estimate for this pass spans more than one band, and should be read as a range.",
       "citations": [
        "evt_42650"
       ]
@@ -168,7 +168,7 @@
     "bullets": [
      {
       "id": "b1",
-      "text": "Sprint efforts were spread across both periods rather than concentrated early. Home 7 and Home 11 each appear in the cited efforts.",
+      "text": "Sprint efforts were spread across both periods rather than concentrated early. {home_7} and {home_11} each appear in the cited efforts.",
       "citations": [
        "evt_71013",
        "evt_71190"
@@ -176,7 +176,7 @@
      },
      {
       "id": "b2",
-      "text": "Home 9 completed two sprint efforts close together in the second period. The cluster coincided with a rise in high-speed distance for that block, and is shown as context only.",
+      "text": "{home_9} completed two sprint efforts close together in the second period. The cluster coincided with a rise in high-speed distance for that block, and is shown as context only.",
       "citations": [
        "evt_71105",
        "evt_71131"
@@ -204,7 +204,7 @@
      },
      {
       "id": "b5",
-      "text": "Home 11 repeated sprint efforts across the first period, with a longer gap before the second-half cluster.",
+      "text": "{home_11} repeated sprint efforts across the first period, with a longer gap before the second-half cluster.",
       "citations": [
        "evt_71042",
        "evt_71077"

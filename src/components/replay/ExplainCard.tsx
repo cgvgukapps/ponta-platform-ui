@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { ConfidenceIndicator, DqBand, EstimateBand, TeamDot } from '@/components/ui/badges'
 import { Threshold } from '@/components/ui/threshold'
 import { Tooltip } from '@/components/ui/overlay'
+import { useWho } from '@/lib/names'
 
 function Row({ label, children }: { label: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -22,6 +23,7 @@ function Row({ label, children }: { label: React.ReactNode; children: React.Reac
 }
 
 function Head({ e, htAt }: { e: MatchEvent; htAt: number }) {
+  const who = useWho()
   return (
     <div className="flex items-start justify-between gap-2">
       <div className="min-w-0">
@@ -36,7 +38,7 @@ function Head({ e, htAt }: { e: MatchEvent; htAt: number }) {
           <TeamDot team={e.team} />
           {eventTypeLabel(e)}
         </p>
-        <p className="text-sm text-fg-3">{describeEvent(e)}</p>
+        <p className="text-sm text-fg-3">{describeEvent(e, who)}</p>
       </div>
     </div>
   )
@@ -125,6 +127,8 @@ function DqScale({ value }: { value: number }) {
 }
 
 function Measured({ e }: { e: MatchEvent }) {
+  const who = useWho()
+  const altLabel = (a: { label: string; num?: number }) => (a.num !== undefined ? [who(e.team, a.num), ...a.label.split(', ').slice(1)].join(', ') : a.label)
   const alts = [...(e.alts ?? [])].sort((a, b) => a.rank - b.rank)
   const vA = e.vA ?? 0
   const vB = e.vB ?? 0
@@ -149,23 +153,36 @@ function Measured({ e }: { e: MatchEvent }) {
 
       <div className="mt-2.5">
         <p className="text-xs font-medium text-fg-4">{t('explain.alternatives')}</p>
-        <table className="mt-1 w-full text-xs">
+        {/* Fixed columns: a long name truncates in the option column and never pushes the figures. */}
+        <table className="mt-1 w-full table-fixed text-xs">
+          <colgroup>
+            <col className="w-6" />
+            <col />
+            <col className="w-11" />
+            <col className="w-11" />
+            <col className="w-12" />
+          </colgroup>
           <thead>
             <tr className="text-left text-fg-3">
               <th className="w-6 py-0.5 font-medium">{t('explain.col_rank')}</th>
               <th className="py-0.5 font-medium">{t('explain.col_option')}</th>
               <th className="py-0.5 text-right font-medium">V</th>
               <th className="py-0.5 text-right font-medium">p</th>
-              <th className="py-0.5 text-right font-medium">V × p</th>
+              <th className="whitespace-nowrap py-0.5 text-right font-medium">V × p</th>
             </tr>
           </thead>
           <tbody className="tabular-nums">
             {alts.map((a) => (
               <tr key={a.rank} className={cn('border-t border-hair', a.chosen && 'bg-s2')}>
                 <td className="py-1 font-mono text-fg-2">{a.rank}</td>
-                <td className="py-1 text-fg-1">
-                  {a.label}
-                  {a.chosen ? <span className="ml-1.5 rounded-[2px] border border-highlight px-1 text-2xs text-fg-1">{t('explain.played')}</span> : null}
+                <td className="py-1 pr-2 text-fg-1">
+                  {/* The mock label carries the code ("Home 9, 27 m forward"); the client puts the name in front. */}
+                  <span className="flex min-w-0 items-center">
+                    <span className="truncate" title={altLabel(a)}>
+                      {altLabel(a)}
+                    </span>
+                    {a.chosen ? <span className="ml-1.5 shrink-0 rounded-[2px] border border-highlight px-1 text-2xs text-fg-1">{t('explain.played')}</span> : null}
+                  </span>
                 </td>
                 <td className="py-1 text-right font-mono">{a.v.toFixed(2)}</td>
                 <td className="py-1 text-right font-mono">{a.p.toFixed(2)}</td>

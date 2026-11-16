@@ -11,6 +11,7 @@ import { confLevel } from '@/lib/bands'
 import { AiMarker, ConfidenceGlyph, ParityIcon, TierBadge } from '@/components/ui/badges'
 import { CitationChip } from '@/components/ui/moment'
 import { PROVIDER_NAME } from '@/lib/providers'
+import { fillRefs, useWho } from '@/lib/names'
 
 export function degradedBlockedLines(match: Match) {
   const r = parityFor(match)
@@ -119,9 +120,10 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
 function Bullet({ text, ids, lp, matchId, variant, refs, onAsk }: { text: string; ids: string[]; lp: LoadedPack; matchId: string; variant: 'screen' | 'print'; refs: Map<string, number>; onAsk?: () => void }) {
   const events = ids.map((id) => lp.byId.get(id)).filter(Boolean) as MatchEvent[]
   const low = events.filter((e) => confLevel(e.conf) === 'low')
+  const who = useWho()
   return (
     <li className="avoid-break py-4 first:pt-0 last:pb-0">
-      <p className="max-w-[74ch] text-[15px] leading-6 text-fg-1">{text}</p>
+      <p className="max-w-[74ch] text-[15px] leading-6 text-fg-1">{fillRefs(text, who)}</p>
       <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
         {events.map((e) => (
           <CitationChip key={e.id} event={e} matchId={matchId} engine={variant === 'screen' ? lp.engine : undefined} index={variant === 'print' ? refs.get(e.id) : undefined} variant={variant === 'print' ? 'print' : 'dark'} />
@@ -171,6 +173,7 @@ export function BriefBody({ brief, lp, matchId, variant, onAsk }: { brief: Brief
 }
 
 export function BriefLimitations({ brief }: { brief: Brief }) {
+  const who = useWho()
   return (
     <section aria-labelledby="lim" className="avoid-break rounded-xl bg-s2 px-5 py-4">
       <h2 id="lim" className="flex items-center gap-2 text-xs font-medium text-fg-3">
@@ -179,7 +182,7 @@ export function BriefLimitations({ brief }: { brief: Brief }) {
       </h2>
       <ul className="mt-3 flex list-disc flex-col gap-1.5 pl-4 text-sm leading-5 text-fg-2">
         {brief.limitations.map((l) => (
-          <li key={l}>{l}</li>
+          <li key={l}>{fillRefs(l, who)}</li>
         ))}
       </ul>
     </section>

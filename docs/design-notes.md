@@ -183,3 +183,13 @@ A metric can be Full while some decisions go unscored. The Data check carries a 
 - **Icon tiles.** The Add data sample cards lead with a 40 px blue-tinted icon tile, one icon per kind of data, and an arrow that brightens on hover.
 - **Chart style.** Pass decision quality on the player sketch is a column chart: one neutral series, the most common band in blue, 4 px rounded tops on a shared baseline, dashed gridlines, a direct count and share per column, a hover tooltip and a screen-reader table.
 - **Sign-in** sits in one card on the Ask screen's blue horizon. **Settings** uses two-column rows (label and help left, control right), pill squads, a card footer for Save, and one "Your data" card for export and deletion.
+
+## 11. Names in the client (brief v2, 5.1)
+
+- **Codes everywhere below the client.** Brief text carries reference tokens (`{home_5}`); events, alternatives and Ask playlists carry team and shirt number. Nothing in the mock text hard-codes a player label any more.
+- **One resolver.** `src/lib/names.tsx`: `WhoProvider` sits on the match layout, the print brief, each Ask turn and the player sketch; components read `useWho()`. With names on, a player in the roster shows by name; anyone missing (or a team with no roster) falls back to the code, "Home 5".
+- **Rosters** (`src/mock/rosters.json`, served by `getRosterSync`) are fictional and per team: Harlow Athletic and Brackenridge Town in full, Stoneford Rovers partly (to show the fallback), the rest none. They include names over 24 characters, diacritics, and Cyrillic, Japanese, Arabic and Greek scripts.
+- **Toggle:** Players, Show names / Show codes, in the account menu (Radix radio items). The choice is per viewer and kept in this browser.
+- **Layout rules:** chips and list rows truncate with the full name on hover; the alternatives and player tables use fixed numeric columns so a name never moves a figure; the pitch callout cuts at 24 characters; pitch markers keep shirt numbers.
+- **Screenshots:** `npm run shots` captures names on; `npm run shots -- --codes` captures the same set with codes into `docs/screenshots/codes`. Both runs check for horizontal page overflow.
+- **Not covered:** the shareable match page renders engine output directly and shows codes; adding a roster to it is a decision for the concierge step, not done here.

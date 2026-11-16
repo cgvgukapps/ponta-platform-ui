@@ -20,7 +20,11 @@ interface AppState {
   toasts: Toast[]
   toast: (t: Omit<Toast, 'id'>) => void
   dismissToast: (id: number) => void
+  /** Show the club's names for players, or their codes. Per viewer, remembered in this browser. */
+  nameMode: NameMode
+  setNameMode: (m: NameMode) => void
 }
+export type NameMode = 'names' | 'codes'
 const Ctx = createContext<AppState | null>(null)
 
 let tid = 1
@@ -30,6 +34,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [railPref, setRailPref] = useState<boolean | null>(null)
   const [signedIn, setSignedIn] = useState(() => sessionStorage.getItem('ponta.signedIn') === '1')
   const [toasts, setToasts] = useState<Toast[]>([])
+  const [nameMode, setNameModeState] = useState<NameMode>(() => {
+    try {
+      return localStorage.getItem('ponta.names') === 'codes' ? 'codes' : 'names'
+    } catch {
+      return 'names'
+    }
+  })
+  const setNameMode = useCallback((m: NameMode) => {
+    setNameModeState(m)
+    try {
+      localStorage.setItem('ponta.names', m)
+    } catch {
+      /* storage unavailable: the choice lasts for this session only */
+    }
+  }, [])
   const dismissToast = useCallback((id: number) => setToasts((l) => l.filter((x) => x.id !== id)), [])
   const toast = useCallback(
     (t: Omit<Toast, 'id'>) => {
@@ -62,8 +81,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       toasts,
       toast,
       dismissToast,
+      nameMode,
+      setNameMode,
     }),
-    [orgId, squad, railPref, signedIn, toasts, toast, dismissToast],
+    [orgId, squad, railPref, signedIn, toasts, toast, dismissToast, nameMode, setNameMode],
   )
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

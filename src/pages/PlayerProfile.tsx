@@ -6,11 +6,12 @@ import { useAsync } from '@/lib/useAsync'
 import { loadPack } from '@/api/packs'
 import { BAND_ORDER } from '@/lib/bands'
 import { POSITION_NAME } from '@/lib/engine'
-import { playerLabel } from '@/lib/events'
 import { MomentCard } from '@/components/ui/moment'
 import { InlineAlert, Skeleton } from '@/components/ui/feedback'
 import { BandGlyph, Tag, TeamDot } from '@/components/ui/badges'
 import type { Band, Team } from '@/lib/types'
+import { makeWho, WhoProvider } from '@/lib/names'
+import { useApp } from '@/state/app'
 
 export function PlayerProfile() {
   const { id = 'h10' } = useParams()
@@ -28,12 +29,15 @@ export function PlayerProfile() {
     const low = [...rated].filter((p) => p.conf >= 0.75).sort((a, b) => (a.dq ?? 0) - (b.dq ?? 0)).slice(0, 3)
     return { n: mine.length, passes: passes.length, carries: mine.filter((e) => e.type === 'carry').length, runs: mine.filter((e) => e.type === 'run').length, bands, ratedN: rated.length, best, low, dist: q.data.engine.distanceAt(team, num, q.data.data.duration) }
   }, [q.data, team, num])
+  const { nameMode } = useApp()
+  const who = makeWho(q.data?.match, nameMode)
   return (
+    <WhoProvider match={q.data?.match}>
     <div className="mx-auto max-w-[960px] px-8 py-8">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="flex items-center gap-2.5 font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">
           <TeamDot team={team} size={12} />
-          {playerLabel(team, num)}
+          <span className="min-w-0 truncate">{who(team, num)}</span>
         </h1>
         <Tag dashed>{t('common.later')}</Tag>
         <span className="text-sm text-fg-3">{POSITION_NAME[team][num] ?? ''}</span>
@@ -85,6 +89,7 @@ export function PlayerProfile() {
         </>
       )}
     </div>
+    </WhoProvider>
   )
 }
 

@@ -8,9 +8,9 @@ import { computeControl, makeFields, pressureIndex } from '@/lib/overlay'
 import { ParityIcon, TeamDot } from '@/components/ui/badges'
 import { Tooltip } from '@/components/ui/overlay'
 import { HIGH_PRESSURE } from '@/lib/bands'
-import { playerLabel } from '@/lib/events'
 import { useClock, type PlaybackStore } from './playback'
 import type { Team } from '@/lib/types'
+import { PlayerName } from '@/lib/names'
 
 const th = 'sticky top-0 z-10 bg-s1 px-2 py-1.5 text-right text-xs font-medium text-fg-3'
 
@@ -43,7 +43,15 @@ export function PlayerTable({ lp, store, selected, onSelect }: { lp: LoadedPack;
   const whyP = t('table.blocked_pressure')
   return (
     <div className="h-full min-h-0 overflow-auto rounded-md border border-hair bg-s1">
-      <table className="w-full border-collapse text-sm" aria-label={t('replay.players')}>
+      {/* Fixed numeric columns: a long name truncates in the player column, figures keep their place. */}
+      <table className="w-full table-fixed border-collapse text-sm" aria-label={t('replay.players')}>
+        <colgroup>
+          <col />
+          <col className="w-[54px]" />
+          <col className="w-[52px]" />
+          <col className="w-[56px]" />
+          <col className="w-[60px]" />
+        </colgroup>
         <thead>
           <tr>
             <th className={cn(th, 'text-left')}>{t('table.player')}</th>
@@ -72,14 +80,14 @@ export function PlayerTable({ lp, store, selected, onSelect }: { lp: LoadedPack;
                 return (
                   <tr key={key} onClick={() => onSelect(sel ? null : key)} className={cn('h-[26px] cursor-pointer border-b border-hair hover:bg-s2', sel && 'bg-s3')}>
                     <td className="px-2 text-left font-sans text-fg-1">
-                      <span className="inline-flex items-center gap-1.5">
-                        <span className="w-5 text-right font-mono text-fg-2">{p.num}</span>
+                      <span className="flex min-w-0 items-center gap-1.5">
+                        <span className="w-5 shrink-0 text-right font-mono text-fg-2">{p.num}</span>
                         {tm === 'h' && p.num === 10 ? (
-                          <Link to="/players/h10" onClick={(e) => e.stopPropagation()} className="hover:text-accent-text hover:underline">
-                            {playerLabel(tm, p.num)}
+                          <Link to="/players/h10" onClick={(e) => e.stopPropagation()} className="min-w-0 hover:text-accent-text hover:underline">
+                            <PlayerName team={tm} num={p.num} />
                           </Link>
                         ) : (
-                          <span>{playerLabel(tm, p.num)}</span>
+                          <PlayerName team={tm} num={p.num} />
                         )}
                         {holder ? <span className="inline-block size-1.5 rounded-full bg-fg-1" aria-label={t('table.on_ball')} /> : null}
                       </span>
@@ -119,7 +127,13 @@ function EventCounts({ lp, now }: { lp: LoadedPack; now: number }) {
   return (
     <div className="h-full min-h-0 overflow-auto rounded-md border border-hair bg-s1">
       <p className="border-b border-hair px-3 py-2 text-xs text-fg-2">{t('table.eo_note')}</p>
-      <table className="w-full border-collapse text-sm" aria-label={t('replay.players')}>
+      <table className="w-full table-fixed border-collapse text-sm" aria-label={t('replay.players')}>
+        <colgroup>
+          <col />
+          <col className="w-[64px]" />
+          <col className="w-[64px]" />
+          <col className="w-[56px]" />
+        </colgroup>
         <thead>
           <tr>
             <th className={cn(th, 'text-left')}>{t('table.player')}</th>
@@ -132,9 +146,9 @@ function EventCounts({ lp, now }: { lp: LoadedPack; now: number }) {
           {rows.map((r) => (
             <tr key={`${r.team}${r.num}`} className="h-[26px] border-b border-hair">
               <td className="px-2 text-left font-sans text-fg-1">
-                <span className="inline-flex items-center gap-1.5">
+                <span className="flex min-w-0 items-center gap-1.5">
                   <TeamDot team={r.team} size={8} />
-                  {playerLabel(r.team, r.num)}
+                  <PlayerName team={r.team} num={r.num} />
                 </span>
               </td>
               <td className="px-2 text-right">{r.pass}</td>

@@ -10,10 +10,11 @@ export function eventTypeLabel(e: MatchEvent): string {
   return t(`event.${e.type}`)
 }
 
-export function describeEvent(e: MatchEvent): string {
-  const who = playerLabel(e.team, e.num)
-  if (e.type === 'pass' && e.toNum) return `${who} ${t('event.to')} ${playerLabel(e.team, e.toNum)}`
-  return who
+/** Who did it, and to whom. `who` resolves a player to a name or a code (see lib/names). */
+export function describeEvent(e: MatchEvent, who: (team: Team, num: number) => string = playerLabel): string {
+  const by = who(e.team, e.num)
+  if (e.type === 'pass' && e.toNum) return `${by} ${t('event.to')} ${who(e.team, e.toNum)}`
+  return by
 }
 
 /** Forward progress in the attacking direction of the event's team, in metres. */

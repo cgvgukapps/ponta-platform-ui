@@ -10,17 +10,23 @@ import { BriefBody, BriefHeader, BriefLimitations } from '@/components/brief/Bri
 import { DqBand, EstimateBand } from '@/components/ui/badges'
 import { fmtClock } from '@/lib/format'
 import { describeEvent, eventTypeLabel } from '@/lib/events'
+import { makeWho, WhoProvider } from '@/lib/names'
+import { useApp } from '@/state/app'
 
 /** The only light-themed surface in the product: a clean A4 page for printing and PDF export. */
 export function BriefPrint() {
   const { id = '' } = useParams()
   const match = useAsync(() => getMatch(id), [id])
+  const { nameMode } = useApp()
+  // This page sits outside the match layout, so it resolves names itself and provides them to its chips.
+  const who = makeWho(match.data, nameMode)
   const brief = useAsync(() => getBrief(id), [id])
   const pack = useAsync(() => loadPack(id), [id])
   const ready = match.data && brief.data && pack.data
   const refs: string[] = []
   if (brief.data) for (const th of brief.data.themes) for (const b of th.bullets) for (const c of b.citations) if (!refs.includes(c)) refs.push(c)
   return (
+    <WhoProvider match={match.data}>
     <div data-theme="print" className="min-h-full bg-desk py-6 print:bg-white print:py-0" style={{ color: 'var(--fg-1)' }}>
       <div className="no-print mx-auto mb-4 flex w-[794px] items-center justify-between">
         <Link to={`/matches/${id}/brief`} className="inline-flex items-center gap-1.5 text-sm text-fg-2 hover:underline">
@@ -78,7 +84,7 @@ export function BriefPrint() {
                         <td className="py-1.5 pr-2 font-mono">[{i + 1}]</td>
                         <td className="py-1.5 pr-2 font-mono">{e.id}</td>
                         <td className="py-1.5 pr-2 font-mono">{fmtClock(e.t)}</td>
-                        <td className="py-1.5 pr-2">{eventTypeLabel(e)}, {describeEvent(e)}</td>
+                        <td className="py-1.5 pr-2">{eventTypeLabel(e)}, {describeEvent(e, who)}</td>
                         <td className="py-1.5 pr-2">{e.band ? <DqBand band={e.band} size="sm" /> : e.est ? <EstimateBand lo={e.est.lo} hi={e.est.hi} size="sm" /> : <span className="text-fg-4">{t('common.not_applicable')}</span>}</td>
                         <td className="py-1.5 text-right font-mono">{e.conf.toFixed(2)}</td>
                       </tr>
@@ -92,5 +98,6 @@ export function BriefPrint() {
         )}
       </div>
     </div>
+    </WhoProvider>
   )
 }

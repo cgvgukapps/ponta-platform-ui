@@ -12,6 +12,7 @@ import { ParitySummary, TierBadge } from '@/components/ui/badges'
 import { Skeleton, StageList, EmptyState, InlineAlert } from '@/components/ui/feedback'
 import { Button, buttonStyles } from '@/components/ui/button'
 import { useApp } from '@/state/app'
+import { WhoProvider } from '@/lib/names'
 
 export interface MatchCtx {
   match: Match
@@ -151,7 +152,9 @@ export function MatchLayout() {
         </nav>
       </div>
       <div className="min-h-0 flex-1 overflow-auto">
-        {match.status === 'processing' || match.status === 'queued' ? <ProcessingPanel match={match} /> : match.status === 'failed' || match.status === 'needs_attention' ? <IssuePanel match={match} /> : <Outlet context={{ match } satisfies MatchCtx} />}
+        {match.status === 'processing' || match.status === 'queued' ? <ProcessingPanel match={match} /> : match.status === 'failed' || match.status === 'needs_attention' ? <IssuePanel match={match} /> : <WhoProvider match={match}>
+            <Outlet context={{ match } satisfies MatchCtx} />
+          </WhoProvider>}
       </div>
     </div>
   )

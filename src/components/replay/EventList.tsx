@@ -8,6 +8,7 @@ import { describeEvent, eventTypeLabel } from '@/lib/events'
 import { ConfidenceGlyph, DqBand, EstimateBand, TeamDot } from '@/components/ui/badges'
 import { Segmented } from '@/components/ui/tabs'
 import { confLevel } from '@/lib/bands'
+import { useWho } from '@/lib/names'
 
 export type EventFilter = 'notable' | 'all' | 'cited'
 const ROW = 44
@@ -26,6 +27,7 @@ export function isNotable(e: MatchEvent, citedSet: Set<string>) {
 
 export function EventList({ events, cited, selectedId, currentT, onSelect, filter, onFilter }: { events: MatchEvent[]; cited: string[]; selectedId: string | null; currentT: number; onSelect: (e: MatchEvent) => void; filter: EventFilter; onFilter: (f: EventFilter) => void }) {
   const citedSet = useMemo(() => new Set(cited), [cited])
+  const who = useWho()
   const list = useMemo(() => {
     if (filter === 'all') return events
     if (filter === 'cited') return events.filter((e) => citedSet.has(e.id))
@@ -109,7 +111,9 @@ export function EventList({ events, cited, selectedId, currentT, onSelect, filte
                     <span className="truncate">{eventTypeLabel(e)}</span>
                     {isCited ? <Diamond className="size-2.5 shrink-0 text-highlight" aria-label={t('replay.cited')} /> : null}
                   </span>
-                  <span className="block truncate text-xs text-fg-3">{describeEvent(e)}</span>
+                  <span className="block truncate text-xs text-fg-3" title={describeEvent(e, who)}>
+                    {describeEvent(e, who)}
+                  </span>
                 </span>
                 <span className="flex shrink-0 flex-col items-end gap-0.5">
                   {e.band ? <DqBand band={e.band} size="sm" /> : e.est ? <EstimateBand lo={e.est.lo} hi={e.est.hi} size="sm" /> : e.ovm !== undefined ? <span className="font-mono text-xs tabular-nums text-fg-1">+{e.ovm.toFixed(2)}</span> : e.effort ? <span className="font-mono text-xs tabular-nums text-fg-1">{e.effort.peak.toFixed(1)} m/s</span> : null}
