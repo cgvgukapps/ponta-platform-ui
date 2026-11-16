@@ -2,13 +2,13 @@ import { t } from '@/i18n'
 import type { Overlays } from './PitchCanvas'
 import { TeamDot } from '@/components/ui/badges'
 
+/** One legend entry: swatch and name on one line; the explanation is the tooltip. */
 function Item({ swatch, label, hint, off }: { swatch: React.ReactNode; label: string; hint: string; off?: boolean }) {
   return (
-    <li className={off ? 'flex items-start gap-2 opacity-35' : 'flex items-start gap-2'} aria-hidden={off || undefined}>
-      <span className="mt-0.5 flex h-4 w-8 shrink-0 items-center justify-center">{swatch}</span>
-      <span className="min-w-0 text-xs leading-4">
-        <span className="font-medium text-fg-1">{label}</span> <span className="text-fg-3">{hint}</span>
-      </span>
+    <li className={off ? 'flex items-center gap-2 opacity-35' : 'flex items-center gap-2'} aria-hidden={off || undefined} title={`${label}: ${hint}`}>
+      <span className="flex h-4 w-7 shrink-0 items-center justify-center">{swatch}</span>
+      <span className="whitespace-nowrap text-xs text-fg-2">{label}</span>
+      <span className="sr-only">{hint}</span>
     </li>
   )
 }
@@ -16,7 +16,7 @@ function Item({ swatch, label, hint, off }: { swatch: React.ReactNode; label: st
 /** Every legend slot is always present (dimmed when its overlay is off), so the pitch never jumps. */
 export function Legend({ overlays, eventOnly }: { overlays: Overlays; eventOnly: boolean }) {
   return (
-    <ul className="grid grid-cols-2 gap-x-6 gap-y-1.5" aria-label={t('legend.title')}>
+    <ul className="flex flex-wrap items-center gap-x-5 gap-y-1.5" aria-label={t('legend.title')}>
       <Item
         swatch={
           <span className="flex items-center gap-1">

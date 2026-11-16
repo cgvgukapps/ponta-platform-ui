@@ -40,25 +40,43 @@ const TOGGLES: ToggleDef[] = [
   { key: 'confidence', label: 'replay.ov_confidence', metric: null, shortcut: '5', needsPlayers: true },
 ]
 
+/** Small swatch per overlay, matching the legend, so the toggle says what it draws. */
+function OverlaySwatch({ k }: { k: keyof Overlays }) {
+  if (k === 'control')
+    return (
+      <span aria-hidden className="flex size-3 overflow-hidden rounded-full">
+        <span className="h-full w-1/2 bg-home" />
+        <span className="h-full w-1/2 bg-away" />
+      </span>
+    )
+  if (k === 'value') return <span aria-hidden className="size-3 rounded-full" style={{ background: 'linear-gradient(135deg,var(--heat-2),var(--heat-6))' }} />
+  if (k === 'corridors') return <span aria-hidden className="h-0.5 w-3 rounded-full bg-highlight" />
+  if (k === 'carries') return <span aria-hidden className="h-0 w-3 border-t-2 border-dotted border-highlight" />
+  return <span aria-hidden className="size-3 rounded-full border border-dashed border-[var(--conf-ink)]" />
+}
+
 function OverlayToggle({ def, on, state, reason, disabled, onChange }: { def: ToggleDef; on: boolean; state: ParityState | null; reason?: string; disabled: boolean; onChange: (v: boolean) => void }) {
+  // Toggle pills (reference style): on is a soft fill in full colour, off is quiet text.
+  // The keyboard shortcut lives in the tooltip and the shortcuts popover, not on the pill.
   const btn = (
     <button
       type="button"
       aria-pressed={on}
+      aria-keyshortcuts={def.shortcut}
+      title={reason ? undefined : `${t(def.label)} (${def.shortcut})`}
       disabled={disabled}
       onClick={() => onChange(!on)}
       className={cn(
-        'inline-flex h-7 items-center gap-1.5 rounded-sm border px-2 text-sm transition-colors duration-[var(--dur-fast)] disabled:cursor-not-allowed',
-        on ? 'border-fg-3 bg-s3 text-fg-1' : 'border-hair-strong bg-s1 text-fg-2 hover:bg-s2 hover:text-fg-1',
-        disabled && 'border-dashed text-fg-4 hover:bg-s1 hover:text-fg-4',
+        'inline-flex h-8 items-center gap-2 rounded-full border px-3 text-sm transition-colors duration-[var(--dur-fast)] disabled:cursor-not-allowed',
+        on ? 'border-transparent bg-s3 text-fg-1' : 'border-transparent bg-transparent text-fg-3 hover:bg-s2 hover:text-fg-1',
+        disabled && 'border-dashed border-hair-strong text-fg-4 hover:bg-transparent hover:text-fg-4',
       )}
     >
-      <span aria-hidden className={cn('flex size-3 items-center justify-center rounded-[2px] border', on ? 'border-fg-1 bg-fg-1 text-canvas' : 'border-fg-4')}>
-        {on ? <Check className="size-2.5" strokeWidth={3} /> : null}
+      <span className={cn('flex items-center', !on && 'opacity-50')}>
+        <OverlaySwatch k={def.key} />
       </span>
       {t(def.label)}
       {state && state !== 'full' ? <ParityIcon state={state} size={11} /> : null}
-      <span className="font-mono text-2xs text-fg-4">{def.shortcut}</span>
     </button>
   )
   if (!reason) return btn
@@ -290,11 +308,12 @@ function EventsPane(props: { lp: LoadedPack; store: PlaybackStore; cited: string
 function Toolbar({ lp, store, overlays, setOverlays, avail }: { lp: LoadedPack; store: PlaybackStore; overlays: Overlays; setOverlays: React.Dispatch<React.SetStateAction<Overlays>>; avail: (d: ToggleDef) => { state: ParityState | null; blocked: boolean; reason?: string } }) {
   return (
     <div className="flex flex-wrap items-center gap-2" role="toolbar" aria-label={t('replay.overlays')}>
-      <span className="mr-1 text-xs font-medium text-fg-4">{t('replay.overlays')}</span>
-      {TOGGLES.map((d) => {
-        const a = avail(d)
-        return <OverlayToggle key={d.key} def={d} on={overlays[d.key] && !a.blocked} state={a.state} reason={a.reason} disabled={a.blocked} onChange={(v) => setOverlays((o) => ({ ...o, [d.key]: v }))} />
-      })}
+      <div className="flex flex-wrap items-center gap-0.5 rounded-full bg-s1 p-1">
+        {TOGGLES.map((d) => {
+          const a = avail(d)
+          return <OverlayToggle key={d.key} def={d} on={overlays[d.key] && !a.blocked} state={a.state} reason={a.reason} disabled={a.blocked} onChange={(v) => setOverlays((o) => ({ ...o, [d.key]: v }))} />
+        })}
+      </div>
       <div className="ml-auto flex items-center gap-3">
         <Popover>
           <PopoverTrigger asChild>

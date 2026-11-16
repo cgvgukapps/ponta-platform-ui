@@ -45,7 +45,7 @@ function Head({ e, htAt }: { e: MatchEvent; htAt: number }) {
 function Confidence({ e }: { e: MatchEvent }) {
   const low = confLevel(e.conf) === 'low'
   return (
-    <div className={cn('mt-3 rounded-md border p-2.5', low ? 'border-dashed border-[var(--conf-ink)]' : 'border-hair')}>
+    <div className={cn('mt-3 rounded-lg border p-2.5', low ? 'border-dashed border-[var(--conf-ink)]' : 'border-transparent bg-s2')}>
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm text-fg-3">{t('explain.confidence')}</span>
         <ConfidenceIndicator value={e.conf} />
@@ -77,7 +77,7 @@ function Tiles({ e }: { e: MatchEvent }) {
   return (
     <>
       <div className="mt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-lg bg-s2 p-2">
+        <div className="rounded-lg bg-s2 p-2.5">
           <p className="text-xs text-fg-3">{t('explain.pressure')}</p>
           <p className="mt-0.5 flex items-baseline gap-1.5 text-sm">
             <span className="font-mono tabular-nums text-fg-1">{e.press.toFixed(2)}</span>
@@ -90,7 +90,7 @@ function Tiles({ e }: { e: MatchEvent }) {
             )}
           </p>
         </div>
-        <div className={cn('rounded-md border p-2', low ? 'border-dashed border-[var(--conf-ink)]' : 'border-hair')}>
+        <div className={cn('rounded-lg border p-2.5', low ? 'border-dashed border-[var(--conf-ink)]' : 'border-transparent bg-s2')}>
           <p className="text-xs text-fg-3">{t('explain.confidence')}</p>
           <div className="mt-0.5">
             <ConfidenceIndicator value={e.conf} />
@@ -143,14 +143,9 @@ function Measured({ e }: { e: MatchEvent }) {
         <DqScale value={e.dq ?? 0} />
       </div>
 
-      <div className="mt-2.5 rounded-lg bg-canvas px-2.5 py-2">
-        <p className="text-xs font-medium text-fg-4">{t('explain.working')}</p>
-        <p className="mt-0.5 font-mono text-[12.5px] tabular-nums text-fg-1">V(at arrival) ÷ V(best at release)</p>
-        <p className="font-mono text-[12.5px] tabular-nums text-fg-2">
-          = {vA.toFixed(2)} ÷ {vB.toFixed(2)} = {(e.dq ?? 0).toFixed(2)}
-        </p>
-        {(e.dq ?? 0) >= DQ_ELEVATED ? <p className="mt-1.5 text-xs text-fg-2">{t('explain.elevated')}</p> : null}
-      </div>
+      {/* The working formula now opens under "How this is calculated"; a score above 1.0 is
+          explained here because it would otherwise read as an error. */}
+      {(e.dq ?? 0) >= DQ_ELEVATED ? <p className="mt-2 text-xs text-fg-2">{t('explain.elevated')}</p> : null}
 
       <div className="mt-2.5">
         <p className="text-xs font-medium text-fg-4">{t('explain.alternatives')}</p>
@@ -272,9 +267,16 @@ function Simple({ e }: { e: MatchEvent }) {
   )
 }
 
-function HowContent() {
+function HowContent({ e }: { e: MatchEvent }) {
   return (
     <Collapsible.Content className="mt-2 flex flex-col gap-1.5 border-t border-hair pt-2 text-xs text-fg-2">
+      <div className="rounded-lg bg-s2 px-3 py-2">
+        <p className="text-xs font-medium text-fg-3">{t('explain.working')}</p>
+        <p className="mt-0.5 font-mono text-sm tabular-nums text-fg-1">V(at arrival) ÷ V(best at release)</p>
+        <p className="font-mono text-sm tabular-nums text-fg-2">
+          = {(e.vA ?? 0).toFixed(2)} ÷ {(e.vB ?? 0).toFixed(2)} = {(e.dq ?? 0).toFixed(2)}
+        </p>
+      </div>
       <p>{t('explain.how_1')}</p>
       <p>{t('explain.how_2')}</p>
       <p>
@@ -325,7 +327,7 @@ export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchE
             </Button>
           </div>
         </div>
-        {measured ? <HowContent /> : null}
+        {measured ? <HowContent e={e} /> : null}
       </Collapsible.Root>
     </section>
   )
