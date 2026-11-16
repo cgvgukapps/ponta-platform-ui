@@ -88,6 +88,11 @@ function FamilyRow({ family, report }: { family: (typeof FAMILIES)[number]; repo
   )
 }
 
+/**
+ * What a second source would unlock. Reference style: a plain heading, rows with a numbered
+ * circle (white for this match), one line each, quiet "In development" text, then the match's
+ * suggestion on its own tile and a single primary action.
+ */
 function Ladder({ match }: { match: Match }) {
   const { toast } = useApp()
   const report = useMemo(() => parityFor(match), [match])
@@ -102,47 +107,51 @@ function Ladder({ match }: { match: Match }) {
     { tier: 3 as const, title: t('gate.t3_title'), who: t('gate.t3_who'), unlocks: t('gate.t3_unlocks'), live: false },
   ]
   return (
-    <aside aria-labelledby="ladder-title" className="rounded-xl bg-s1">
-      <div className="border-b border-hair px-4 py-3">
-        <h3 id="ladder-title" className="flex items-center gap-2 text-base font-semibold text-fg-1">
-          <Layers className="size-4 text-fg-3" aria-hidden />
-          {t('gate.ladder_title')}
-        </h3>
-        <p className="mt-1 text-sm text-fg-3">{t('gate.ladder_intro')}</p>
-      </div>
-      <ol className="px-4 py-4">
-        {steps.map((s, i) => {
+    <aside aria-labelledby="ladder-title" className="rounded-xl bg-s1 p-5">
+      <h3 id="ladder-title" className="text-base font-semibold text-fg-1">
+        {t('gate.ladder_title')}
+      </h3>
+      <p className="mt-1 text-sm text-fg-3">{t('gate.ladder_intro')}</p>
+
+      <ol className="mt-4 flex flex-col">
+        {steps.map((s) => {
           const here = s.tier === match.tier
           return (
-            <li key={s.tier} className="relative flex gap-3 pb-5 last:pb-0">
-              {i < steps.length - 1 ? <span aria-hidden className="absolute left-[11px] top-7 h-[calc(100%-20px)] w-px border-l border-dashed border-hair-strong" /> : null}
-              <span className={cn('relative z-10 flex size-6 shrink-0 items-center justify-center rounded-md border bg-s1', here ? 'border-accent text-fg-1' : 'border-hair-strong text-fg-3')}>
-                <TierGlyph tier={s.tier} size={14} />
+            <li key={s.tier} aria-current={here ? 'step' : undefined} className="flex gap-3.5 border-t border-hair py-3.5 first:border-t-0 first:pt-1">
+              <span
+                aria-hidden
+                className={cn('flex size-7 shrink-0 items-center justify-center rounded-full text-sm font-medium tabular-nums', here ? 'bg-primary-fill text-on-primary' : 'bg-s3 text-fg-3')}
+              >
+                {s.tier}
               </span>
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h4 className="text-sm font-medium text-fg-1">{s.title}</h4>
-                  {here ? <Tag className="h-4 border-accent px-1 text-[10px] text-fg-1">{t('gate.you_are_here')}</Tag> : null}
-                  {!s.live ? <Tag dashed className="h-4 px-1 text-[10px]">{t('tier.in_development')}</Tag> : null}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h4 className={cn('text-sm font-medium', here || s.live ? 'text-fg-1' : 'text-fg-2')}>{s.title}</h4>
+                  <span className="shrink-0 text-xs text-fg-3">{here ? t('gate.you_are_here') : !s.live ? t('tier.in_development') : ''}</span>
                 </div>
                 <p className="mt-0.5 text-xs text-fg-3">{s.who}</p>
-                <p className="mt-1.5 text-sm text-fg-2">{s.unlocks}</p>
+                <p className={cn('mt-1.5 text-sm', here || s.live ? 'text-fg-2' : 'text-fg-3')}>{s.unlocks}</p>
               </div>
             </li>
           )
         })}
       </ol>
-      <div className="border-t border-hair bg-s2 px-4 py-3">
+
+      <div className="mt-3 rounded-lg bg-s2 p-4">
         <p className="text-sm text-fg-1">{suggestion}</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Link to={`/matches/new?match=${match.id}`} className={buttonStyles({ variant: 'secondary' })}>
-            <Plus className="size-3.5" aria-hidden />
-            {t('gate.add_source')}
-          </Link>
-          <Button variant="ghost" onClick={() => toast({ title: t('gate.toast_notify'), body: t('gate.toast_notify_body') })}>
-            {t('gate.notify')}
-          </Button>
-        </div>
+      </div>
+      <div className="mt-3 flex flex-col items-stretch gap-1">
+        <Link to={`/matches/new?match=${match.id}`} className={buttonStyles({ variant: 'primary' })}>
+          <Plus className="size-4" aria-hidden />
+          {t('gate.add_source')}
+        </Link>
+        <button
+          type="button"
+          onClick={() => toast({ title: t('gate.toast_notify'), body: t('gate.toast_notify_body') })}
+          className="h-9 rounded-lg text-sm text-fg-3 transition-colors hover:bg-s2 hover:text-fg-1"
+        >
+          {t('gate.notify')}
+        </button>
       </div>
     </aside>
   )
