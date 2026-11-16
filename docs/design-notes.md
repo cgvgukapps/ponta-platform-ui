@@ -153,3 +153,8 @@ References: a calm tool UI (neutral near-blacks, white primary buttons, generous
 6. **Two CSS bugs fixed:** unlayered `button { color: inherit }` and `* { border-color }` rules were overriding Tailwind utilities (the primary label colour and every `border-transparent`). Both now sit in `@layer base`.
 
 Contrast: 104 pairs checked, none failing (surface 3, quiet text, link blue and the Poor band were adjusted; the white button label pair was added).
+7. **Follow-up rounds (16 November 2026):**
+   - Brief title on one line with the score dimmed; Data check as progressive disclosure (facts as one line, three big-figure count tiles, families as one collapsed list with a one-line reason when not Full, detail on click); the second-source panel reduced to a heading, three rows with a white "This match" pill and grey "In development" pill, one sentence and one action, at two type sizes.
+   - Library: "One source" as quiet text; the sources badge only for multi-source matches.
+   - Replay: overlay toggles as pills with swatches (shortcuts in tooltips); one-row legend with explanations in tooltips; the working formula under "How this is calculated"; explain tiles as fills (dashed edge kept for low confidence).
+   - Match header: provider in the subtitle; active tabs underline in white; segmented controls as pill groups; timeline strip as a fill.
