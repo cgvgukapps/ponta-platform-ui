@@ -1,91 +1,70 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Rows3, MessageSquare, Settings, Users, Bookmark, LayoutDashboard, ChevronsUpDown, Check, PanelLeftClose, PanelLeftOpen, Search, FlaskConical, LogOut, User as UserIcon, Plus } from 'lucide-react'
+import * as Dialog from '@radix-ui/react-dialog'
+import { Rows3, MessageSquare, Settings, ChevronDown, Check, Search, FlaskConical, LogOut, User as UserIcon, Plus, CornerDownLeft } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 import { useApp } from '@/state/app'
-import { getOrgsSync } from '@/api'
+import { getMatchesSync, getOrgsSync } from '@/api'
+import { fmtDate } from '@/lib/format'
 import { Menu, MenuContent, MenuItem, MenuLabel, MenuSeparator, MenuTrigger, Tooltip } from '@/components/ui/overlay'
-import { Tag } from '@/components/ui/badges'
 import { Toaster } from '@/components/ui/feedback'
-import { useMediaQuery } from '@/lib/useMediaQuery'
 
 // The link gets a plain string className: Radix Tooltip (asChild) merges props by string concatenation,
 // which turns a NavLink className function into garbage and strips all styling when the rail is collapsed.
-function NavItem({ to, icon, label, collapsed, tag, base }: { to: string; icon: React.ReactNode; label: string; collapsed: boolean; tag?: string; base?: string }) {
+/**
+ * Navigation rail (reference): a narrow, slightly darker column of icons with tooltips. The
+ * Ponta mark sits in a top cell aligned with the top bar; the active item is a soft fill with
+ * a white icon. Unbuilt areas (Players, Shortlists, Team dashboards) are not shown.
+ */
+function RailItem({ to, base, icon, label }: { to: string; base?: string; icon: React.ReactNode; label: string }) {
   const { pathname } = useLocation()
   const prefix = base ?? to
   const isActive = pathname === prefix || pathname.startsWith(`${prefix}/`)
-  const link = (
-    <Link
-      to={to}
-      aria-current={isActive ? 'page' : undefined}
-      className={cn(
-        'relative flex h-8 items-center gap-2.5 rounded-md text-sm transition-colors duration-[var(--dur-fast)]',
-        collapsed ? 'justify-center px-0' : 'px-3',
-        isActive ? 'bg-s2 text-fg-1' : 'text-fg-2 hover:bg-s2 hover:text-fg-1',
-      )}
-    >
-      <span className={cn('shrink-0 [&>svg]:size-4', isActive && 'text-accent-text')}>{icon}</span>
-      {!collapsed ? <span className="flex-1 truncate">{label}</span> : <span className="sr-only">{label}</span>}
-      {!collapsed && tag ? <Tag className="h-4 px-1 text-[10px] text-fg-3">{tag}</Tag> : null}
-    </Link>
-  )
-  return collapsed ? <Tooltip content={tag ? `${label} (${tag})` : label} side="right">{link}</Tooltip> : link
-}
-
-/**
- * Unbuilt areas (Players, Shortlists, Team dashboards) are hidden from the navigation so design
- * partners are not shown a roadmap as product. Their routes still exist; set this to true to review them.
- */
-const SHOW_LATER_NAV = false
-
-function DisabledNav({ icon, label, collapsed, tag }: { icon: React.ReactNode; label: string; collapsed: boolean; tag: string }) {
-  const inner = (
-    <div aria-disabled="true" className={cn('flex h-8 cursor-not-allowed items-center gap-2.5 rounded-md text-sm text-fg-4', collapsed ? 'justify-center' : 'px-3')}>
-      <span className="shrink-0 [&>svg]:size-4">{icon}</span>
-      {!collapsed ? (
-        <>
-          <span className="flex-1 truncate">{label}</span>
-          <Tag className="h-4 px-1 text-[10px] text-fg-4" dashed>
-            {tag}
-          </Tag>
-        </>
-      ) : (
+  return (
+    <Tooltip content={label} side="right">
+      <Link
+        to={to}
+        aria-current={isActive ? 'page' : undefined}
+        className={cn(
+          'flex size-10 items-center justify-center rounded-xl transition-colors duration-[var(--dur-fast)] [&>svg]:size-[18px]',
+          isActive ? 'bg-s2 text-fg-1' : 'text-fg-3 hover:bg-s1 hover:text-fg-1',
+        )}
+      >
+        {icon}
         <span className="sr-only">{label}</span>
-      )}
-    </div>
+      </Link>
+    </Tooltip>
   )
-  return collapsed ? <Tooltip content={`${label} (${tag})`} side="right">{inner}</Tooltip> : inner
 }
 
-function OrgSwitcher({ collapsed }: { collapsed: boolean }) {
+function RailButton({ icon, label, onClick, shortcut }: { icon: React.ReactNode; label: string; onClick: () => void; shortcut?: string }) {
+  return (
+    <Tooltip content={shortcut ? `${label} (${shortcut})` : label} side="right">
+      <button type="button" onClick={onClick} aria-label={label} aria-keyshortcuts={shortcut} className="flex size-10 items-center justify-center rounded-xl text-fg-3 transition-colors hover:bg-s1 hover:text-fg-1 [&>svg]:size-[18px]">
+        {icon}
+      </button>
+    </Tooltip>
+  )
+}
+
+/** The context switcher in the top bar (reference: large quiet text with a chevron). */
+function OrgSwitcher() {
   const { orgId, setOrgId, squad, setSquad } = useApp()
   const orgs = getOrgsSync()
   const org = orgs.find((o) => o.id === orgId)!
   const squadName = org.squads.find((s) => s.id === squad)?.name ?? ''
-  const initials = org.name
-    .split(' ')
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join('')
   return (
     <Menu>
       <MenuTrigger asChild>
-        <button aria-label={t('shell.org_switcher')} className={cn('flex w-full items-center gap-2.5 rounded-lg bg-s2 text-left transition-colors hover:bg-s3', collapsed ? 'h-11 justify-center px-0' : 'h-11 px-[5px]')}>
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-s3 font-mono text-xs font-semibold text-fg-1">{initials}</span>
-          {!collapsed ? (
-            <>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-medium text-fg-1">{org.name}</span>
-                <span className="block truncate text-xs text-fg-3">{squadName}</span>
-              </span>
-              <ChevronsUpDown className="size-3.5 shrink-0 text-fg-3" aria-hidden />
-            </>
-          ) : null}
+        <button aria-label={t('shell.org_switcher')} className="-ml-2 flex h-10 items-center gap-2 rounded-lg px-2 text-left transition-colors hover:bg-s1">
+          <span className="text-lg font-normal text-fg-1">{org.name}</span>
+          <span className="text-lg font-normal text-fg-4">·</span>
+          <span className="text-lg font-normal text-fg-3">{squadName}</span>
+          <ChevronDown className="ml-0.5 size-4 text-fg-3" aria-hidden />
         </button>
       </MenuTrigger>
-      <MenuContent className="w-60" side={collapsed ? 'right' : 'bottom'}>
+      <MenuContent className="w-64" side="bottom" align="start">
         <MenuLabel>{t('shell.organisation')}</MenuLabel>
         {orgs.map((o) => (
           <MenuItem key={o.id} onSelect={() => setOrgId(o.id)}>
@@ -111,23 +90,23 @@ function OrgSwitcher({ collapsed }: { collapsed: boolean }) {
   )
 }
 
-function UserMenu({ collapsed }: { collapsed: boolean }) {
+/** Account menu as an avatar in the top bar (reference). */
+function UserMenu() {
   const { signOut } = useApp()
   const nav = useNavigate()
   return (
     <Menu>
       <MenuTrigger asChild>
-        <button aria-label={t('shell.user_menu')} className={cn('flex w-full items-center gap-2.5 rounded-md text-left transition-colors hover:bg-s2', collapsed ? 'h-11 justify-center' : 'h-11 px-1.5')}>
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-s3 font-mono text-xs text-fg-1">TL</span>
-          {!collapsed ? (
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm text-fg-1">Tom Lindqvist</span>
-              <span className="block truncate text-xs text-fg-3">{t('shell.role_analyst')}</span>
-            </span>
-          ) : null}
+        <button aria-label={t('shell.user_menu')} className="flex size-9 items-center justify-center rounded-full bg-s3 text-xs font-medium text-fg-1 ring-1 ring-[var(--hairline-strong)] transition-colors hover:bg-s2">
+          TL
         </button>
       </MenuTrigger>
-      <MenuContent className="w-56" side="top">
+      <MenuContent className="w-60" side="bottom" align="end">
+        <div className="px-2.5 py-2">
+          <p className="truncate text-sm text-fg-1">Tom Lindqvist</p>
+          <p className="truncate text-xs text-fg-3">{t('shell.role_analyst')}</p>
+        </div>
+        <MenuSeparator />
         <MenuItem disabled>
           <UserIcon className="size-3.5" aria-hidden />
           {t('shell.profile')}
@@ -151,85 +130,172 @@ function UserMenu({ collapsed }: { collapsed: boolean }) {
   )
 }
 
-export function AppShell() {
-  const { railPref, setRailPref, toast } = useApp()
-  const loc = useLocation()
-  const onReplay = /\/replay$/.test(loc.pathname)
-  const narrow = useMediaQuery('(max-width: 1359px)')
-  const collapsed = railPref ?? (onReplay || narrow)
+/**
+ * Search as a dialog (reference: search lives in the rail, not as a permanent field). It finds
+ * matches in this workspace and opens them; moments and questions are searched in Ask Ponta.
+ */
+function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
+  const nav = useNavigate()
+  const { orgId } = useApp()
   const [q, setQ] = useState('')
+  const [active, setActive] = useState(0)
+  const input = useRef<HTMLInputElement>(null)
+  const results = useMemo(() => {
+    // Same scoping as listMatches: an empty organisation has no matches.
+    const org = getOrgsSync().find((o) => o.id === orgId)
+    const all = !org || org.empty ? [] : getMatchesSync()
+    const needle = q.trim().toLowerCase()
+    const hits = needle ? all.filter((m) => `${m.home} ${m.away} ${m.competition}`.toLowerCase().includes(needle)) : all
+    return hits.slice(0, 7)
+  }, [q, orgId])
+  useEffect(() => {
+    if (open) {
+      setQ('')
+      setActive(0)
+    }
+  }, [open])
+  const go = (id: string) => {
+    onOpenChange(false)
+    nav(`/matches/${id}`)
+  }
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-scrim" />
+        <Dialog.Content
+          onOpenAutoFocus={(e) => {
+            e.preventDefault()
+            input.current?.focus()
+          }}
+          className="fixed left-1/2 top-[14vh] z-50 w-[620px] max-w-[calc(100vw-32px)] -translate-x-1/2 overflow-hidden rounded-2xl border border-hair-strong bg-s1 shadow-2xl"
+        >
+          <Dialog.Title className="sr-only">{t('shell.search_title')}</Dialog.Title>
+          <div className="flex items-center gap-3 border-b border-hair px-4">
+            <Search className="size-4 text-fg-3" aria-hidden />
+            <input
+              ref={input}
+              value={q}
+              onChange={(e) => {
+                setQ(e.target.value)
+                setActive(0)
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowDown') {
+                  e.preventDefault()
+                  setActive((a) => Math.min(a + 1, results.length - 1))
+                } else if (e.key === 'ArrowUp') {
+                  e.preventDefault()
+                  setActive((a) => Math.max(a - 1, 0))
+                } else if (e.key === 'Enter' && results[active]) {
+                  go(results[active].id)
+                }
+              }}
+              aria-label={t('shell.search')}
+              placeholder={t('shell.search_placeholder')}
+              className="no-focus-ring h-14 flex-1 bg-transparent text-base text-fg-1 outline-none placeholder:text-fg-4"
+            />
+          </div>
+          <div className="p-2">
+            <p className="px-2.5 pb-1.5 pt-1 text-xs font-medium text-fg-4">{q.trim() ? t('shell.search_matches') : t('shell.search_recent')}</p>
+            {results.length ? (
+              <ul role="listbox" aria-label={t('shell.search_matches')}>
+                {results.map((m, i) => (
+                  <li key={m.id} role="option" aria-selected={i === active}>
+                    <button
+                      type="button"
+                      onMouseEnter={() => setActive(i)}
+                      onClick={() => go(m.id)}
+                      className={cn('flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm', i === active ? 'bg-s2 text-fg-1' : 'text-fg-2')}
+                    >
+                      <Rows3 className="size-4 shrink-0 text-fg-3" aria-hidden />
+                      <span className="min-w-0 flex-1 truncate">
+                        {m.home} <span className="text-fg-3">{m.score ? `${m.score[0]}–${m.score[1]}` : 'v'}</span> {m.away}
+                      </span>
+                      <span className="shrink-0 text-xs text-fg-4">{fmtDate(m.date)}</span>
+                      {i === active ? <CornerDownLeft className="size-3.5 shrink-0 text-fg-3" aria-hidden /> : null}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="px-2.5 py-3 text-sm text-fg-3">{t('shell.search_none')}</p>
+            )}
+          </div>
+          <div className="flex items-center justify-between border-t border-hair px-4 py-2.5 text-xs text-fg-4">
+            <span>{t('shell.search_hint')}</span>
+            <Link to="/ask" onClick={() => onOpenChange(false)} className="link">
+              {t('shell.search_ask')}
+            </Link>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+
+export function AppShell() {
+  const [searchOpen, setSearchOpen] = useState(false)
+  // "/" opens search, unless the user is typing.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null
+      const typing = !!el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)
+      if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey) {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
   return (
     <div className="flex h-full min-h-0 bg-canvas text-fg-1">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[100] focus:rounded-md focus:bg-s3 focus:px-3 focus:py-1.5">
         {t('shell.skip')}
       </a>
-      <aside aria-label={t('shell.primary_nav')} className={cn('relative flex shrink-0 flex-col bg-canvas transition-[width] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-px after:bg-hair duration-[var(--dur-slow)]', collapsed ? 'w-14' : 'w-60')}>
-        <div className={cn('flex h-12 shrink-0 items-center', collapsed ? 'justify-center' : 'pl-[10.2px]')}>
+      <aside aria-label={t('shell.primary_nav')} className="flex w-16 shrink-0 flex-col items-center border-r border-hair bg-desk">
+        <div className="flex h-14 w-full shrink-0 items-center justify-center border-b border-hair">
           <NavLink to="/matches" aria-label={t('shell.home')}>
-            {collapsed ? <img src="/brand/ponta-icon-blue.png" alt="Ponta" className="h-[18px] w-auto" /> : <img src="/brand/ponta-logo-white.png" alt="Ponta" className="h-[18px] w-auto" />}
+            <img src="/brand/ponta-icon-blue.png" alt="Ponta" className="h-5 w-auto" />
           </NavLink>
         </div>
-        <div className="px-2">
-          <OrgSwitcher collapsed={collapsed} />
-        </div>
-        <nav className="mt-4 flex flex-col gap-0.5 px-2" aria-label={t('shell.primary_nav')}>
-          <NavItem to="/matches" icon={<Rows3 />} label={t('nav.matches')} collapsed={collapsed} />
-          <NavItem to="/ask" icon={<MessageSquare />} label={t('nav.ask')} collapsed={collapsed} />
-          <NavItem to="/settings/organisation" base="/settings" icon={<Settings />} label={t('nav.settings')} collapsed={collapsed} />
+        <nav className="mt-3 flex flex-col items-center gap-1" aria-label={t('shell.primary_nav')}>
+          <RailItem to="/matches" icon={<Rows3 />} label={t('nav.matches')} />
+          <RailItem to="/ask" icon={<MessageSquare />} label={t('nav.ask')} />
+          <RailButton icon={<Search />} label={t('shell.search_title')} shortcut="/" onClick={() => setSearchOpen(true)} />
         </nav>
-        {SHOW_LATER_NAV ? (
-        <div className="mt-5 flex flex-col gap-0.5 px-2" role="group" aria-label={t('nav.later_group')}>
-          {!collapsed ? <p className="px-3 pb-1 text-xs font-medium text-fg-4">{t('nav.later_group')}</p> : <div className="flex h-5 items-center px-3" aria-hidden><div className="h-px w-full bg-hair" /></div>}
-          <NavItem to="/players/h10" base="/players" icon={<Users />} label={t('nav.players')} collapsed={collapsed} tag={t('nav.later')} />
-          <DisabledNav icon={<Bookmark />} label={t('nav.shortlists')} collapsed={collapsed} tag={t('nav.later')} />
-          <DisabledNav icon={<LayoutDashboard />} label={t('nav.team_dashboards')} collapsed={collapsed} tag={t('nav.later')} />
-        </div>
-        ) : null}
-        <div className="mt-auto flex flex-col gap-1 border-t border-hair p-2">
-          <button
-            onClick={() => setRailPref(!collapsed)}
-            aria-label={collapsed ? t('shell.expand') : t('shell.collapse')}
-            className={cn('flex h-8 items-center gap-2.5 rounded-md text-sm text-fg-3 hover:bg-s2 hover:text-fg-1', collapsed ? 'justify-center' : 'px-3')}
-          >
-            {collapsed ? <PanelLeftOpen className="size-4" aria-hidden /> : <PanelLeftClose className="size-4" aria-hidden />}
-            {!collapsed ? <span>{t('shell.collapse')}</span> : null}
-          </button>
-          <UserMenu collapsed={collapsed} />
+        <div className="mb-3 mt-auto flex flex-col items-center gap-1">
+          <RailItem to="/settings/organisation" base="/settings" icon={<Settings />} label={t('nav.settings')} />
         </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-12 shrink-0 items-center gap-4 border-b border-hair bg-canvas px-5">
-          <form
-            role="search"
-            className="relative w-[340px] max-w-full"
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (q.trim()) toast({ title: t('shell.search_visual'), body: t('shell.search_visual_body') })
-            }}
-          >
-            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-fg-3" aria-hidden />
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              aria-label={t('shell.search')}
-              placeholder={t('shell.search')}
-              className="h-9 w-full rounded-lg bg-s2 pl-8 pr-10 text-sm text-fg-1 placeholder:text-fg-4 hover:bg-s3 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
-            />
-            <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-sm border border-hair-strong px-1 font-mono text-2xs text-fg-4">/</kbd>
-          </form>
-          <div className="ml-auto flex items-center gap-3">
+        <header className="flex h-14 shrink-0 items-center gap-4 border-b border-hair bg-canvas px-6">
+          <OrgSwitcher />
+          <div className="ml-auto flex items-center gap-2.5">
             <Tooltip content={t('shell.env_tip')}>
-              <span className="inline-flex h-6 items-center gap-1.5 rounded-sm border border-dashed border-hair-dashed px-2 font-mono text-2xs text-fg-2" tabIndex={0}>
-                <FlaskConical className="size-3" aria-hidden />
+              <span className="inline-flex h-7 items-center gap-1.5 rounded-full bg-s1 px-3 text-xs text-fg-3" tabIndex={0}>
+                <FlaskConical className="size-3.5" aria-hidden />
                 {t('shell.env')}
               </span>
             </Tooltip>
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-keyshortcuts="/"
+              className="inline-flex h-9 items-center gap-2 rounded-full bg-s1 pl-3 pr-2 text-sm text-fg-3 transition-colors hover:bg-s2 hover:text-fg-1"
+            >
+              <Search className="size-4" aria-hidden />
+              {t('shell.search_button')}
+              <kbd className="ml-1 flex size-5 items-center justify-center rounded-md bg-s3 text-2xs text-fg-3">/</kbd>
+            </button>
+            <UserMenu />
           </div>
         </header>
         <main id="main" className="min-h-0 flex-1 overflow-auto" tabIndex={-1}>
           <Outlet />
         </main>
       </div>
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       <Toaster />
     </div>
   )
