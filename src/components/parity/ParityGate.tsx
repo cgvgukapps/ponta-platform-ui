@@ -4,9 +4,9 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import { ArrowRight, ChevronDown, Download, FlaskConical, Layers, Plus } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
-import { FAMILIES, type Match, type MetricId, type ParityState } from '@/lib/types'
+import { FAMILIES, type Coverage, type Match, type MetricId, type ParityState } from '@/lib/types'
 import { familyState, parityFor, getMatchesSync } from '@/api'
-import { fmtDateTime } from '@/lib/format'
+import { fmtDateTime, fmtShare } from '@/lib/format'
 import { Button, buttonStyles } from '@/components/ui/button'
 import { InlineAlert } from '@/components/ui/feedback'
 import { ParityBadge, ParityIcon, Tag, TierBadge, TierGlyph } from '@/components/ui/badges'
@@ -31,6 +31,33 @@ function SummaryStat({ state, n, total }: { state: ParityState; n: number; total
         <p className="mt-1 text-xs text-fg-3">{t(`gate.stat_hint_${state}`)}</p>
       </div>
     </div>
+  )
+}
+
+/** The coverage tile: the scored share leads, in the same shape as the state tiles. */
+function CoverageStat({ coverage }: { coverage: Coverage | null }) {
+  return (
+    <div className="flex flex-col justify-between rounded-xl border border-hair bg-s1 px-5 pb-4 pt-5">
+      {coverage ? (
+        <p className="font-mono text-[40px] font-semibold leading-none tracking-tight tabular-nums text-fg-1">{fmtShare(coverage.scored, coverage.decisions)}</p>
+      ) : (
+        <p className="text-lg font-medium leading-[40px] text-fg-3">{t('cov.not_measured')}</p>
+      )}
+      <div className="mt-4">
+        <p className="text-sm font-medium text-fg-1">{t('cov.title')}</p>
+        <p className="mt-1 text-xs text-fg-3">{coverage ? t('cov.hint', { scored: coverage.scored.toLocaleString('en-GB'), total: coverage.decisions.toLocaleString('en-GB') }) : t('cov.not_measured_hint')}</p>
+      </div>
+    </div>
+  )
+}
+
+/** Why the remaining decisions were not scored. Stated as a limit, in plain text, never as an error. */
+export function CoverageCauses({ coverage, className }: { coverage: Coverage; className?: string }) {
+  const causes = (Object.keys(coverage.causes) as (keyof Coverage['causes'])[]).filter((k) => coverage.causes[k] > 0)
+  return (
+    <p className={cn('text-sm text-fg-3', className)}>
+      <span className="text-fg-2">{t('cov.causes')}</span> {causes.map((k) => t(`cov.cause.${k}`, { n: coverage.causes[k] })).join(' · ')}. {t('cov.limit')}
+    </p>
   )
 }
 
@@ -191,11 +218,16 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
       {(() => {
         const total = report.summary.full + report.summary.degraded + report.summary.blocked
         return (
-          <div className="mt-5 grid grid-cols-3 gap-3">
-            <SummaryStat state="full" n={report.summary.full} total={total} />
-            <SummaryStat state="degraded" n={report.summary.degraded} total={total} />
-            <SummaryStat state="blocked" n={report.summary.blocked} total={total} />
-          </div>
+          <>
+            {/* Coverage is measured during analysis, so the pre-processing check (Add data) leaves it out. */}
+            <div className={cn('mt-5 grid gap-3', embedded ? 'grid-cols-3' : 'grid-cols-4')}>
+              <SummaryStat state="full" n={report.summary.full} total={total} />
+              <SummaryStat state="degraded" n={report.summary.degraded} total={total} />
+              <SummaryStat state="blocked" n={report.summary.blocked} total={total} />
+              {!embedded ? <CoverageStat coverage={report.coverage} /> : null}
+            </div>
+            {!embedded && report.coverage ? <CoverageCauses coverage={report.coverage} className="mt-3" /> : null}
+          </>
         )
       })()}
 

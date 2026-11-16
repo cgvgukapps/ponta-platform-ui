@@ -64,6 +64,8 @@ export interface Match {
   confDelta?: number
   ingest: { hz: number | null; occludedPct: number | null; droppedPct: number | null; durationMin: number; players: number; format: string }
   fixtureNote?: string
+  /** Measured after analysis; absent before processing and for sources without tracking. */
+  coverage?: Coverage
 }
 
 export const PROCESSING_STAGES = ['parsing', 'normalising', 'quality_check', 'analysing', 'writing_brief'] as const
@@ -80,10 +82,20 @@ export interface ParityProfile {
   label: string
   metrics: Record<MetricId, ParityMetric>
 }
+/**
+ * Share of passes and carries the engine scored, and why the rest were not. A metric can be Full
+ * while some decisions go unscored; the Data check states both. Mock figures; the engine measures them.
+ */
+export interface Coverage {
+  decisions: number
+  scored: number
+  causes: { ball_not_detected: number; goalkeeper: number; set_piece: number; outside_frames: number }
+}
 export interface ParityReport {
   matchId: string
   metrics: Record<MetricId, ParityMetric>
   summary: { full: number; degraded: number; blocked: number }
+  coverage: Coverage | null
   engineVersion: string
   generatedAt: string
 }

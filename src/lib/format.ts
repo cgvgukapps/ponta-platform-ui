@@ -34,3 +34,6 @@ export function fmtRelative(iso: string | null): string {
 }
 export const fmt2 = (n: number) => n.toFixed(2)
 export const fmt1 = (n: number) => n.toFixed(1)
+
+/** Share as a percentage with one decimal, for example 94.9%. */
+export const fmtShare = (part: number, whole: number) => `${((part / whole) * 100).toFixed(1)}%`

@@ -31,6 +31,16 @@
    "durationMin": 94,
    "players": 22,
    "format": "Metrica EPTS tracking and event CSV"
+  },
+  "coverage": {
+   "decisions": 1186,
+   "scored": 1112,
+   "causes": {
+    "ball_not_detected": 18,
+    "goalkeeper": 31,
+    "set_piece": 22,
+    "outside_frames": 3
+   }
   }
  },
  {
@@ -66,6 +76,16 @@
    "durationMin": 96,
    "players": 22,
    "format": "SkillCorner tracking JSON and match data"
+  },
+  "coverage": {
+   "decisions": 1302,
+   "scored": 1236,
+   "causes": {
+    "ball_not_detected": 9,
+    "goalkeeper": 52,
+    "set_piece": 3,
+    "outside_frames": 2
+   }
   }
  },
  {
@@ -352,7 +372,17 @@
    "players": 22,
    "format": "Metrica EPTS plus STATSports CSV (paired)"
   },
-  "fixtureNote": "Paired optical and GPS"
+  "fixtureNote": "Paired optical and GPS",
+  "coverage": {
+   "decisions": 1204,
+   "scored": 1121,
+   "causes": {
+    "ball_not_detected": 24,
+    "goalkeeper": 33,
+    "set_piece": 21,
+    "outside_frames": 5
+   }
+  }
  },
  {
   "id": "m_0372",
@@ -382,10 +412,20 @@
   "ingest": {
    "hz": 25,
    "occludedPct": 2.6,
-   "droppedPct": 0.5,
+   "droppedPct": 21.4,
    "durationMin": 93,
    "players": 22,
    "format": "Metrica EPTS tracking and event CSV"
+  },
+  "coverage": {
+   "decisions": 1163,
+   "scored": 812,
+   "causes": {
+    "ball_not_detected": 34,
+    "goalkeeper": 29,
+    "set_piece": 20,
+    "outside_frames": 268
+   }
   }
  },
  {

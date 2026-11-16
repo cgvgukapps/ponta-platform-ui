@@ -60,7 +60,7 @@ export function parityFor(m: Match): ParityReport {
   if (m.ingest.hz && m.ingest.droppedPct !== null) {
     metrics.distance_speed.measure = `${m.ingest.hz} Hz, ${m.ingest.droppedPct}% dropped`
   }
-  return { matchId: m.id, metrics, summary, engineVersion: 'engine 0.8.2 (sample)', generatedAt: new Date(new Date(m.date).getTime() + 95 * 60000 + 14 * 60000).toISOString() }
+  return { matchId: m.id, metrics, summary, coverage: m.coverage ?? null, engineVersion: 'engine 0.8.2 (sample)', generatedAt: new Date(new Date(m.date).getTime() + 95 * 60000 + 14 * 60000).toISOString() }
 }
 
 export function paritySummarySync(m: Match) {

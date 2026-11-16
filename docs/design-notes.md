@@ -171,3 +171,7 @@ The founder chose a new reference to adopt in full, keeping only Ponta blue as t
 6. **Unchanged:** analytics colours (teams, decision-quality bands, Data check marks, confidence), the naming rules and every honesty rule.
 
 Contrast: 104 pairs, none failing.
+
+## 9. Coverage (brief v2, 5.2)
+
+A metric can be Full while some decisions go unscored. The Data check carries a fourth tile, the share of passes and carries scored, and one plain line beneath the tiles listing why the rest were not (ball not detected, goalkeeper, set piece, outside tracked frames), ending "Findings use the scored decisions only." The brief header and the print view show the same figure and line. A low share is stated in the same neutral text as a high one: no warning colour, no alert, no threshold. The pre-processing check in Add data leaves coverage out, because it is measured during analysis. Sources without tracking show "Not measured". Mock figures sit on `Match.coverage`; the SkillCorner mock stays close to the 95.4% the engine measured on the real sample, and `m_0372` (21.4% of frames dropped, about 20 minutes) is the low-coverage example.

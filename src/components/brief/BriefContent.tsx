@@ -5,7 +5,8 @@ import { t } from '@/i18n'
 import { FAMILIES, type Brief, type Match, type MatchEvent, type MetricId } from '@/lib/types'
 import { parityFor } from '@/api'
 import type { LoadedPack } from '@/api/packs'
-import { fmtDate, fmtDateTime } from '@/lib/format'
+import { fmtDate, fmtDateTime, fmtShare } from '@/lib/format'
+import { CoverageCauses } from '@/components/parity/ParityGate'
 import { confLevel } from '@/lib/bands'
 import { AiMarker, ConfidenceGlyph, ParityIcon, TierBadge } from '@/components/ui/badges'
 import { CitationChip } from '@/components/ui/moment'
@@ -68,6 +69,12 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
                 </p>
               </div>
             ))}
+            {match.coverage ? (
+              <div className="border-l border-hair pl-6">
+                <p className="font-mono text-xl font-medium leading-6 tabular-nums text-fg-1">{fmtShare(match.coverage.scored, match.coverage.decisions)}</p>
+                <p className="mt-1 text-xs text-fg-3">{t('cov.brief_label')}</p>
+              </div>
+            ) : null}
           </div>
         </div>
         <div className="px-5 py-4">
@@ -78,6 +85,7 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
             {!degraded.length && !blocked.length ? <p className="text-sm text-fg-2">{t('brief.limits_none')}</p> : null}
           </div>
         </div>
+        {match.coverage ? <CoverageCauses coverage={match.coverage} className="col-span-2 border-t border-hair px-5 py-3 text-xs leading-[18px]" /> : null}
       </section>
 
       {eventOnly ? (

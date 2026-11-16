@@ -48,6 +48,7 @@ const SHOTS = [
   { name: '08b-add-data-confirm', run: async (p) => { await p.goto(`${BASE}/matches/new`); await settle(p); await p.getByRole('button', { name: /optical tracking/i }).first().click(); await wait(p, 2200); await p.getByRole('button', { name: /check (parity|the data)/i }).click(); await wait(p, 900); await p.getByRole('button', { name: /process|continue/i }).last().click(); await wait(p, 600) } },
   { name: '08c-add-data-processing', run: async (p) => { await p.goto(`${BASE}/matches/new`); await settle(p); await p.getByRole('button', { name: /optical tracking/i }).first().click(); await wait(p, 2200); await p.getByRole('button', { name: /check (parity|the data)/i }).click(); await wait(p, 900); await p.getByRole('button', { name: /process|continue/i }).last().click(); await wait(p, 600); await p.getByRole('button', { name: /process match/i }).click(); await wait(p, 1500) } },
   { name: '09-parity-gate-m0412', run: async (p) => { await p.goto(`${BASE}/matches/m_0412/parity`); await settle(p) } },
+  { name: '09b-parity-low-coverage', run: async (p) => { await p.goto(`${BASE}/matches/m_0372/parity`); await settle(p) } },
   { name: '10-parity-event-only-blocked', run: async (p) => { await p.goto(`${BASE}/matches/m_0405/parity`); await settle(p) } },
   { name: '11-parity-t2-in-development', run: async (p) => { await p.goto(`${BASE}/matches/m_0386/parity`); await settle(p) } },
   { name: '12-brief', run: async (p) => { await p.goto(`${BASE}/matches/m_0412/brief`); await settle(p) } },
