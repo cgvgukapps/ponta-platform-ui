@@ -5,8 +5,9 @@ import * as SwitchPrimitive from '@radix-ui/react-switch'
 import { Check, ChevronDown, TriangleAlert } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
+// Focus is the field's own 1 px edge turning Ponta blue, the same as the Ask composer (no outer ring).
 export const inputStyles =
-  'h-9 w-full rounded-lg border border-transparent bg-s2 px-3 text-sm text-fg-1 placeholder:text-fg-4 transition-colors duration-[var(--dur-base)] hover:bg-s3 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent disabled:opacity-45 disabled:cursor-not-allowed aria-[invalid=true]:border-danger data-[force=hover]:border-hair-hover data-[force=focus]:outline-2 data-[force=focus]:outline-offset-1 data-[force=focus]:outline-accent'
+  'h-9 w-full rounded-lg border border-transparent bg-s2 px-3 text-sm text-fg-1 placeholder:text-fg-4 transition-colors duration-[var(--dur-base)] hover:bg-s3 focus:border-accent focus:bg-s2 disabled:opacity-45 disabled:cursor-not-allowed aria-[invalid=true]:border-danger data-[force=hover]:border-hair-hover data-[force=focus]:border-accent'
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { force?: 'hover' | 'focus' }>(function Input({ className, force, ...p }, ref) {
   return <input ref={ref} className={cn(inputStyles, className)} data-force={force} {...p} />
@@ -43,7 +44,7 @@ export function Select({ value, onValueChange, options, placeholder, className, 
       <SelectPrimitive.Trigger
         aria-label={ariaLabel}
         className={cn(
-          'inline-flex items-center justify-between gap-2 rounded-lg border border-transparent bg-s2 px-3 text-sm text-fg-1 transition-colors hover:bg-s3 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent disabled:opacity-45 data-[placeholder]:text-fg-3',
+          'inline-flex items-center justify-between gap-2 rounded-lg border border-transparent bg-s2 px-3 text-sm text-fg-1 transition-colors hover:bg-s3 focus-visible:border-accent data-[state=open]:border-accent disabled:opacity-45 data-[placeholder]:text-fg-3',
           size === 'sm' ? 'h-7 text-xs' : 'h-8',
           className,
         )}

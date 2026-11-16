@@ -212,3 +212,7 @@ A metric can be Full while some decisions go unscored. The Data check carries a 
 - **Pseudonymised questions.** `toRefs` turns roster names and code labels back into tokens before a question is stored; titles, questions and answer summaries are shown through `fillRefs`. Checked: a typed question with two names reads back as "Home 10 and Home 8" in codes mode.
 - **Accessibility.** The brief's per-point buttons are named "Ask about this point"; the panel is a labelled region; the composer focuses when the panel is opened with a prefill.
 - Screenshots: `24c` (panel open on the brief), `24d` (a brief point answered), `24e` (a moment answered on Replay), in both name modes.
+
+## 14. Field focus (16 November 2026)
+
+Text inputs and dropdown fields show focus the way the Ask composer does: their own 1 px edge turns Ponta blue, with no outer ring. The 2 px offset ring stays for buttons, links, tabs, rows and other controls, where there is no field edge to light up. Dropdown and menu options show focus as their grey highlight, and the chosen option is marked by its check only.

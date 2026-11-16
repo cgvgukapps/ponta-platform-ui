@@ -163,6 +163,12 @@ code,
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
+/* Text fields and dropdown fields show focus as their own blue 1 px edge (see inputStyles). */
+input:not([type='checkbox'], [type='radio'], [type='range'], [type='file']):focus-visible,
+textarea:focus-visible,
+button[role='combobox']:focus-visible {
+  outline: none;
+}
 /* Dropdown and menu items (Radix) show focus as their grey highlight, not a blue ring. */
 [role='option'][data-radix-collection-item]:focus-visible,
 [role^='menuitem'][data-radix-collection-item]:focus-visible {
