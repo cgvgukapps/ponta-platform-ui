@@ -213,7 +213,7 @@ export function AskPanel({ match, variant, selected }: { match: Match; variant: 
                   {turn.context ? <span className="text-xs text-fg-4">{t('askp.about', { what: turn.context.label })}</span> : null}
                   <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-s2 px-3.5 py-2">
                     <p className="sr-only">{t('ask.you_asked')}</p>
-                    <p className="text-sm leading-[22px] text-fg-1">{fillRefs(turn.question, who)}</p>
+                    <p className="text-[13px] leading-5 text-fg-1">{fillRefs(turn.question, who)}</p>
                   </div>
                 </div>
                 <AnswerView compact turn={turn} match={match} lp={lpQ.data ?? undefined} onAsk={(q) => send(q, undefined)} />

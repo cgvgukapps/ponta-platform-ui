@@ -132,6 +132,9 @@ export function Composer({ onSend, disabled, big, compact, placeholder, initial,
 }
 
 /* ---------------- Answer ---------------- */
+/** Body text in an answer: 14 px on the Ask page, 13 px in the match panel (`compact`). */
+const bodyText = (compact?: boolean) => (compact ? 'text-[13px] leading-5' : 'text-sm')
+
 const stateText: Record<ParityState | 'info', string> = { full: 'parity.full', degraded: 'parity.degraded', blocked: 'parity.blocked', info: 'ask.note' }
 
 /**
@@ -139,13 +142,13 @@ const stateText: Record<ParityState | 'info', string> = { full: 'parity.full', d
  * Completed steps carry a double check; the data-check step opens by default when anything
  * limits the answer, so a limit is never hidden.
  */
-export function AnswerSteps({ turn, match, total, verified }: { turn: Turn; match?: Match; total: number; verified: number }) {
+export function AnswerSteps({ turn, match, total, verified, compact }: { turn: Turn; match?: Match; total: number; verified: number; compact?: boolean }) {
   const a = turn.answer!
   const limiting = a.statements.some((x) => x.state === 'degraded' || x.state === 'blocked')
   const statements = !limiting ? [{ state: 'full' as const, text: t('ask.all_full') }, ...a.statements] : a.statements
   const [open, setOpen] = useState(limiting)
   const verifying = turn.phase === 'verifying'
-  const row = 'flex items-center gap-3 py-1.5 text-sm'
+  const row = cn('flex items-center gap-3', compact ? 'py-1' : 'py-1.5', bodyText(compact))
   return (
     <section aria-label={t('ask.parity_statement')} className="flex flex-col">
       <Collapsible.Root open={open} onOpenChange={setOpen}>
@@ -157,7 +160,7 @@ export function AnswerSteps({ turn, match, total, verified }: { turn: Turn; matc
         <Collapsible.Content>
           <ul className="mb-1.5 ml-[7px] flex flex-col gap-1.5 border-l border-hair py-1 pl-5">
             {statements.map((x, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm">
+              <li key={i} className={cn('flex items-start gap-2', bodyText(compact))}>
                 {x.state === 'info' ? <Info className="mt-0.5 size-3.5 shrink-0 text-fg-3" aria-hidden /> : <ParityIcon state={x.state} size={13} className="mt-0.5 shrink-0" />}
                 <span className="min-w-0 text-fg-3">
                   <span className={cn('mr-1.5 font-medium', x.state === 'blocked' ? 'text-parity-dim' : x.state === 'degraded' ? 'text-parity' : 'text-fg-2')}>{t(stateText[x.state])}.</span>
@@ -185,7 +188,7 @@ export function AnswerSteps({ turn, match, total, verified }: { turn: Turn; matc
 }
 
 
-export function Refusal({ turn, onAsk, match }: { turn: Turn; onAsk: (q: string) => void; match?: Match }) {
+export function Refusal({ turn, onAsk, match, compact }: { turn: Turn; onAsk: (q: string) => void; match?: Match; compact?: boolean }) {
   const r = turn.answer!.refusal!
   return (
     <section aria-label={t('ask.refusal')} className="overflow-hidden rounded-xl border border-hair bg-s1">
@@ -193,11 +196,11 @@ export function Refusal({ turn, onAsk, match }: { turn: Turn; onAsk: (q: string)
         <ParityIcon state="blocked" size={18} className="mt-0.5 shrink-0" />
         <div>
           <p className="text-xs font-medium text-fg-3">{t('ask.cannot_answer')}</p>
-          <h3 className="mt-0.5 text-md font-semibold text-fg-1">{r.title}</h3>
+          <h3 className={cn('mt-0.5 font-semibold text-fg-1', compact ? 'text-sm' : 'text-md')}>{r.title}</h3>
         </div>
       </div>
       <div className="flex flex-col gap-3 px-4 py-3">
-        <ul className="flex list-disc flex-col gap-1.5 pl-4 text-sm text-fg-1">
+        <ul className={cn('flex list-disc flex-col gap-1.5 pl-4 text-fg-1', bodyText(compact))}>
           {r.reasons.map((x, i) => (
             <li key={i}>{x}</li>
           ))}
@@ -215,10 +218,10 @@ export function Refusal({ turn, onAsk, match }: { turn: Turn; onAsk: (q: string)
         ) : null}
         {r.alternatives.length ? (
           <div>
-            <p className="text-sm font-medium text-fg-1">{t('ask.instead')}</p>
+            <p className={cn('font-medium text-fg-1', bodyText(compact))}>{t('ask.instead')}</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {r.alternatives.map((a) => (
-                <Button key={a.prompt} size="sm" onClick={() => onAsk(a.prompt)}>
+                <Button key={a.prompt} size="sm" className={compact ? 'h-auto min-h-7 py-1 text-left text-[13px] leading-5' : undefined} onClick={() => onAsk(a.prompt)}>
                   {a.label}
                 </Button>
               ))}
@@ -227,7 +230,7 @@ export function Refusal({ turn, onAsk, match }: { turn: Turn; onAsk: (q: string)
         ) : null}
         {match ? (
           <p>
-            <Link to={`/matches/${match.id}/parity`} className="link text-sm">
+            <Link to={`/matches/${match.id}/parity`} className={cn('link', bodyText(compact))}>
               {t('ask.view_parity')}
             </Link>
           </p>
@@ -237,10 +240,10 @@ export function Refusal({ turn, onAsk, match }: { turn: Turn; onAsk: (q: string)
   )
 }
 
-export function Progress({ turn }: { turn: Turn }) {
+export function Progress({ turn, compact }: { turn: Turn; compact?: boolean }) {
   const lines: Record<string, string> = { reading: 'ask.phase_reading', finding: 'ask.phase_finding' }
   return (
-    <p className="flex items-center gap-2 text-sm text-fg-3" role="status">
+    <p className={cn('flex items-center gap-2 text-fg-3', bodyText(compact))} role="status">
       <Loader2 className="size-3.5 animate-spin-slow" aria-hidden />
       {t(lines[turn.phase] ?? 'ask.phase_finding')}
     </p>
@@ -255,8 +258,8 @@ export function AnswerView({ turn, match, lp, onAsk, compact }: { turn: Turn; ma
   const nav = useNavigate()
   const who = useWho()
   const a = turn.answer
-  if (turn.phase === 'reading' || turn.phase === 'finding' || !a) return <Progress turn={turn} />
-  if (a.kind === 'refusal') return <Refusal turn={turn} onAsk={onAsk} match={match} />
+  if (turn.phase === 'reading' || turn.phase === 'finding' || !a) return <Progress turn={turn} compact={compact} />
+  if (a.kind === 'refusal') return <Refusal turn={turn} onAsk={onAsk} match={match} compact={compact} />
   const words = a.summary.split(/\s+/)
   // Summaries carry player tokens ({home_5}); the client shows names or codes.
   const shown = fillRefs(turn.phase === 'streaming' ? words.slice(0, turn.words).join(' ') : a.summary, who)
@@ -267,12 +270,12 @@ export function AnswerView({ turn, match, lp, onAsk, compact }: { turn: Turn; ma
   const events = a.playlist.map((id) => lp?.byId.get(id)).filter(Boolean)
   return (
     <div className="flex flex-col gap-4">
-      <AnswerSteps turn={turn} match={match} total={total} verified={verified} />
+      <AnswerSteps turn={turn} match={match} total={total} verified={verified} compact={compact} />
       <div>
         <div className="mb-1.5 flex items-center gap-2">
           <AiMarker />
         </div>
-        <p className={cn('max-w-[70ch] text-fg-1', compact ? 'text-sm leading-[22px]' : 'text-base leading-6')}>
+        <p className={cn('max-w-[70ch] text-fg-1', compact ? 'text-[13px] leading-5' : 'text-base leading-6')}>
           {shown}
           {turn.phase === 'streaming' ? <span aria-hidden className="ml-0.5 inline-block h-4 w-[2px] translate-y-[3px] bg-fg-1" style={{ animation: 'caret 1s steps(1) infinite' }} /> : null}
         </p>
@@ -280,8 +283,8 @@ export function AnswerView({ turn, match, lp, onAsk, compact }: { turn: Turn; ma
 
       {turn.phase === 'verifying' || showList ? (
         <div className="flex flex-col gap-3" aria-live="polite">
-          <div className="flex items-center gap-2 text-sm">
-            <span className="text-sm font-medium text-fg-2">{t('ask.playlist')}</span>
+          <div className={cn('flex items-center gap-2', bodyText(compact))}>
+            <span className="font-medium text-fg-2">{t('ask.playlist')}</span>
             {showAfter && events[0] ? (
               <Button size="sm" variant="secondary" className="ml-auto" onClick={() => nav(`/matches/${a.matchId}/replay?event=${events[0]!.id}`)}>
                 <Play className="size-3 fill-current" aria-hidden />
@@ -324,12 +327,12 @@ export function AnswerView({ turn, match, lp, onAsk, compact }: { turn: Turn; ma
         </div>
       ) : null}
 
-      {showAfter && a.kind === 'empty' ? <p className="text-sm text-fg-3">{t('ask.empty_hint')}</p> : null}
+      {showAfter && a.kind === 'empty' ? <p className={cn('text-fg-3', bodyText(compact))}>{t('ask.empty_hint')}</p> : null}
 
       {showAfter ? (
         <div className="flex flex-col gap-3 anim-fade-up">
           {a.thresholds.length ? (
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
+            <div className={cn('flex flex-wrap items-center gap-x-4 gap-y-1.5', bodyText(compact))}>
               <span className="text-xs font-medium text-fg-4">{t('ask.thresholds')}</span>
               {a.thresholds.map((id) => (
                 <Threshold key={id} id={id} />
@@ -344,7 +347,7 @@ export function AnswerView({ turn, match, lp, onAsk, compact }: { turn: Turn; ma
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs text-fg-3">{t('ask.follow_ups')}</span>
               {a.followUps.map((f) => (
-                <button key={f} type="button" onClick={() => onAsk(f)} className="rounded-md border border-hair-strong bg-s1 px-2.5 py-1 text-left text-sm text-fg-1 hover:bg-s2">
+                <button key={f} type="button" onClick={() => onAsk(f)} className={cn('rounded-md border border-hair-strong bg-s1 px-2.5 py-1 text-left text-fg-1 hover:bg-s2', bodyText(compact))}>
                   {f}
                 </button>
               ))}

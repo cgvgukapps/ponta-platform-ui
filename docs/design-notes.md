@@ -211,7 +211,7 @@ A metric can be Full while some decisions go unscored. The Data check carries a 
 - **Threads.** The panel and the Ask page share one store; the panel lists earlier conversations about the match and links each to the full page.
 - **Pseudonymised questions.** `toRefs` turns roster names and code labels back into tokens before a question is stored; titles, questions and answer summaries are shown through `fillRefs`. Checked: a typed question with two names reads back as "Home 10 and Home 8" in codes mode.
 - **Accessibility.** The brief's per-point buttons are named "Ask about this point"; the panel is a labelled region; the composer focuses when the panel is opened with a prefill.
-- **Composer size (revised):** in the panel the composer is compact, 13 px text, a 24 px line and a 28 px send button; the full Ask page keeps 15 px.
+- **Text size (revised):** in the panel everything is 13 px on a 20 px line: the composer (with a 28 px send button), the question bubbles, the answer summary, the step list, playlist heading, thresholds, follow-ups and the refusal card (its title 14 px). The full Ask page keeps its sizes (15 px summary and composer, 14 px elsewhere).
 - Screenshots: `24c` (panel open on the brief), `24d` (a brief point answered), `24e` (a moment answered on Replay), in both name modes.
 
 ## 14. Field focus (16 November 2026)
