@@ -63,28 +63,34 @@ function MetricRow({ id, report, familyState, familyLabel }: { id: MetricId; rep
 }
 
 /**
- * One family as a row of a single list (reference: settings rows with the label left, the state
- * beside it and detail beneath), instead of a card per family.
+ * One family as a collapsed row: name and state, with one short line saying why when it is not
+ * Full. The per-metric reasons, measured figures and what would change them open on click.
  */
 function FamilyRow({ family, report }: { family: (typeof FAMILIES)[number]; report: ReturnType<typeof parityFor> }) {
   const state = familyState(report, family)
+  const [open, setOpen] = useState(false)
+  const firstLimit = family.metrics.map((id) => report.metrics[id]).find((m) => m.state !== 'full')
   return (
-    <section aria-labelledby={`fam-${family.id}`} className="grid grid-cols-[220px_minmax(0,1fr)] gap-6 border-t border-hair px-5 py-5 first:border-t-0">
-      <header>
-        <div className="flex items-center gap-2.5">
-          <h3 id={`fam-${family.id}`} className="text-base font-semibold text-fg-1">
-            {t(`family.${family.id}`)}
-          </h3>
-        </div>
-        <p className="mt-1 text-xs leading-[18px] text-fg-3">{t(`family.${family.id}.desc`)}</p>
-        <ParityBadge state={state} className="mt-3" />
-      </header>
-      <div className="flex flex-col">
-        {family.metrics.map((id) => (
-          <MetricRow key={id} id={id} report={report} familyState={state} familyLabel={t(`family.${family.id}`)} />
-        ))}
-      </div>
-    </section>
+    <Collapsible.Root open={open} onOpenChange={setOpen} asChild>
+      <section aria-labelledby={`fam-${family.id}`} className="border-t border-hair first:border-t-0">
+        <Collapsible.Trigger className="flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-s2/60">
+          <div className="min-w-0 flex-1">
+            <h3 id={`fam-${family.id}`} className="text-sm font-medium text-fg-1">
+              {t(`family.${family.id}`)}
+            </h3>
+            {firstLimit ? <p className="mt-0.5 truncate text-sm text-fg-3">{firstLimit.reason}</p> : null}
+          </div>
+          <ParityBadge state={state} />
+          <ChevronDown className={cn('size-4 shrink-0 text-fg-3 transition-transform duration-[var(--dur-base)]', open && 'rotate-180')} aria-hidden />
+        </Collapsible.Trigger>
+        <Collapsible.Content className="px-5 pb-4">
+          <p className="mb-3 text-sm text-fg-3">{t(`family.${family.id}.desc`)}</p>
+          {family.metrics.map((id) => (
+            <MetricRow key={id} id={id} report={report} familyState={state} familyLabel={t(`family.${family.id}`)} />
+          ))}
+        </Collapsible.Content>
+      </section>
+    </Collapsible.Root>
   )
 }
 
@@ -174,9 +180,24 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
   )
   return (
     <div className={embedded ? 'flex flex-1 flex-col' : 'mx-auto max-w-[1240px] px-6 py-6'}>
-      <div className="max-w-[720px]">
+      <div className="max-w-[760px]">
         <h2 className="text-xl font-semibold text-fg-1">{t('gate.title')}</h2>
         <p className="mt-1.5 text-base text-fg-3">{t('gate.intro')}</p>
+        {!hideStats ? (
+          <p className="mt-3 text-sm text-fg-3">
+            {[
+              match.sources.map((src) => src.label).join(' + '),
+              t(`tier.name_${match.tier}`),
+              `${match.ingest.durationMin} min`,
+              // The source label may already state the rate ("Tracking and events, 25 Hz").
+              match.sources.some((src) => /Hz/.test(src.label)) ? null : match.ingest.hz ? `${match.ingest.hz} Hz` : t('gate.stat_events_only'),
+              t('gate.facts_players', { n: match.ingest.players }),
+              match.ingest.droppedPct !== null ? t('gate.facts_dropped', { pct: match.ingest.droppedPct }) : null,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+          </p>
+        ) : null}
       </div>
       {(() => {
         const total = report.summary.full + report.summary.degraded + report.summary.blocked
@@ -195,23 +216,6 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
         </InlineAlert>
       ) : null}
 
-      {!hideStats ? (
-        <dl className="mt-5 grid grid-cols-6 divide-x divide-hair overflow-hidden rounded-xl bg-s1 text-sm">
-          {[
-            [t('gate.stat_source'), match.sources.map((s) => s.label).join(' + ')],
-            [t('gate.stat_tier'), <TierBadge key="t" tier={match.tier} status={match.tierStatus} />],
-            [t('gate.stat_duration'), `${match.ingest.durationMin} min`],
-            [t('gate.stat_rate'), match.ingest.hz ? `${match.ingest.hz} Hz` : t('gate.stat_events_only')],
-            [t('gate.stat_players'), String(match.ingest.players)],
-            [t('gate.stat_dropped'), match.ingest.droppedPct !== null ? `${match.ingest.droppedPct}%` : t('common.not_applicable')],
-          ].map(([k, v], i) => (
-            <div key={i} className="min-w-0 px-4 py-3">
-              <dt className="text-xs font-medium text-fg-4">{k as string}</dt>
-              <dd className="mt-1 truncate font-mono text-sm tabular-nums text-fg-1">{v}</dd>
-            </div>
-          ))}
-        </dl>
-      ) : null}
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_340px] items-start gap-5">
         <div className="rounded-xl bg-s1">

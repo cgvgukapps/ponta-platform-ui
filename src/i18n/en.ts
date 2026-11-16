@@ -324,6 +324,8 @@ const en: Record<string, string> = {
   'gate.stat_hint_full': 'Supported as specified',
   'gate.stat_hint_degraded': 'Computed at lower confidence, reason stated',
   'gate.stat_hint_blocked': 'Not computable from this data',
+  'gate.facts_players': '{n} players',
+  'gate.facts_dropped': '{pct}% dropped frames',
   'gate.stat_source': 'Source',
   'gate.stat_tier': 'Sources',
   'gate.stat_duration': 'Duration',
