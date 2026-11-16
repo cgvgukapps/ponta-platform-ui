@@ -206,6 +206,12 @@ function ReplayInner({ lp, cited }: { lp: LoadedPack; cited: string[] }) {
       const k = ev.key
       if (k === ' ' && (/^(BUTTON|A)$/.test(el.tagName) || el.getAttribute('role') === 'option')) return
       const step = ev.shiftKey ? 5 : FRAME
+      // On the focused pitch, the arrows step through events (brief v2, 5.4); elsewhere they step frames.
+      if ((k === 'ArrowLeft' || k === 'ArrowRight') && el.closest('[data-pitch-keys]')) {
+        stepEvent(k === 'ArrowLeft' ? -1 : 1)
+        ev.preventDefault()
+        return
+      }
       switch (k) {
         case ' ':
           store.toggle()
@@ -330,6 +336,7 @@ function Toolbar({ lp, store, overlays, setOverlays, avail }: { lp: LoadedPack; 
                   ['← →', 'replay.sc_frame'],
                   ['Shift + ← →', 'replay.sc_five'],
                   ['[  ]', 'replay.sc_event'],
+                  ['← → on pitch', 'replay.sc_pitch'],
                   ['C', 'replay.sc_cite'],
                   [', .', 'replay.sc_speed'],
                   ['1 to 5', 'replay.sc_overlays'],

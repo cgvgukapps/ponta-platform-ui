@@ -1,6 +1,6 @@
 import { useId, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import { Download, MoreHorizontal, Plug, Trash2, UserPlus } from 'lucide-react'
+import { Download, MoreHorizontal, Plug, Trash2, UserPlus, Video } from 'lucide-react'
 import { t } from '@/i18n'
 import { useApp } from '@/state/app'
 import { useAsync } from '@/lib/useAsync'
@@ -229,6 +229,22 @@ export function SettingsPage() {
                     </li>
                   ))}
                 </ul>
+              </Panel>
+              <Panel title={t('settings.video_title')} description={t('settings.video_desc')}>
+                {/* A slot only (brief v2, 5.4): no video player is designed until a video source is decided. */}
+                <div className="mt-2">
+                  <Row label={t('settings.video_source')} hint={t('settings.video_hint')} plain>
+                    {() => (
+                      <span className="flex items-center gap-2">
+                        <span className="inline-flex h-6 items-center rounded-full bg-s2 px-2.5 text-xs text-fg-3">{t('tier.in_development')}</span>
+                        <Button size="sm" variant="secondary" disabled>
+                          <Video className="size-3.5" aria-hidden />
+                          {t('settings.connect')}
+                        </Button>
+                      </span>
+                    )}
+                  </Row>
+                </div>
               </Panel>
               <InlineAlert>{t('settings.conn_note')}</InlineAlert>
             </TabsContent>

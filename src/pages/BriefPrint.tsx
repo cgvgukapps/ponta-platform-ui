@@ -48,11 +48,24 @@ export function BriefPrint() {
             <Skeleton className="mt-4 h-96 w-full" />
           </>
         ) : (
-          <>
-            <div className="mb-6 flex items-center justify-between border-b border-hair pb-4">
-              <img src="/brand/ponta-logo-black.png" alt="Ponta" className="h-5 w-auto" onError={(e) => ((e.currentTarget.style.display = 'none'), undefined)} />
-              <span className="text-xs font-medium text-fg-4">{t('print.sample')}</span>
-            </div>
+          // One-cell table: browsers repeat a table's <thead> at the top of every printed page,
+          // so the logo bar and match name run on each page (brief v2, 5.4). Page numbers come from @page.
+          <table className="w-full border-collapse">
+            <thead>
+              <tr>
+                <td className="p-0">
+                  <div className="mb-6 flex items-center justify-between gap-4 border-b border-hair pb-4">
+                    <img src="/brand/ponta-logo-black.png" alt="Ponta" className="h-5 w-auto" onError={(e) => ((e.currentTarget.style.display = 'none'), undefined)} />
+                    <span className="truncate text-xs font-medium text-fg-4">
+                      {match.data!.home} {match.data!.score ? `${match.data!.score[0]}–${match.data!.score[1]}` : 'v'} {match.data!.away} · {t('print.sample')}
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="p-0 align-top">
             <BriefHeader match={match.data!} brief={brief.data!} lp={pack.data!} variant="print" />
             <div className="mt-6">
               <BriefBody brief={brief.data!} lp={pack.data!} matchId={id} variant="print" />
@@ -60,7 +73,7 @@ export function BriefPrint() {
             <div className="mt-7">
               <BriefLimitations brief={brief.data!} />
             </div>
-            <section className="avoid-break mt-7 border-t border-hair pt-5" aria-labelledby="cited">
+            <section className="mt-7 border-t border-hair pt-5" aria-labelledby="cited">
               <h2 id="cited" className="font-mono text-xs font-medium uppercase tracking-wider text-fg-3">
                 {t('print.cited')}
               </h2>
@@ -80,7 +93,7 @@ export function BriefPrint() {
                     const e = pack.data!.byId.get(rid)
                     if (!e) return null
                     return (
-                      <tr key={rid} className="border-b border-hair">
+                      <tr key={rid} className="avoid-break border-b border-hair">
                         <td className="py-1.5 pr-2 font-mono">[{i + 1}]</td>
                         <td className="py-1.5 pr-2 font-mono">{e.id}</td>
                         <td className="py-1.5 pr-2 font-mono">{fmtClock(e.t)}</td>
@@ -94,7 +107,10 @@ export function BriefPrint() {
               </table>
             </section>
             <p className="mt-6 border-t border-hair pt-3 text-2xs text-fg-4">{t('print.footer')}</p>
-          </>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         )}
       </div>
     </div>

@@ -453,7 +453,11 @@ export function PitchCanvas({ lp, store, overlays, selected, selectedPlayer, onP
   const pressure = hover && lastFrame.current ? pressureIndex(hover.p, lastFrame.current.players) : 0
 
   return (
-    <div ref={wrap} className="relative h-full min-h-0 w-full overflow-hidden rounded-md bg-canvas">
+    // Focusable as one image: the arrow keys step through events while it has focus (handled in Replay).
+    <div ref={wrap} data-pitch-keys tabIndex={0} role="group" aria-label={tx('replay.canvas_group')} aria-describedby="pitch-keys-hint" className="relative h-full min-h-0 w-full overflow-hidden rounded-md bg-canvas focus-visible:outline-offset-[-2px]">
+      <p id="pitch-keys-hint" className="sr-only">
+        {tx('replay.canvas_keys')}
+      </p>
       <canvas
         ref={canvas}
         role="img"

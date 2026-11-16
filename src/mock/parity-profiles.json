@@ -95,7 +95,8 @@
    "control_surface": {
     "state": "degraded",
     "reason": "Control zones use estimated positions for players who are off screen. Edges of the pitch carry lower confidence.",
-    "unlock": "Use a full-pitch tracking export."
+    "unlock": "Use a full-pitch tracking export.",
+    "measure": "18.3% of player positions estimated"
    },
    "control_share": {
     "state": "full",
@@ -109,8 +110,9 @@
    },
    "pass_alternatives": {
     "state": "degraded",
-    "reason": "Teammates who are off screen at release are missing from the ring in some events.",
-    "unlock": "Use a full-pitch tracking export."
+    "reason": "Teammates who are off screen at release are missing from the ring.",
+    "unlock": "Use a full-pitch tracking export.",
+    "measure": "Ring incomplete for 11.4% of passes"
    },
    "carry_value": {
     "state": "full",
@@ -120,12 +122,14 @@
    "carry_alternatives": {
     "state": "degraded",
     "reason": "Alternative directions are scored against visible opponents only.",
-    "unlock": "Use a full-pitch tracking export."
+    "unlock": "Use a full-pitch tracking export.",
+    "measure": "Scored with fewer than 8 visible opponents in 9.7% of carries"
    },
    "run_value": {
     "state": "degraded",
     "reason": "Off-ball runs are measured only while the runner is in the frame.",
-    "unlock": "Use a full-pitch tracking export."
+    "unlock": "Use a full-pitch tracking export.",
+    "measure": "Runner out of frame for part of 14.1% of runs"
    },
    "space_created": {
     "state": "blocked",
@@ -370,19 +374,22 @@
     "state": "degraded",
     "reason": "Two unpaired exports. Calibration is applied only where both cover the same minutes. Distance totals outside the overlap use one source only.",
     "unlock": "Overlap both exports for the whole session.",
-    "inDevelopment": true
+    "inDevelopment": true,
+    "measure": "Overlap: 38 of 94 minutes"
    },
    "high_intensity": {
     "state": "degraded",
     "reason": "Two unpaired exports. Calibration is applied only where both cover the same minutes. Effort thresholds are aligned only inside the overlap.",
     "unlock": "Overlap both exports for the whole session.",
-    "inDevelopment": true
+    "inDevelopment": true,
+    "measure": "Overlap: 38 of 94 minutes"
    },
    "load_trend": {
     "state": "degraded",
     "reason": "Load trend across the vendor switch is calibrated only where the exports overlap.",
     "unlock": "Overlap both exports for the whole session.",
-    "inDevelopment": true
+    "inDevelopment": true,
+    "measure": "Overlap: 38 of 94 minutes"
    },
    "fitness_linked": {
     "state": "blocked",

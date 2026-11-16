@@ -88,10 +88,13 @@
   --pattern-rule: rgba(255, 255, 255, 0.09);
 
   /* Product status (not analytics): errors never share a container with the home colour */
-  --danger: #f2603c;
-  --danger-tint: rgba(242, 96, 60, 0.12);
-  --warn: #f29d2e;
-  --warn-tint: rgba(242, 157, 46, 0.12);
+  /* Status hues sit outside the band ramp (brief v2, 5.4): danger is magenta, warn is violet, so neither
+     reads as Poor or Suboptimal, the home team's crimson or the yellow highlight. Both always ship with
+     an icon and a word. Checked with the dataviz palette validator: every pair above 15 dE normal vision. */
+  --danger: #f05bb4;
+  --danger-tint: rgba(240, 91, 180, 0.12);
+  --warn: #a78bfa;
+  --warn-tint: rgba(167, 139, 250, 0.12);
 
   /* ---- Radii: soft. Chips, controls, tiles, large panels ------------------ */
   --radius-sm: 6px;
@@ -140,4 +143,8 @@
   --dq-suboptimal: #855300;
   --dq-good: #4a6b00;
   --dq-optimal: #11703a;
+  --danger: #b0237a;
+  --danger-tint: rgba(176, 35, 122, 0.08);
+  --warn: #6544c9;
+  --warn-tint: rgba(101, 68, 201, 0.08);
 }

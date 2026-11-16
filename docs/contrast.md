@@ -93,12 +93,22 @@ Semi-transparent tokens are composited over the surface listed in the row.
 | dark | `--dq-optimal` | `--surface-1` | 7.61:1 | 4.5:1 | Pass | Decision quality band text |
 | dark | `--dq-optimal` | `--surface-2` | 6.98:1 | 4.5:1 | Pass | Decision quality band text |
 | dark | `--dq-optimal` | `--surface-3` | 6.40:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--danger` | `--canvas` | 5.87:1 | 4.5:1 | Pass | Status text |
-| dark | `--danger` | `--surface-1` | 5.47:1 | 4.5:1 | Pass | Status text |
-| dark | `--danger` | `--surface-2` | 5.01:1 | 4.5:1 | Pass | Status text |
-| dark | `--warn` | `--canvas` | 8.68:1 | 4.5:1 | Pass | Status text |
-| dark | `--warn` | `--surface-1` | 8.09:1 | 4.5:1 | Pass | Status text |
-| dark | `--warn` | `--surface-2` | 7.42:1 | 4.5:1 | Pass | Status text |
+| dark | `--danger` | `--canvas` | 6.18:1 | 4.5:1 | Pass | Status text |
+| dark | `--danger` | `--surface-1` | 5.76:1 | 4.5:1 | Pass | Status text |
+| dark | `--danger` | `--surface-2` | 5.28:1 | 4.5:1 | Pass | Status text |
+| dark | `--warn` | `--canvas` | 6.95:1 | 4.5:1 | Pass | Status text |
+| dark | `--warn` | `--surface-1` | 6.47:1 | 4.5:1 | Pass | Status text |
+| dark | `--warn` | `--surface-2` | 5.94:1 | 4.5:1 | Pass | Status text |
+| dark | `--danger` | `--mix:danger@0.12/surface-1` | 4.95:1 | 4.5:1 | Pass | Status text on its tint (alert, destructive button) |
+| dark | `--danger` | `--mix:warn@0.12/surface-1` | 4.79:1 | 4.5:1 | Pass | Status text on its tint (alert, destructive button) |
+| dark | `--warn` | `--mix:danger@0.12/surface-1` | 5.57:1 | 4.5:1 | Pass | Status text on its tint (alert, destructive button) |
+| dark | `--warn` | `--mix:warn@0.12/surface-1` | 5.39:1 | 4.5:1 | Pass | Status text on its tint (alert, destructive button) |
+| print | `--danger` | `--canvas` | 6.24:1 | 4.5:1 | Pass | Print status text |
+| print | `--danger` | `--surface-1` | 5.87:1 | 4.5:1 | Pass | Print status text |
+| print | `--danger` | `--surface-2` | 5.51:1 | 4.5:1 | Pass | Print status text |
+| print | `--warn` | `--canvas` | 6.51:1 | 4.5:1 | Pass | Print status text |
+| print | `--warn` | `--surface-1` | 6.13:1 | 4.5:1 | Pass | Print status text |
+| print | `--warn` | `--surface-2` | 5.76:1 | 4.5:1 | Pass | Print status text |
 | dark | `--on-team-home` | `--team-home` | 4.95:1 | 4.5:1 | Pass | Shirt number on Home marker |
 | dark | `--on-team-away` | `--team-away` | 8.98:1 | 4.5:1 | Pass | Shirt number on Away marker |
 | dark | `--team-home` | `--pitch` | 3.29:1 | 3:1 | Pass | Pitch markers (graphic) |

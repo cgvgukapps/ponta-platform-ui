@@ -303,20 +303,46 @@ function HowContent({ e }: { e: MatchEvent }) {
   )
 }
 
+function useAnnounce() {
+  const who = useWho()
+  return (e: MatchEvent) =>
+    [
+      t('explain.selected'),
+      `${eventTypeLabel(e)}, ${describeEvent(e, who)}`,
+      fmtClock(e.t),
+      e.band && e.dq !== undefined ? t('explain.announce_dq', { v: e.dq.toFixed(2), band: t(`band.${e.band}`) }) : null,
+    ]
+      .filter(Boolean)
+      .join('. ')
+}
+
 export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchEvent | null; htAt: number; onPlayFrom: (e: MatchEvent) => void; onCopy: (e: MatchEvent) => void }) {
   const [how, setHow] = useState(false)
+  const announce = useAnnounce()
+  // Always mounted, so screen readers hear the first selection as well as later ones.
+  const live = (
+    <p className="sr-only" aria-live="polite" aria-atomic="true">
+      {event ? announce(event) : ''}
+    </p>
+  )
   if (!event) {
     return (
-      <section aria-label={t('explain.title')} className="rounded-lg border border-dashed border-hair-strong p-4">
-        <p className="text-sm font-medium text-fg-1">{t('explain.empty_title')}</p>
-        <p className="mt-1 text-sm text-fg-3">{t('explain.empty_body')}</p>
-      </section>
+      <>
+        {live}
+        <section aria-label={t('explain.title')} className="rounded-lg border border-dashed border-hair-strong p-4">
+          <p className="text-sm font-medium text-fg-1">{t('explain.empty_title')}</p>
+          <p className="mt-1 text-sm text-fg-3">{t('explain.empty_body')}</p>
+        </section>
+      </>
     )
   }
   const e = event
   const measured = !e.est && !!e.band
   return (
-    <section aria-label={t('explain.title')} aria-live="polite" className={cn('rounded-lg border bg-s1 p-3.5', e.est ? 'border-dashed border-hair-strong' : 'border-transparent')}>
+    <>
+    {/* One short announcement per selection, rather than reading out the whole card. */}
+    {live}
+    <section aria-label={t('explain.title')} className={cn('rounded-lg border bg-s1 p-3.5', e.est ? 'border-dashed border-hair-strong' : 'border-transparent')}>
       <Head e={e} htAt={htAt} />
       {e.est ? <EventOnly e={e} /> : e.band ? <Measured e={e} /> : e.type === 'run' ? <Run e={e} /> : e.type === 'effort' ? <Effort e={e} /> : <Simple e={e} />}
       <Collapsible.Root open={how} onOpenChange={setHow} className="mt-3 border-t border-hair pt-2.5">
@@ -347,5 +373,6 @@ export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchE
         {measured ? <HowContent e={e} /> : null}
       </Collapsible.Root>
     </section>
+    </>
   )
 }

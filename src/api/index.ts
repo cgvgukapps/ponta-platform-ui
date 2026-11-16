@@ -50,7 +50,7 @@ export function parityFor(m: Match): ParityReport {
   const metrics = {} as Record<MetricId, ParityMetric>
   const summary = { full: 0, degraded: 0, blocked: 0 }
   for (const [id, pm] of Object.entries(profile.metrics) as [MetricId, ParityMetric][]) {
-    metrics[id] = { ...pm, reason: fill(pm.reason, m) }
+    metrics[id] = { ...pm, reason: fill(pm.reason, m), measure: pm.measure ? fill(pm.measure, m) : undefined }
     summary[pm.state]++
   }
   // The measured figure shown beside the reason, where one exists.

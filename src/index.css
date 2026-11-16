@@ -256,12 +256,21 @@ a.link {
 /* ---- Print: the brief exports as a clean light A4 page --------------------- */
 @page {
   size: A4;
-  margin: 14mm;
+  margin: 14mm 14mm 16mm;
+  /* The app is dark by default; the printed page and its margins are always white. */
+  background: #fff;
+  /* Page numbers on every printed page (Chrome 131 and later; Safari ignores page margin boxes). */
+  @bottom-right {
+    content: 'Page ' counter(page) ' of ' counter(pages);
+    font: 9px 'Inter', ui-sans-serif, system-ui, sans-serif;
+    color: #5b626d;
+  }
 }
 @media print {
   html,
   body {
     background: #fff !important;
+    color-scheme: light;
   }
   .no-print {
     display: none !important;
@@ -275,6 +284,14 @@ a.link {
   }
   .avoid-break {
     break-inside: avoid;
+  }
+  /* Citation chips and pills never split across a page. */
+  a[href*='/replay?event='],
+  .rounded-full {
+    break-inside: avoid;
+  }
+  thead {
+    display: table-header-group;
   }
 }
 
