@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { ArrowUp, Check, Info, Loader2, MessageSquarePlus, Play, CornerDownLeft } from 'lucide-react'
+import * as Collapsible from '@radix-ui/react-collapsible'
+import { Activity, ArrowUp, Check, CheckCheck, ChevronDown, Crosshair, Footprints, Info, Loader2, MessageSquarePlus, Play, Repeat, Route, CornerDownLeft } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 import { useApp } from '@/state/app'
@@ -84,8 +85,17 @@ function Sidebar({ threads, activeId, matches }: { threads: Thread[]; activeId: 
   )
 }
 
+const TOPIC_ICON: Record<string, typeof Activity> = {
+  'ask.topic_pressure': Crosshair,
+  'ask.topic_passing': Route,
+  'ask.topic_transitions': Repeat,
+  'ask.topic_offball': Footprints,
+  'ask.topic_load': Activity,
+  'ask.topic_possession': Repeat,
+}
+
 /* ---------------- Composer ---------------- */
-function Composer({ onSend, disabled, big, placeholder, initial }: { onSend: (q: string) => void; disabled?: boolean; big?: boolean; placeholder: string; initial?: string }) {
+function Composer({ onSend, disabled, big, placeholder, initial, toolbar }: { onSend: (q: string) => void; disabled?: boolean; big?: boolean; placeholder: string; initial?: string; toolbar?: React.ReactNode }) {
   const [v, setV] = useState(initial ?? '')
   const ref = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -106,9 +116,11 @@ function Composer({ onSend, disabled, big, placeholder, initial }: { onSend: (q:
         e.preventDefault()
         send()
       }}
-      // The product's one flourish: a blue to rose-red edge on the AI input, as in the reference.
-      style={{ border: '1.5px solid transparent', background: 'linear-gradient(var(--surface-1), var(--surface-1)) padding-box, linear-gradient(90deg, var(--flourish-start), var(--flourish-end)) border-box' }}
-      className={cn(big ? 'flex flex-col rounded-2xl p-3' : 'flex items-end gap-2 rounded-2xl p-2 pl-3')}
+      // Reference composer: a thin blue-tinted edge that brightens on focus, 12 px padding.
+      className={cn(
+        'border border-[var(--composer-edge)] bg-s1 transition-colors focus-within:border-accent',
+        big ? 'flex flex-col rounded-2xl p-3' : 'flex items-end gap-2 rounded-2xl p-2 pl-3',
+      )}
     >
       <label htmlFor="ask-input" className="sr-only">
         {t('ask.input_label')}
@@ -130,18 +142,19 @@ function Composer({ onSend, disabled, big, placeholder, initial }: { onSend: (q:
         className={cn('no-focus-ring max-h-40 w-full resize-none bg-transparent px-2 py-1 text-fg-1 outline-none placeholder:text-fg-4 focus-visible:outline-none', big ? 'min-h-[72px] text-base' : 'min-h-[28px] flex-1 text-base')}
       />
       {big ? (
-        <div className="mt-2 flex items-center justify-between gap-3 border-t border-hair px-1 pt-2.5">
-          <span className="flex items-center gap-1.5 text-xs text-fg-4">
-            <CornerDownLeft className="size-3" aria-hidden />
-            {t('ask.hint_keys')}
-          </span>
-          <Button type="submit" variant="primary" disabled={!v.trim() || disabled} aria-label={t('ask.send')}>
+        <div className="mt-2 flex items-center justify-between gap-3 px-1">
+          {toolbar ?? (
+            <span className="flex items-center gap-1.5 text-xs text-fg-4">
+              <CornerDownLeft className="size-3" aria-hidden />
+              {t('ask.hint_keys')}
+            </span>
+          )}
+          <Button type="submit" variant="primary" size="icon" className="rounded-lg" disabled={!v.trim() || disabled} aria-label={t('ask.send')}>
             <ArrowUp className="size-4" aria-hidden />
-            {t('ask.send')}
           </Button>
         </div>
       ) : (
-        <Button type="submit" variant="primary" size="icon" disabled={!v.trim() || disabled} aria-label={t('ask.send')}>
+        <Button type="submit" variant="primary" size="icon" className="rounded-lg" disabled={!v.trim() || disabled} aria-label={t('ask.send')}>
           <ArrowUp className="size-4" aria-hidden />
         </Button>
       )}
@@ -152,13 +165,63 @@ function Composer({ onSend, disabled, big, placeholder, initial }: { onSend: (q:
 /* ---------------- Answer ---------------- */
 const stateText: Record<ParityState | 'info', string> = { full: 'parity.full', degraded: 'parity.degraded', blocked: 'parity.blocked', info: 'ask.note' }
 
+/**
+ * What the answer did, as a collapsible step list (reference: agent task transparency).
+ * Completed steps carry a double check; the data-check step opens by default when anything
+ * limits the answer, so a limit is never hidden.
+ */
+function AnswerSteps({ turn, match, total, verified }: { turn: Turn; match?: Match; total: number; verified: number }) {
+  const a = turn.answer!
+  const limiting = a.statements.some((x) => x.state === 'degraded' || x.state === 'blocked')
+  const statements = !limiting ? [{ state: 'full' as const, text: t('ask.all_full') }, ...a.statements] : a.statements
+  const [open, setOpen] = useState(limiting)
+  const verifying = turn.phase === 'verifying'
+  const row = 'flex items-center gap-3 py-1.5 text-sm'
+  return (
+    <section aria-label={t('ask.parity_statement')} className="flex flex-col">
+      <Collapsible.Root open={open} onOpenChange={setOpen}>
+        <Collapsible.Trigger className={cn(row, 'w-full text-left text-fg-2 hover:text-fg-1')}>
+          <CheckCheck className="size-4 shrink-0 text-fg-3" aria-hidden />
+          <span className="flex-1">{t('ask.step_read')}{match ? <span className="text-fg-4"> · {match.sources.map((x) => PROVIDER_NAME[x.provider]).join(' + ')}</span> : null}</span>
+          <ChevronDown className={cn('size-4 shrink-0 text-fg-3 transition-transform', open && 'rotate-180')} aria-hidden />
+        </Collapsible.Trigger>
+        <Collapsible.Content>
+          <ul className="mb-1.5 ml-[7px] flex flex-col gap-1.5 border-l border-hair py-1 pl-5">
+            {statements.map((x, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm">
+                {x.state === 'info' ? <Info className="mt-0.5 size-3.5 shrink-0 text-fg-3" aria-hidden /> : <ParityIcon state={x.state} size={13} className="mt-0.5 shrink-0" />}
+                <span className="min-w-0 text-fg-3">
+                  <span className={cn('mr-1.5 font-medium', x.state === 'blocked' ? 'text-parity-dim' : x.state === 'degraded' ? 'text-parity' : 'text-fg-2')}>{t(stateText[x.state])}.</span>
+                  {x.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Collapsible.Content>
+      </Collapsible.Root>
+      {total ? (
+        <p className={cn(row, 'text-fg-2')}>
+          <CheckCheck className="size-4 shrink-0 text-fg-3" aria-hidden />
+          {t('ask.step_found', { n: total })}
+        </p>
+      ) : null}
+      {total && (verifying || turn.phase === 'done') ? (
+        <p className={cn(row, 'text-fg-2')} aria-live="polite">
+          {verifying ? <Loader2 className="size-4 shrink-0 animate-spin-slow text-fg-3" aria-hidden /> : <CheckCheck className="size-4 shrink-0 text-fg-3" aria-hidden />}
+          {verifying ? t('ask.verifying', { done: verified, total }) : t('ask.verified', { total })}
+        </p>
+      ) : null}
+    </section>
+  )
+}
+
 function ParityStatement({ turn, match }: { turn: Turn; match?: Match }) {
   const a = turn.answer!
   const limiting = a.statements.some((s) => s.state === 'degraded' || s.state === 'blocked')
   const statements = a.kind === 'answer' && !limiting ? [{ state: 'full' as const, text: t('ask.all_full') }, ...a.statements] : a.statements
   if (!statements.length) return null
   return (
-    <section aria-label={t('ask.parity_statement')} className="rounded-xl bg-s1">
+    <section aria-label={t('ask.parity_statement')} className="rounded-xl border border-hair bg-s1">
       <div className="flex flex-wrap items-center gap-2 border-b border-hair px-3 py-2">
         <span className="text-xs font-medium text-fg-4">{t('ask.data_check')}</span>
         {match ? <TierBadge tier={match.tier} status={match.tierStatus} /> : null}
@@ -182,7 +245,7 @@ function ParityStatement({ turn, match }: { turn: Turn; match?: Match }) {
 function Refusal({ turn, onAsk, match }: { turn: Turn; onAsk: (q: string) => void; match?: Match }) {
   const r = turn.answer!.refusal!
   return (
-    <section aria-label={t('ask.refusal')} className="overflow-hidden rounded-xl bg-s1">
+    <section aria-label={t('ask.refusal')} className="overflow-hidden rounded-xl border border-hair bg-s1">
       <div className="flex items-start gap-3 border-b border-hair px-4 py-3">
         <ParityIcon state="blocked" size={18} className="mt-0.5 shrink-0" />
         <div>
@@ -255,7 +318,7 @@ function AnswerView({ turn, match, lp, onAsk }: { turn: Turn; match?: Match; lp?
   const events = a.playlist.map((id) => lp?.byId.get(id)).filter(Boolean)
   return (
     <div className="flex flex-col gap-4">
-      <ParityStatement turn={turn} match={match} />
+      <AnswerSteps turn={turn} match={match} total={total} verified={verified} />
       <div>
         <div className="mb-1.5 flex items-center gap-2">
           <AiMarker />
@@ -269,17 +332,7 @@ function AnswerView({ turn, match, lp, onAsk }: { turn: Turn; match?: Match; lp?
       {turn.phase === 'verifying' || showList ? (
         <div className="flex flex-col gap-3" aria-live="polite">
           <div className="flex items-center gap-2 text-sm">
-            {turn.phase === 'verifying' ? (
-              <>
-                <Loader2 className="size-3.5 animate-spin-slow text-fg-3" aria-hidden />
-                <span className="text-fg-2">{t('ask.verifying', { done: verified, total })}</span>
-              </>
-            ) : total ? (
-              <>
-                <Check className="size-3.5 text-fg-2" aria-hidden />
-                <span className="text-fg-2">{t('ask.verified', { total })}</span>
-              </>
-            ) : null}
+            <span className="text-sm font-medium text-fg-2">{t('ask.playlist')}</span>
             {showAfter && events[0] ? (
               <Button size="sm" variant="secondary" className="ml-auto" onClick={() => nav(`/matches/${a.matchId}/replay?event=${events[0]!.id}`)}>
                 <Play className="size-3 fill-current" aria-hidden />
@@ -400,61 +453,68 @@ export function AskPage() {
         {empty ? (
           <EmptyState title={t('ask.empty_org_title')} body={t('ask.empty_org_body')} actions={<Link to="/matches/new" className="link text-sm">{t('lib.add_data')}</Link>} />
         ) : !thread ? (
-          <div className="min-h-0 flex-1 overflow-y-auto px-8 py-12">
-            <div className="mx-auto flex min-h-full w-full max-w-[800px] flex-col justify-center">
-              <h1 className="text-2xl font-semibold text-fg-1">{t('ask.title')}</h1>
-              <p className="mt-2 max-w-[62ch] text-base text-fg-2">{t('ask.intro')}</p>
+          <div className="relative min-h-0 flex-1 overflow-y-auto px-8 py-12">
+            {/* Reference: a soft horizon glow behind the empty state, in Ponta blue. */}
+            <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%]" style={{ background: 'radial-gradient(120% 70% at 50% 115%, var(--glow), transparent 60%)' }} />
+            <div className="relative mx-auto flex min-h-full w-full max-w-[760px] flex-col justify-center">
+              <h1 className="text-center font-serif text-[44px] font-normal leading-[52px] tracking-tight text-fg-1">{t('ask.hero')}</h1>
+              <p className="mx-auto mt-3 max-w-[56ch] text-center text-base text-fg-3">{t('ask.intro')}</p>
 
-              <section aria-label={t('ask.about')} className="mt-8 flex flex-col gap-2.5 rounded-xl bg-s1 px-4 py-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs font-medium text-fg-4">{t('ask.about')}</span>
-                  {ctxMatch ? (
-                    <span className="flex items-center gap-3">
-                      <TierBadge tier={ctxMatch.tier} status={ctxMatch.tierStatus} />
-                      <ParitySummary summary={parityFor(ctxMatch).summary} states={ctxStates} compact />
-                      <Link to={`/matches/${ctxMatch.id}/parity`} className="link text-xs">
-                        {t('ask.view_parity')}
-                      </Link>
+              <div className="mt-8">
+                <Composer
+                  big
+                  onSend={send}
+                  initial={prefill ?? undefined}
+                  placeholder={t('ask.placeholder')}
+                  disabled={!ctxMatch}
+                  toolbar={
+                    <span className="flex min-w-0 items-center gap-2">
+                      <span className="shrink-0 text-xs text-fg-4">{t('ask.about')}</span>
+                      {matches.length ? (
+                        <Select size="sm" aria-label={t('ask.about')} value={ctxMatch?.id ?? ''} onValueChange={setCtxId} options={matches.map((m) => ({ value: m.id, label: `${label(m)} · ${fmtDate(m.date)}` }))} className="w-[360px] max-w-full whitespace-nowrap [&>span]:truncate" />
+                      ) : (
+                        <Skeleton className="h-7 w-48" />
+                      )}
+                      {ctxMatch ? (
+                        <Link to={`/matches/${ctxMatch.id}/parity`} className="shrink-0" title={t('ask.view_parity')}>
+                          <ParitySummary summary={parityFor(ctxMatch).summary} states={ctxStates} compact />
+                        </Link>
+                      ) : null}
                     </span>
-                  ) : null}
-                </div>
-                {matches.length ? <Select size="sm" aria-label={t('ask.about')} value={ctxMatch?.id ?? ''} onValueChange={setCtxId} options={matches.map((m) => ({ value: m.id, label: `${label(m)} · ${fmtDate(m.date)}` }))} className="w-full" /> : <Skeleton className="h-7 w-full" />}
-              </section>
-
-              <div className="mt-3">
-                <Composer big onSend={send} initial={prefill ?? undefined} placeholder={t('ask.placeholder')} disabled={!ctxMatch} />
+                  }
+                />
                 {prefill ? <p className="mt-2 text-xs text-fg-3">{t('ask.prefill')}</p> : null}
               </div>
 
-              <h2 className="mt-8 text-sm font-medium text-fg-2">{t('ask.try')}</h2>
-              <ul className="mt-3 grid grid-cols-2 gap-3">
+              {/* Suggestion chips (reference): icon and topic; the full question is the tooltip. */}
+              <ul className="mt-4 flex flex-wrap justify-center gap-2" aria-label={t('ask.try')}>
                 {prompts.map((p) => {
                   const state = ctxMatch && p.metrics.length ? weakest(p.metrics.map((id) => parityFor(ctxMatch).metrics[id].state)) : null
+                  const Icon = TOPIC_ICON[p.topic] ?? Activity
                   return (
-                    <li key={p.q} className="[&:last-child:nth-child(odd)]:col-span-2">
+                    <li key={p.q}>
                       <button
                         type="button"
                         disabled={!ctxMatch}
                         onClick={() => send(p.q)}
-                        className="group flex h-full w-full flex-col gap-2 rounded-xl bg-s1 p-3.5 text-left transition-colors hover:border-hair-hover hover:bg-s2 disabled:opacity-50"
+                        title={p.q}
+                        className="inline-flex h-9 items-center gap-2 rounded-lg border border-hair bg-s1 px-3 text-sm text-fg-2 transition-colors hover:bg-s2 hover:text-fg-1 disabled:opacity-50"
                       >
-                        <span className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-medium text-fg-3">{t(p.topic)}</span>
-                          {state ? (
-                            <span className={cn('inline-flex items-center gap-1.5 text-xs', state === 'blocked' ? 'text-parity-dim' : state === 'degraded' ? 'text-parity' : 'text-fg-3')}>
-                              <ParityIcon state={state} size={11} />
-                              {t(`ask.gate_${state}`)}
-                            </span>
-                          ) : null}
-                        </span>
-                        <span className={cn('text-sm leading-5', state === 'blocked' ? 'text-fg-2' : 'text-fg-1')}>{p.q}</span>
+                        <Icon className="size-4 text-fg-3" aria-hidden />
+                        <span className="sr-only">{p.q}. </span>
+                        {t(p.topic)}
+                        {state && state !== 'full' ? (
+                          <span className={cn(state === 'blocked' ? 'text-parity-dim' : 'text-parity')} title={t(`ask.gate_${state}`)}>
+                            <ParityIcon state={state} size={11} />
+                          </span>
+                        ) : null}
                       </button>
                     </li>
                   )
                 })}
               </ul>
 
-              <p className="mt-8 flex max-w-[66ch] items-start gap-2 border-t border-hair pt-4 text-xs text-fg-3">
+              <p className="mx-auto mt-10 flex max-w-[66ch] items-start gap-2 text-center text-xs text-fg-3">
                 <Info className="mt-0.5 size-3 shrink-0" aria-hidden />
                 {t('ask.rule')}
               </p>

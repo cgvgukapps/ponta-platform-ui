@@ -194,7 +194,7 @@ export function Library() {
   if (!loading && matches.length === 0 && (data ?? []).length === 0) {
     return (
       <div className="px-8 py-6">
-        <h1 className="text-lg font-semibold text-fg-1">{t('lib.title')}</h1>
+        <h1 className="font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{t('lib.title')}</h1>
         <EmptyState
           className="py-24"
           icon={<Upload className="size-5" aria-hidden />}
@@ -220,7 +220,7 @@ export function Library() {
     <div className="px-6 py-5">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-lg font-semibold text-fg-1">{t('lib.title')}</h1>
+          <h1 className="font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{t('lib.title')}</h1>
           <p className="mt-0.5 text-sm text-fg-3">{loading ? t('common.loading') : t('lib.subtitle', { n: rows.length, total: matches.length })}</p>
         </div>
         <div className="flex items-center gap-2">
@@ -288,11 +288,12 @@ export function Library() {
       ) : rows.length === 0 ? (
         <EmptyState icon={<FileSearch className="size-5" aria-hidden />} title={t('lib.no_results')} body={t('lib.no_results_body')} actions={<Button onClick={() => setFilters(NO_FILTER)}>{t('lib.clear_filters')}</Button>} />
       ) : view === 'table' ? (
-        <div className="mt-4 overflow-x-auto rounded-xl bg-s1">
-          <table className="w-full min-w-[960px] [&_td]:px-2.5 [&_th]:px-2.5 border-collapse text-sm">
+        // Reference table: a filled, rounded header row; plain rows on the page with a hover fill and no dividers.
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[960px] [&_td]:px-2.5 [&_th]:px-2.5 border-separate border-spacing-0 text-sm">
             <caption className="sr-only">{t('lib.title')}</caption>
-            <thead className="sticky top-0 z-10 bg-s1">
-              <tr className="border-b border-hair">
+            <thead className="sticky top-0 z-10 bg-canvas">
+              <tr className="[&>th]:bg-s1 [&>th:first-child]:rounded-l-lg [&>th:last-child]:rounded-r-lg">
                 <SortTh label={t('lib.col_fixture')} k="fixture" sort={sort} setSort={setSort} />
                 <SortTh label={t('lib.col_date')} k="date" sort={sort} setSort={setSort} />
                 <th scope="col" className="h-8 px-3 text-left text-xs font-medium text-fg-3">{t('lib.col_providers')}</th>
@@ -304,10 +305,10 @@ export function Library() {
             </thead>
             <tbody>
               {rows.map((m) => (
-                <tr key={m.id} onClick={() => open(m)} className="group cursor-pointer border-b border-hair last:border-0 hover:bg-s2">
-                  <td className="max-w-[240px] px-3 py-2.5 align-top">
+                <tr key={m.id} onClick={() => open(m)} className="group cursor-pointer [&>td:first-child]:rounded-l-lg [&>td:last-child]:rounded-r-lg [&>td]:transition-colors hover:[&>td]:bg-s1">
+                  <td className="min-w-[260px] max-w-[320px] px-3 py-3 align-top">
                     <Link to={`/matches/${m.id}`} onClick={(e) => e.stopPropagation()} className="line-clamp-2 font-medium text-fg-1 hover:underline focus-visible:underline">
-                      {m.home} <span className="font-normal text-fg-3">{m.score ? `${m.score[0]}–${m.score[1]}` : 'v'}</span> {m.away}
+                      {m.home} <span className="whitespace-nowrap font-normal text-fg-3">{m.score ? `${m.score[0]}–${m.score[1]}` : 'v'}</span> {m.away}
                     </Link>
                     {m.fixtureNote ? <span className="mt-0.5 block text-xs text-fg-3">{m.fixtureNote}</span> : null}
                     {m.issue && (m.status === 'failed' || m.status === 'needs_attention') ? (
@@ -338,11 +339,11 @@ export function Library() {
       ) : (
         <div className="mt-4 grid grid-cols-3 gap-3">
           {rows.map((m) => (
-            <article key={m.id} className="group flex flex-col gap-3 rounded-xl bg-s1 p-4 transition-colors hover:border-hair-strong hover:bg-s2">
+            <article key={m.id} className="group flex flex-col gap-3 rounded-xl border border-hair bg-s1 p-4 transition-colors hover:border-hair-strong hover:bg-s2">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <Link to={`/matches/${m.id}`} className="block truncate text-sm font-medium text-fg-1 hover:underline">
-                    {m.home} <span className="font-normal text-fg-3">{m.score ? `${m.score[0]}–${m.score[1]}` : 'v'}</span> {m.away}
+                    {m.home} <span className="whitespace-nowrap font-normal text-fg-3">{m.score ? `${m.score[0]}–${m.score[1]}` : 'v'}</span> {m.away}
                   </Link>
                   <p className="mt-0.5 truncate text-xs text-fg-3">{m.competition} · {fmtDate(m.date)}</p>
                 </div>

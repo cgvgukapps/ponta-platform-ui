@@ -54,7 +54,7 @@ function Stepper({ step }: { step: number }) {
 function StepIntro({ title, body }: { title: string; body: string }) {
   return (
     <div className="mb-7 max-w-[640px]">
-      <h2 className="text-xl font-semibold text-fg-1">{title}</h2>
+      <h2 className="font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{title}</h2>
       <p className="mt-1.5 text-base text-fg-3">{body}</p>
     </div>
   )
@@ -75,7 +75,7 @@ function WizardFooter({ children }: { children: React.ReactNode }) {
   return <div className="sticky bottom-0 z-10 -mx-8 mt-auto flex items-center justify-between gap-3 border-t border-hair bg-canvas/95 px-8 py-4 backdrop-blur">{children}</div>
 }
 
-const cardCls = 'overflow-hidden rounded-xl bg-s1'
+const cardCls = 'overflow-hidden rounded-xl border border-hair bg-s1'
 
 /* ---------------- Step 1: source ---------------- */
 
@@ -140,7 +140,7 @@ function SourceStep({ onPick }: { onPick: (s: Sample) => void }) {
             <ul className="grid grid-cols-2 gap-3">
               {SAMPLES.map((s) => (
                 <li key={s.id}>
-                  <button onClick={() => onPick(s)} className="flex h-full w-full items-start gap-3 rounded-xl bg-s1 p-4 text-left transition-colors hover:border-hair-hover hover:bg-s2">
+                  <button onClick={() => onPick(s)} className="flex h-full w-full items-start gap-3 rounded-xl border border-hair bg-s1 p-4 text-left transition-colors hover:border-hair-hover hover:bg-s2">
                     <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-transparent bg-s2 text-fg-2">
                       <FileText className="size-4" aria-hidden />
                     </span>

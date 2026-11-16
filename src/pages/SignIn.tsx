@@ -24,7 +24,7 @@ export function SignIn() {
     <div className="flex min-h-full flex-col items-center justify-center bg-canvas px-6 py-12">
       <main className="w-full max-w-[360px]" id="main">
         <img src="/brand/ponta-logo-white.png" alt="Ponta" className="h-6 w-auto" />
-        <h1 className="mt-8 text-xl font-semibold text-fg-1">{t('signin.title')}</h1>
+        <h1 className="mt-8 font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{t('signin.title')}</h1>
         <p className="mt-1.5 text-sm text-fg-3">{t('signin.tagline')}</p>
         <form
           className="mt-8 flex flex-col gap-4"

@@ -21,7 +21,7 @@ function HowToRead({ sample, matchId, engine, eventOnly }: { sample?: MatchEvent
   const [open, setOpen] = useState(false)
   const lowSample = sample ? { ...sample, id: 'evt_00000', conf: 0.58 } : undefined
   return (
-    <Collapsible.Root open={open} onOpenChange={setOpen} className="rounded-xl bg-s1">
+    <Collapsible.Root open={open} onOpenChange={setOpen} className="rounded-xl border border-hair bg-s1">
       <Collapsible.Trigger className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-fg-1">
         {t('brief.how_title')}
         <ChevronDown className={cn('size-4 text-fg-3 transition-transform duration-[var(--dur-base)]', open && 'rotate-180')} aria-hidden />
@@ -87,7 +87,7 @@ export function BriefPage() {
   }
   return (
     <div className="mx-auto grid max-w-[1200px] grid-cols-[minmax(0,1fr)_272px] items-start gap-8 px-8 py-8">
-      <article aria-label={t('brief.kicker')} className="rounded-xl border border-transparent bg-s1 px-10 py-9">
+      <article aria-label={t('brief.kicker')} className="rounded-xl border border-hair bg-s1 px-10 py-9">
         <BriefHeader match={match} brief={b} lp={lp} variant="screen" regenerating={regen} />
         <div className={cn('mt-10 transition-opacity duration-[var(--dur-slow)]', regen && 'opacity-40')}>
           <BriefBody brief={b} lp={lp} matchId={match.id} variant="screen" onAsk={(text) => ask(`Tell me more about this: ${text.split('.')[0]}`)} />
@@ -100,7 +100,7 @@ export function BriefPage() {
         </div>
       </article>
       <aside className="sticky top-6 flex flex-col gap-3" aria-label={t('brief.actions')}>
-        <div className="flex flex-col gap-2 rounded-xl bg-s1 p-3">
+        <div className="flex flex-col gap-2 rounded-xl border border-hair bg-s1 p-3">
           <Button variant="primary" onClick={() => nav(`/matches/${match.id}/brief/print`)}>
             <FileDown className="size-3.5" aria-hidden />
             {t('brief.export')}
@@ -129,7 +129,7 @@ export function BriefPage() {
             {t('brief.follow_up')}
           </Button>
         </div>
-        <nav aria-label={t('brief.contents')} className="rounded-xl bg-s1 p-3">
+        <nav aria-label={t('brief.contents')} className="rounded-xl border border-hair bg-s1 p-3">
           <p className="px-2 pb-1.5 text-xs font-medium text-fg-4">{t('brief.contents')}</p>
           <ol className="flex flex-col">
             {b.themes.map((th, i) => (

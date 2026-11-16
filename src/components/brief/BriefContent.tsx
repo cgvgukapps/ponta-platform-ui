@@ -44,7 +44,7 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
 
       {/* One line at desktop widths: the score is set in the same size, dimmed, not boxed. */}
       <div className="mt-3">
-        <h1 className="text-[28px] font-semibold leading-9 tracking-tight text-fg-1">
+        <h1 className="font-serif text-[34px] font-normal leading-[42px] tracking-tight text-fg-1">
           {match.home}
           <span className="mx-2.5 font-mono font-medium tabular-nums text-fg-3">{match.score ? `${match.score[0]}–${match.score[1]}` : 'v'}</span>
           {match.away}

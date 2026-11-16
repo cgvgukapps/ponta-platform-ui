@@ -5,80 +5,80 @@ Semi-transparent tokens are composited over the surface listed in the row.
 
 | Theme | Foreground | Background | Ratio | Needs | Result | Use |
 | --- | --- | --- | --- | --- | --- | --- |
-| dark | `--fg-1` | `--canvas` | 16.60:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-1` | `--surface-1` | 15.63:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-1` | `--surface-2` | 14.24:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-1` | `--surface-3` | 13.17:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-2` | `--canvas` | 11.62:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-2` | `--surface-1` | 10.94:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-2` | `--surface-2` | 9.96:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-2` | `--surface-3` | 9.21:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-3` | `--canvas` | 7.17:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-3` | `--surface-1` | 6.76:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-3` | `--surface-2` | 6.15:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-3` | `--surface-3` | 5.69:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-4` | `--canvas` | 6.20:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-4` | `--surface-1` | 5.83:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-4` | `--surface-2` | 5.31:1 | 4.5:1 | Pass | Text |
-| dark | `--fg-4` | `--surface-3` | 4.91:1 | 4.5:1 | Pass | Text |
-| dark | `--accent-text` | `--canvas` | 6.62:1 | 4.5:1 | Pass | Link and accent text |
-| dark | `--accent-text` | `--surface-1` | 6.24:1 | 4.5:1 | Pass | Link and accent text |
-| dark | `--accent-text` | `--surface-2` | 5.68:1 | 4.5:1 | Pass | Link and accent text |
-| dark | `--accent-text` | `--surface-3` | 5.25:1 | 4.5:1 | Pass | Link and accent text |
-| dark | `--on-accent` | `--accent-fill` | 6.42:1 | 4.5:1 | Pass | Checked control (blue fill) |
+| dark | `--fg-1` | `--canvas` | 18.58:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-1` | `--surface-1` | 17.31:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-1` | `--surface-2` | 15.88:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-1` | `--surface-3` | 14.55:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-2` | `--canvas` | 11.96:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-2` | `--surface-1` | 11.14:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-2` | `--surface-2` | 10.22:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-2` | `--surface-3` | 9.37:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-3` | `--canvas` | 7.44:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-3` | `--surface-1` | 6.93:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-3` | `--surface-2` | 6.36:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-3` | `--surface-3` | 5.83:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-4` | `--canvas` | 6.19:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-4` | `--surface-1` | 5.77:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-4` | `--surface-2` | 5.29:1 | 4.5:1 | Pass | Text |
+| dark | `--fg-4` | `--surface-3` | 4.85:1 | 4.5:1 | Pass | Text |
+| dark | `--accent-text` | `--canvas` | 6.92:1 | 4.5:1 | Pass | Link and accent text |
+| dark | `--accent-text` | `--surface-1` | 6.45:1 | 4.5:1 | Pass | Link and accent text |
+| dark | `--accent-text` | `--surface-2` | 5.91:1 | 4.5:1 | Pass | Link and accent text |
+| dark | `--accent-text` | `--surface-3` | 5.42:1 | 4.5:1 | Pass | Link and accent text |
+| dark | `--on-accent` | `--accent-fill` | 4.63:1 | 4.5:1 | Pass | Checked control (blue fill) |
 | dark | `--on-accent` | `--accent-fill-hover` | 5.41:1 | 4.5:1 | Pass | Checked control (blue fill) |
 | dark | `--on-accent` | `--accent-fill-active` | 8.18:1 | 4.5:1 | Pass | Checked control (blue fill) |
-| dark | `--on-primary` | `--primary-fill` | 17.32:1 | 4.5:1 | Pass | Primary button label |
-| dark | `--on-primary` | `--primary-fill-hover` | 18.88:1 | 4.5:1 | Pass | Primary button label |
-| dark | `--on-primary` | `--primary-fill-active` | 14.04:1 | 4.5:1 | Pass | Primary button label |
+| dark | `--on-primary` | `--primary-fill` | 4.63:1 | 4.5:1 | Pass | Primary button label |
+| dark | `--on-primary` | `--primary-fill-hover` | 5.20:1 | 4.5:1 | Pass | Primary button label |
+| dark | `--on-primary` | `--primary-fill-active` | 6.41:1 | 4.5:1 | Pass | Primary button label |
 | print | `--on-primary` | `--primary-fill` | 18.88:1 | 4.5:1 | Pass | Primary button label (print) |
 | print | `--on-primary` | `--primary-fill-hover` | 21.00:1 | 4.5:1 | Pass | Primary button label (print) |
 | print | `--on-primary` | `--primary-fill-active` | 14.35:1 | 4.5:1 | Pass | Primary button label (print) |
-| dark | `--accent` | `--canvas` | 4.33:1 | 3:1 | Pass | Focus ring, selection (graphic) |
-| dark | `--accent` | `--surface-1` | 4.08:1 | 3:1 | Pass | Focus ring, selection (graphic) |
-| dark | `--accent` | `--surface-2` | 3.72:1 | 3:1 | Pass | Focus ring, selection (graphic) |
-| dark | `--parity-ink` | `--surface-1` | 10.55:1 | 4.5:1 | Pass | Parity text and icon |
-| dark | `--parity-ink` | `--surface-2` | 9.61:1 | 4.5:1 | Pass | Parity text and icon |
-| dark | `--parity-ink` | `--surface-3` | 8.89:1 | 4.5:1 | Pass | Parity text and icon |
-| dark | `--parity-ink-dim` | `--surface-1` | 6.32:1 | 4.5:1 | Pass | Parity text and icon |
-| dark | `--parity-ink-dim` | `--surface-2` | 5.75:1 | 4.5:1 | Pass | Parity text and icon |
-| dark | `--parity-ink-dim` | `--surface-3` | 5.32:1 | 4.5:1 | Pass | Parity text and icon |
-| dark | `--parity-ink` | `--mix:parity-ink@0.25/surface-1` | 5.68:1 | 4.5:1 | Pass | Degraded badge text on its light fill |
-| dark | `--parity-ink` | `--mix:parity-ink@0.25/surface-2` | 5.16:1 | 4.5:1 | Pass | Degraded badge text on its light fill |
+| dark | `--accent` | `--canvas` | 4.53:1 | 3:1 | Pass | Focus ring, selection (graphic) |
+| dark | `--accent` | `--surface-1` | 4.22:1 | 3:1 | Pass | Focus ring, selection (graphic) |
+| dark | `--accent` | `--surface-2` | 3.87:1 | 3:1 | Pass | Focus ring, selection (graphic) |
+| dark | `--parity-ink` | `--surface-1` | 10.91:1 | 4.5:1 | Pass | Parity text and icon |
+| dark | `--parity-ink` | `--surface-2` | 10.01:1 | 4.5:1 | Pass | Parity text and icon |
+| dark | `--parity-ink` | `--surface-3` | 9.17:1 | 4.5:1 | Pass | Parity text and icon |
+| dark | `--parity-ink-dim` | `--surface-1` | 6.53:1 | 4.5:1 | Pass | Parity text and icon |
+| dark | `--parity-ink-dim` | `--surface-2` | 5.99:1 | 4.5:1 | Pass | Parity text and icon |
+| dark | `--parity-ink-dim` | `--surface-3` | 5.49:1 | 4.5:1 | Pass | Parity text and icon |
+| dark | `--parity-ink` | `--mix:parity-ink@0.25/surface-1` | 5.90:1 | 4.5:1 | Pass | Degraded badge text on its light fill |
+| dark | `--parity-ink` | `--mix:parity-ink@0.25/surface-2` | 5.38:1 | 4.5:1 | Pass | Degraded badge text on its light fill |
 | print | `--parity-ink` | `--mix:parity-ink@0.25/canvas` | 5.13:1 | 4.5:1 | Pass | Print degraded badge text on its light fill |
 | dark | `--on-parity` | `--parity-ink` | 11.66:1 | 4.5:1 | Pass | Text on filled parity badge |
 | dark | `--on-parity` | `--parity-ink-dim` | 6.98:1 | 4.5:1 | Pass | Text on filled parity badge |
-| dark | `--dq-poor` | `--surface-1` | 5.82:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-poor` | `--surface-2` | 5.30:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-poor` | `--surface-3` | 4.90:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-suboptimal` | `--surface-1` | 7.82:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-suboptimal` | `--surface-2` | 7.12:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-suboptimal` | `--surface-3` | 6.59:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-good` | `--surface-1` | 10.18:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-good` | `--surface-2` | 9.27:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-good` | `--surface-3` | 8.57:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-optimal` | `--surface-1` | 7.36:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-optimal` | `--surface-2` | 6.70:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-optimal` | `--surface-3` | 6.20:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--danger` | `--canvas` | 5.61:1 | 4.5:1 | Pass | Status text |
-| dark | `--danger` | `--surface-1` | 5.29:1 | 4.5:1 | Pass | Status text |
-| dark | `--danger` | `--surface-2` | 4.81:1 | 4.5:1 | Pass | Status text |
-| dark | `--warn` | `--canvas` | 8.31:1 | 4.5:1 | Pass | Status text |
-| dark | `--warn` | `--surface-1` | 7.82:1 | 4.5:1 | Pass | Status text |
-| dark | `--warn` | `--surface-2` | 7.12:1 | 4.5:1 | Pass | Status text |
+| dark | `--dq-poor` | `--surface-1` | 6.02:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-poor` | `--surface-2` | 5.52:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-poor` | `--surface-3` | 5.06:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-suboptimal` | `--surface-1` | 8.09:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-suboptimal` | `--surface-2` | 7.42:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-suboptimal` | `--surface-3` | 6.80:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-good` | `--surface-1` | 10.53:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-good` | `--surface-2` | 9.66:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-good` | `--surface-3` | 8.85:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-optimal` | `--surface-1` | 7.61:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-optimal` | `--surface-2` | 6.98:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-optimal` | `--surface-3` | 6.40:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--danger` | `--canvas` | 5.87:1 | 4.5:1 | Pass | Status text |
+| dark | `--danger` | `--surface-1` | 5.47:1 | 4.5:1 | Pass | Status text |
+| dark | `--danger` | `--surface-2` | 5.01:1 | 4.5:1 | Pass | Status text |
+| dark | `--warn` | `--canvas` | 8.68:1 | 4.5:1 | Pass | Status text |
+| dark | `--warn` | `--surface-1` | 8.09:1 | 4.5:1 | Pass | Status text |
+| dark | `--warn` | `--surface-2` | 7.42:1 | 4.5:1 | Pass | Status text |
 | dark | `--on-team-home` | `--team-home` | 4.95:1 | 4.5:1 | Pass | Shirt number on Home marker |
-| dark | `--on-team-away` | `--team-away` | 8.97:1 | 4.5:1 | Pass | Shirt number on Away marker |
+| dark | `--on-team-away` | `--team-away` | 8.98:1 | 4.5:1 | Pass | Shirt number on Away marker |
 | dark | `--team-home` | `--pitch` | 3.29:1 | 3:1 | Pass | Pitch markers (graphic) |
 | dark | `--team-away` | `--pitch` | 7.73:1 | 3:1 | Pass | Pitch markers (graphic) |
 | dark | `--highlight` | `--pitch` | 11.60:1 | 3:1 | Pass | Pitch markers (graphic) |
-| dark | `--team-home` | `--surface-1` | 3.44:1 | 3:1 | Pass | Team dot in panels (graphic) |
-| dark | `--team-away` | `--surface-1` | 8.09:1 | 3:1 | Pass | Team dot in panels (graphic) |
+| dark | `--team-home` | `--surface-1` | 3.56:1 | 3:1 | Pass | Team dot in panels (graphic) |
+| dark | `--team-away` | `--surface-1` | 8.37:1 | 3:1 | Pass | Team dot in panels (graphic) |
 | dark | `--pitch-line` | `--pitch` | 2.35:1 | 1.8:1 | Pass | Pitch lines (decorative, not required) |
-| dark | `--control-border` | `--surface-1` | 4.05:1 | 3:1 | Pass | Form control edges (1.4.11) |
+| dark | `--control-border` | `--surface-1` | 4.07:1 | 3:1 | Pass | Form control edges (1.4.11) |
 | dark | `--control-border` | `--canvas` | 4.09:1 | 3:1 | Pass | Form control edges (1.4.11) |
-| dark | `--control-border` | `--surface-2` | 3.93:1 | 3:1 | Pass | Form control edges (1.4.11) |
-| dark | `--conf-ink` | `--surface-1` | 7.23:1 | 3:1 | Pass | Confidence texture (graphic) |
-| dark | `--conf-ink` | `--surface-2` | 6.82:1 | 3:1 | Pass | Confidence texture (graphic) |
+| dark | `--control-border` | `--surface-2` | 3.98:1 | 3:1 | Pass | Form control edges (1.4.11) |
+| dark | `--conf-ink` | `--surface-1` | 7.37:1 | 3:1 | Pass | Confidence texture (graphic) |
+| dark | `--conf-ink` | `--surface-2` | 7.00:1 | 3:1 | Pass | Confidence texture (graphic) |
 | print | `--fg-1` | `--canvas` | 19.43:1 | 4.5:1 | Pass | Print text |
 | print | `--fg-1` | `--surface-2` | 17.82:1 | 4.5:1 | Pass | Print text |
 | print | `--fg-1` | `--surface-3` | 16.73:1 | 4.5:1 | Pass | Print text |

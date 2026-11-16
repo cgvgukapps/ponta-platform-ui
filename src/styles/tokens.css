@@ -8,43 +8,43 @@
 :root {
   color-scheme: dark;
 
-  /* ---- Surfaces: neutral near-black, layered by fill steps rather than lines.
-     Reference: calm tool UIs where tiles are soft fills and hairlines are rare. */
-  --canvas: #161616;
-  --surface-1: #1c1c1c;
-  --surface-2: #242424;
-  --surface-3: #2a2a2a;
-  --hairline: rgba(255, 255, 255, 0.07);
-  --hairline-strong: rgba(255, 255, 255, 0.11);
-  --hairline-hover: rgba(255, 255, 255, 0.22);
+  /* ---- Surfaces: cool near-black (reference palette: background #0E1116, surface
+     #16191E, popover #24282E). Cards are a lighter surface with a faint edge. ----- */
+  --canvas: #0e1116;
+  --surface-1: #16191e;
+  --surface-2: #1d2127;
+  --surface-3: #24282e;
+  --hairline: rgba(255, 255, 255, 0.06);
+  --hairline-strong: rgba(255, 255, 255, 0.1);
+  --hairline-hover: rgba(255, 255, 255, 0.2);
   --control-border: rgba(255, 255, 255, 0.42); /* form control edges: 3:1 on surfaces */
   --hairline-dashed: rgba(255, 255, 255, 0.32);
-  --scrim: rgba(0, 0, 0, 0.72);
-  --desk: #0e0e0e;
+  --scrim: rgba(4, 6, 10, 0.72);
+  --desk: #0a0c10;
 
   /* ---- Text: 4 steps, quaternary is the floor (4.5:1 on surface 2) -------- */
-  --fg-1: #f5f5f5;
-  --fg-2: #cfcfcf;
-  --fg-3: #a3a3a3;
-  --fg-4: #979797;
+  --fg-1: #fcfdff;
+  --fg-2: #c9ced6;
+  --fg-3: #9ca3ae;
+  --fg-4: #8d94a0;
 
-  /* ---- Primary action: white fill, near-black label (the reference's "New chat" / "Save") */
-  --primary-fill: #f5f5f5;
-  --primary-fill-hover: #ffffff;
-  --primary-fill-active: #dedede;
-  --on-primary: #111111;
+  /* ---- Primary action: Ponta blue fill, white label (reference: the accent is the action
+     colour). #1A6EF0 is the brand blue nudged so the white label passes AA (4.6:1). */
+  --primary-fill: #1a6ef0;
+  --primary-fill-hover: #1766e2;
+  --primary-fill-active: #1459c6;
+  --on-primary: #ffffff;
 
-  /* ---- The one flourish: the Ask composer's gradient edge (reference: AI input).
-     Used nowhere else. Rose-red rather than pure red, so it is never read as the
-     home team or an error. ------------------------------------------------- */
-  --flourish-start: #1e76fa;
-  --flourish-end: #f0436b;
+  /* ---- Ask composer: a thin blue-tinted edge, and a soft blue horizon glow behind the
+     empty state (reference). Used nowhere else. ----------------------------------- */
+  --composer-edge: rgba(30, 118, 250, 0.42);
+  --glow: rgba(30, 118, 250, 0.32);
 
   /* ---- Brand accent: state and focus only (toggles, progress, selection, focus).
      Not a button fill. Never drawn on the pitch canvas. --------------------- */
   --accent: #1e76fa; /* graphics, focus rings, selection */
   --accent-text: #5c9dfc; /* blue text on dark */
-  --accent-fill: #1558c9; /* filled primary button (white text 6.4:1) */
+  --accent-fill: #1a6ef0; /* checked controls (white mark 4.6:1) */
   --accent-fill-hover: #1a63de;
   --accent-fill-active: #114aa8;
   --accent-tint: rgba(30, 118, 250, 0.14);
@@ -54,7 +54,7 @@
   --team-home: #d6293d; /* crimson, circles on the pitch and team chips only */
   --team-away: #2bc7b9; /* teal; deliberately far from brand blue */
   --on-team-home: #ffffff;
-  --on-team-away: #111111;
+  --on-team-away: #0e1116;
   --highlight: #ffd700; /* event highlight and citation markers */
   --pitch: #16231b; /* dark, desaturated */
   --pitch-line: rgba(255, 255, 255, 0.26);
@@ -97,7 +97,7 @@
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
-  --radius-xl: 18px;
+  --radius-xl: 16px;
 
   /* ---- Motion -------------------------------------------------------------- */
   --dur-fast: 120ms;

@@ -16,7 +16,7 @@ const TABS = ['organisation', 'members', 'connections', 'privacy', 'billing'] as
 
 function Panel({ title, description, children, className }: { title: string; description?: string; children: React.ReactNode; className?: string }) {
   return (
-    <section className={`rounded-xl bg-s1 ${className ?? ''}`}>
+    <section className={`rounded-xl border border-hair bg-s1 ${className ?? ''}`}>
       <header className="border-b border-hair px-5 py-3.5">
         <h2 className="text-md font-semibold text-fg-1">{title}</h2>
         {description ? <p className="mt-0.5 text-sm text-fg-3">{description}</p> : null}
@@ -44,7 +44,7 @@ export function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-[960px] px-8 py-8">
-      <h1 className="text-xl font-semibold text-fg-1">{t('settings.title')}</h1>
+      <h1 className="font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{t('settings.title')}</h1>
       <p className="mt-1 text-sm text-fg-3">{t('settings.sub')}</p>
       <Tabs value={tab} onValueChange={(v) => nav(`/settings/${v}`)} className="mt-6">
         <TabsList label={t('settings.title')}>

@@ -142,7 +142,7 @@ export function MatchPage({ payload }: { payload: MatchPagePayload }) {
 
         <section className="mt-6">
           <p className="text-xs font-medium text-fg-3">{t('mp.kicker')}</p>
-          <h1 className="mt-1 text-2xl font-semibold text-fg-1">{t('mp.title', { home: p.match.home, away: p.match.away })}</h1>
+          <h1 className="mt-1 font-serif text-[34px] font-normal leading-[42px] tracking-tight text-fg-1">{t('mp.title', { home: p.match.home, away: p.match.away })}</h1>
           <p className="mt-1 text-sm text-fg-3">
             {t('mp.meta', { provider: p.match.provider, id: p.match.match_id, min: p.match.duration_min.toFixed(0), hz: p.match.sample_rate_hz })}
           </p>

@@ -158,3 +158,16 @@ Contrast: 104 pairs checked, none failing (surface 3, quiet text, link blue and 
    - Library: "One source" as quiet text; the sources badge only for multi-source matches.
    - Replay: overlay toggles as pills with swatches (shortcuts in tooltips); one-row legend with explanations in tooltips; the working formula under "How this is calculated"; explain tiles as fills (dashed edge kept for low confidence).
    - Match header: provider in the subtitle; active tabs underline in white; segmented controls as pill groups; timeline strip as a fill.
+
+## 8. Second redesign: the "Davis" reference (16 November 2026)
+
+The founder chose a new reference to adopt in full, keeping only Ponta blue as the brand colour. It supersedes parts of section 7.
+
+1. **Palette:** cool near-black from the reference: background `#0E1116`, surface `#16191E`, raised `#1D2127`, popover `#24282E`, foreground `#FCFDFF`. Cards are a lighter surface with a faint edge (white 6%).
+2. **Type:** Inter for all text; **Source Serif 4** (self-hosted, OFL) for page headings: Matches, the Data check, the Brief title, Ask, Add data steps, Settings, the match page.
+3. **Action colour:** Ponta blue fills primary buttons and the send button again (replacing section 7's white primary). The fill is `#1A6EF0`, the brand blue nudged so a white label passes AA (4.6:1); `#1E76FA` stays for focus, selection and graphics.
+4. **Ask:** centred serif heading over the composer; the composer has a thin blue-tinted edge (replacing the gradient), a square blue send button and the match picker in its toolbar; topic chips with icons below; a soft blue horizon glow. Answers open with a collapsible step list (read the data check, moments found, citations verified) with double checks; the data-check step opens when anything is limited.
+5. **Tables:** a filled, rounded header row and plain rows with a hover fill, no dividers.
+6. **Unchanged:** analytics colours (teams, decision-quality bands, Data check marks, confidence), the naming rules and every honesty rule.
+
+Contrast: 104 pairs, none failing.

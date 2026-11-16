@@ -18,7 +18,7 @@ import { useApp } from '@/state/app'
  */
 function SummaryStat({ state, n, total }: { state: ParityState; n: number; total: number }) {
   return (
-    <div className="flex flex-col justify-between rounded-xl bg-s1 px-5 pb-4 pt-5">
+    <div className="flex flex-col justify-between rounded-xl border border-hair bg-s1 px-5 pb-4 pt-5">
       <p className="font-mono text-[40px] font-semibold leading-none tracking-tight tabular-nums text-fg-1">
         {n}
         <span className="ml-1.5 text-lg font-medium text-fg-4">/ {total}</span>
@@ -112,7 +112,7 @@ function Ladder({ match }: { match: Match }) {
     { tier: 3 as const, title: t('gate.t3_title'), who: t('gate.t3_who'), unlocks: t('gate.t3_unlocks'), live: false },
   ]
   return (
-    <aside aria-labelledby="ladder-title" className="rounded-xl bg-s1 p-5">
+    <aside aria-labelledby="ladder-title" className="rounded-xl border border-hair bg-s1 p-5">
       <h3 id="ladder-title" className="text-base font-semibold text-fg-1">
         {t('gate.ladder_title')}
       </h3>
@@ -170,7 +170,7 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
   return (
     <div className={embedded ? 'flex flex-1 flex-col' : 'mx-auto max-w-[1240px] px-6 py-6'}>
       <div className="max-w-[760px]">
-        <h2 className="text-xl font-semibold text-fg-1">{t('gate.title')}</h2>
+        <h2 className="font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{t('gate.title')}</h2>
         <p className="mt-1.5 text-base text-fg-3">{t('gate.intro')}</p>
         {!hideStats ? (
           <p className="mt-3 text-sm text-fg-3">
@@ -207,7 +207,7 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
 
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_340px] items-start gap-5">
-        <div className="rounded-xl bg-s1">
+        <div className="rounded-xl border border-hair bg-s1">
           {FAMILIES.map((f) => (
             <FamilyRow key={f.id} family={f} report={report} />
           ))}
@@ -217,7 +217,7 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
         </div>
       </div>
 
-      <Collapsible.Root open={open} onOpenChange={setOpen} className="mt-6 rounded-xl bg-s1">
+      <Collapsible.Root open={open} onOpenChange={setOpen} className="mt-6 rounded-xl border border-hair bg-s1">
         <Collapsible.Trigger className="flex w-full items-center justify-between px-4 py-3 text-sm text-fg-2 hover:text-fg-1">
           <span>{t('gate.tech_title')}</span>
           <ChevronDown className={cn('size-4 transition-transform duration-[var(--dur-base)]', open && 'rotate-180')} aria-hidden />

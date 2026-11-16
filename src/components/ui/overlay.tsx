@@ -73,7 +73,7 @@ export function Modal({ open, onOpenChange, title, description, children, footer
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-scrim" />
-        <Dialog.Content style={{ width }} className="anim-fade-up fixed left-1/2 top-1/2 z-50 max-w-[calc(100vw-48px)] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-s1">
+        <Dialog.Content style={{ width }} className="anim-fade-up fixed left-1/2 top-1/2 z-50 max-w-[calc(100vw-48px)] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-hair bg-s1">
           <div className="flex items-start justify-between gap-4 border-b border-hair p-4">
             <div>
               <Dialog.Title className="text-md font-semibold text-fg-1">{title}</Dialog.Title>
