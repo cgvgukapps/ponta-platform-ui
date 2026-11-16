@@ -16,7 +16,7 @@ const TABS = ['organisation', 'members', 'connections', 'privacy', 'billing'] as
 
 function Panel({ title, description, children, className }: { title: string; description?: string; children: React.ReactNode; className?: string }) {
   return (
-    <section className={`rounded-lg border border-hair bg-s1 ${className ?? ''}`}>
+    <section className={`rounded-xl bg-s1 ${className ?? ''}`}>
       <header className="border-b border-hair px-5 py-3.5">
         <h2 className="text-md font-semibold text-fg-1">{title}</h2>
         {description ? <p className="mt-0.5 text-sm text-fg-3">{description}</p> : null}
@@ -99,7 +99,7 @@ export function SettingsPage() {
                 <div className="-mx-5 -mt-4">
                   <table className="w-full border-collapse text-sm">
                     <thead>
-                      <tr className="border-b border-hair text-left font-mono text-2xs uppercase tracking-wider text-fg-3">
+                      <tr className="border-b border-hair text-left text-xs font-medium text-fg-3">
                         <th className="px-5 py-2 font-medium">{t('settings.col_name')}</th>
                         <th className="px-3 py-2 font-medium">{t('settings.col_role')}</th>
                         <th className="px-3 py-2 font-medium">{t('settings.col_active')}</th>
@@ -188,7 +188,7 @@ export function SettingsPage() {
                 <ul className="-mx-5 -mt-4 divide-y divide-[var(--hairline)]">
                   {s.connections.map((c: { provider: string; name: string; kind: string; status: string; detail: string }) => (
                     <li key={c.provider} className="flex items-center gap-4 px-5 py-3">
-                      <span className="flex size-8 items-center justify-center rounded-md border border-hair-strong bg-s2 text-fg-2">
+                      <span className="flex size-8 items-center justify-center rounded-lg border border-transparent bg-s2 text-fg-2">
                         <Plug className="size-4" aria-hidden />
                       </span>
                       <span className="min-w-0 flex-1">

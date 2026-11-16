@@ -4,8 +4,8 @@ import { Loader2 } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
 /**
- * Buttons. Primary uses a darker blue fill so white text passes AA (6.4:1); the brand blue
- * #1E76FA is kept for focus rings and graphics. `data-force` lets the component sheet show
+ * Buttons. Primary is a white fill with a near-black label; secondary is a soft fill with no
+ * outline. The brand blue #1E76FA is kept for state and focus, not for buttons. `data-force` lets the component sheet show
  * hover, active and focus states statically.
  */
 export const buttonStyles = cva(
@@ -14,18 +14,18 @@ export const buttonStyles = cva(
     variants: {
       variant: {
         primary:
-          'border-transparent bg-accent-fill text-on-accent hover:bg-accent-fill-hover active:bg-accent-fill-active data-[force=hover]:bg-accent-fill-hover data-[force=active]:bg-accent-fill-active',
+          'border-transparent bg-primary-fill text-on-primary hover:bg-primary-fill-hover active:bg-primary-fill-active data-[force=hover]:bg-primary-fill-hover data-[force=active]:bg-primary-fill-active',
         secondary:
-          'border-hair-strong bg-s2 text-fg-1 hover:bg-s3 hover:border-[var(--hairline-strong)] active:bg-s1 data-[force=hover]:bg-s3 data-[force=active]:bg-s1',
+          'border-transparent bg-s2 text-fg-1 hover:bg-s3 active:bg-s1 data-[force=hover]:bg-s3 data-[force=active]:bg-s1',
         ghost: 'border-transparent bg-transparent text-fg-2 hover:bg-s2 hover:text-fg-1 active:bg-s3 data-[force=hover]:bg-s2 data-[force=hover]:text-fg-1 data-[force=active]:bg-s3',
         destructive:
           'border-[color-mix(in_srgb,var(--danger)_45%,transparent)] bg-danger-tint text-danger hover:bg-[color-mix(in_srgb,var(--danger)_20%,transparent)] active:bg-[color-mix(in_srgb,var(--danger)_28%,transparent)] data-[force=hover]:bg-[color-mix(in_srgb,var(--danger)_20%,transparent)] data-[force=active]:bg-[color-mix(in_srgb,var(--danger)_28%,transparent)]',
       },
       size: {
         sm: 'h-7 px-2.5 text-xs',
-        md: 'h-8 px-3 text-sm',
-        lg: 'h-10 px-4 text-base',
-        icon: 'h-8 w-8 p-0',
+        md: 'h-9 px-3.5 text-sm',
+        lg: 'h-10 px-4 text-sm',
+        icon: 'h-9 w-9 p-0',
         'icon-sm': 'h-7 w-7 p-0',
       },
     },

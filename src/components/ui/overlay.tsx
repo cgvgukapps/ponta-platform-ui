@@ -28,7 +28,7 @@ export const PopoverTrigger = PopoverPrimitive.Trigger
 export function PopoverContent({ children, className, align = 'start', side = 'bottom' }: { children: ReactNode; className?: string; align?: 'start' | 'center' | 'end'; side?: 'top' | 'bottom' | 'left' | 'right' }) {
   return (
     <PopoverPrimitive.Portal>
-      <PopoverPrimitive.Content align={align} side={side} sideOffset={6} className={cn('z-50 w-72 rounded-lg border border-hair-strong bg-s2 p-3 text-sm', className)}>
+      <PopoverPrimitive.Content align={align} side={side} sideOffset={6} className={cn('z-50 w-72 rounded-xl bg-s2 p-3 text-sm', className)}>
         {children}
       </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
@@ -40,7 +40,7 @@ export const HoverPreviewTrigger = HoverCard.Trigger
 export function HoverPreviewContent({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <HoverCard.Portal>
-      <HoverCard.Content side="top" sideOffset={8} collisionPadding={12} className={cn('z-[60] rounded-lg border border-hair-strong bg-s2 p-2', className)}>
+      <HoverCard.Content side="top" sideOffset={8} collisionPadding={12} className={cn('z-[60] rounded-xl bg-s2 p-2', className)}>
         {children}
       </HoverCard.Content>
     </HoverCard.Portal>
@@ -52,7 +52,7 @@ export const MenuTrigger = Dropdown.Trigger
 export function MenuContent({ children, className, align = 'start', side }: { children: ReactNode; className?: string; align?: 'start' | 'center' | 'end'; side?: 'top' | 'bottom' | 'left' | 'right' }) {
   return (
     <Dropdown.Portal>
-      <Dropdown.Content align={align} side={side} sideOffset={6} className={cn('z-50 min-w-48 rounded-lg border border-hair-strong bg-s2 p-1 text-sm', className)}>
+      <Dropdown.Content align={align} side={side} sideOffset={6} className={cn('z-50 min-w-48 rounded-xl bg-s2 p-1 text-sm', className)}>
         {children}
       </Dropdown.Content>
     </Dropdown.Portal>
@@ -66,14 +66,14 @@ export function MenuItem({ children, onSelect, disabled, danger, className }: { 
   )
 }
 export const MenuSeparator = () => <Dropdown.Separator className="my-1 h-px bg-hair" />
-export const MenuLabel = ({ children }: { children: ReactNode }) => <Dropdown.Label className="px-2 py-1 font-mono text-2xs uppercase tracking-wide text-fg-4">{children}</Dropdown.Label>
+export const MenuLabel = ({ children }: { children: ReactNode }) => <Dropdown.Label className="px-2 py-1 text-xs font-medium text-fg-4">{children}</Dropdown.Label>
 
 export function Modal({ open, onOpenChange, title, description, children, footer, width = 480 }: { open: boolean; onOpenChange: (o: boolean) => void; title: string; description?: string; children?: ReactNode; footer?: ReactNode; width?: number }) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-scrim" />
-        <Dialog.Content style={{ width }} className="anim-fade-up fixed left-1/2 top-1/2 z-50 max-w-[calc(100vw-48px)] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-hair-strong bg-s1">
+        <Dialog.Content style={{ width }} className="anim-fade-up fixed left-1/2 top-1/2 z-50 max-w-[calc(100vw-48px)] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-s1">
           <div className="flex items-start justify-between gap-4 border-b border-hair p-4">
             <div>
               <Dialog.Title className="text-md font-semibold text-fg-1">{title}</Dialog.Title>

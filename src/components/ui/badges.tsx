@@ -108,7 +108,7 @@ export function TierBadge({ tier, status = 'live', size = 'md', className }: { t
       className={cn(
         'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm border px-1.5 font-medium',
         size === 'lg' ? 'h-7 text-sm' : 'h-5 text-2xs',
-        dev ? 'border-dashed border-hair-dashed text-fg-2' : 'border-hair-strong text-fg-1',
+        dev ? 'border-dashed border-hair-dashed text-fg-2' : 'border-transparent bg-s2 text-fg-1',
         className,
       )}
       title={dev ? `${t(`tier.hint_${tier}`)}, ${t('tier.in_development')}` : t(`tier.hint_${tier}`)}
@@ -273,5 +273,5 @@ export function Kbd({ children }: { children: ReactNode }) {
 }
 
 export function Tag({ children, className, dashed }: { children: ReactNode; className?: string; dashed?: boolean }) {
-  return <span className={cn('inline-flex h-5 items-center rounded-sm border px-1.5 text-2xs font-medium text-fg-2', dashed ? 'border-dashed border-hair-strong' : 'border-hair-strong', className)}>{children}</span>
+  return <span className={cn('inline-flex h-6 items-center rounded-md border px-2 text-xs font-medium text-fg-2', dashed ? 'border-dashed border-hair-strong bg-transparent' : 'border-transparent bg-s2', className)}>{children}</span>
 }

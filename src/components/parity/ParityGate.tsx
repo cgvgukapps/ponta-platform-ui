@@ -14,12 +14,12 @@ import { useApp } from '@/state/app'
 
 function SummaryStat({ state, n }: { state: ParityState; n: number }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-hair bg-s1 px-4 py-3">
+    <div className="flex items-center gap-3.5 rounded-xl bg-s1 px-5 py-4">
       <span className={cn('flex size-8 items-center justify-center', state === 'full' ? 'text-parity' : state === 'degraded' ? 'text-parity' : 'text-parity-dim')}>
         <ParityIcon state={state} size={22} />
       </span>
       <div>
-        <p className="font-mono text-xl font-semibold leading-none tabular-nums text-fg-1">{n}</p>
+        <p className="font-mono text-2xl font-semibold leading-none tabular-nums text-fg-1">{n}</p>
         <p className="mt-1 text-xs text-fg-3">{t(`parity.${state}`)}</p>
       </div>
     </div>
@@ -57,7 +57,7 @@ function MetricRow({ id, report, familyState, familyLabel }: { id: MetricId; rep
 function FamilyCard({ family, report }: { family: (typeof FAMILIES)[number]; report: ReturnType<typeof parityFor> }) {
   const state = familyState(report, family)
   return (
-    <section aria-labelledby={`fam-${family.id}`} className={cn('flex flex-col rounded-lg border bg-s1', state === 'blocked' ? 'border-hair' : 'border-hair-strong')}>
+    <section aria-labelledby={`fam-${family.id}`} className={'flex flex-col rounded-xl bg-s1'}>
       <header className={cn('flex items-start justify-between gap-3 rounded-t-lg border-b border-hair px-4 py-3',)}>
         <div>
           <h3 id={`fam-${family.id}`} className="text-base font-semibold text-fg-1">
@@ -90,7 +90,7 @@ function Ladder({ match }: { match: Match }) {
     { tier: 3 as const, title: t('gate.t3_title'), who: t('gate.t3_who'), unlocks: t('gate.t3_unlocks'), live: false },
   ]
   return (
-    <aside aria-labelledby="ladder-title" className="rounded-lg border border-hair-strong bg-s1">
+    <aside aria-labelledby="ladder-title" className="rounded-xl bg-s1">
       <div className="border-b border-hair px-4 py-3">
         <h3 id="ladder-title" className="flex items-center gap-2 text-base font-semibold text-fg-1">
           <Layers className="size-4 text-fg-3" aria-hidden />
@@ -173,7 +173,7 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
       ) : null}
 
       {!hideStats ? (
-        <dl className="mt-5 grid grid-cols-6 divide-x divide-hair overflow-hidden rounded-lg border border-hair bg-s1 text-sm">
+        <dl className="mt-5 grid grid-cols-6 divide-x divide-hair overflow-hidden rounded-xl bg-s1 text-sm">
           {[
             [t('gate.stat_source'), match.sources.map((s) => s.label).join(' + ')],
             [t('gate.stat_tier'), <TierBadge key="t" tier={match.tier} status={match.tierStatus} />],
@@ -183,7 +183,7 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
             [t('gate.stat_dropped'), match.ingest.droppedPct !== null ? `${match.ingest.droppedPct}%` : t('common.not_applicable')],
           ].map(([k, v], i) => (
             <div key={i} className="min-w-0 px-4 py-3">
-              <dt className="font-mono text-2xs uppercase tracking-wider text-fg-4">{k as string}</dt>
+              <dt className="text-xs font-medium text-fg-4">{k as string}</dt>
               <dd className="mt-1 truncate font-mono text-sm tabular-nums text-fg-1">{v}</dd>
             </div>
           ))}
@@ -201,7 +201,7 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
         </div>
       </div>
 
-      <Collapsible.Root open={open} onOpenChange={setOpen} className="mt-6 rounded-lg border border-hair bg-s1">
+      <Collapsible.Root open={open} onOpenChange={setOpen} className="mt-6 rounded-xl bg-s1">
         <Collapsible.Trigger className="flex w-full items-center justify-between px-4 py-3 text-sm text-fg-2 hover:text-fg-1">
           <span>{t('gate.tech_title')}</span>
           <ChevronDown className={cn('size-4 transition-transform duration-[var(--dur-base)]', open && 'rotate-180')} aria-hidden />

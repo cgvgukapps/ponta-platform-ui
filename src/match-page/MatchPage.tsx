@@ -137,11 +137,11 @@ export function MatchPage({ payload }: { payload: MatchPagePayload }) {
       <main className="print-page mx-auto w-[860px] bg-canvas px-[56px] py-[48px] shadow-[0_0_0_1px_var(--hairline)]">
         <header className="flex items-center justify-between border-b border-hair pb-4">
           <span className="text-lg font-semibold tracking-tight text-fg-1">Ponta</span>
-          {p.sample_data ? <span className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('mp.sample')}</span> : null}
+          {p.sample_data ? <span className="text-xs font-medium text-fg-4">{t('mp.sample')}</span> : null}
         </header>
 
         <section className="mt-6">
-          <p className="font-mono text-2xs uppercase tracking-wider text-fg-3">{t('mp.kicker')}</p>
+          <p className="text-xs font-medium text-fg-3">{t('mp.kicker')}</p>
           <h1 className="mt-1 text-2xl font-semibold text-fg-1">{t('mp.title', { home: p.match.home, away: p.match.away })}</h1>
           <p className="mt-1 text-sm text-fg-3">
             {t('mp.meta', { provider: p.match.provider, id: p.match.match_id, min: p.match.duration_min.toFixed(0), hz: p.match.sample_rate_hz })}

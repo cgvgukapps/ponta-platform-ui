@@ -25,7 +25,7 @@ function Head({ e, htAt }: { e: MatchEvent; htAt: number }) {
   return (
     <div className="flex items-start justify-between gap-2">
       <div className="min-w-0">
-        <p className="flex items-center gap-1.5 font-mono text-2xs uppercase tracking-wider text-fg-4">
+        <p className="flex items-center gap-1.5 text-xs font-medium text-fg-4">
           <span>{e.id}</span>
           <span aria-hidden>·</span>
           <span className="tabular-nums">{fmtClock(e.t)}</span>
@@ -77,7 +77,7 @@ function Tiles({ e }: { e: MatchEvent }) {
   return (
     <>
       <div className="mt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-md border border-hair p-2">
+        <div className="rounded-lg bg-s2 p-2">
           <p className="text-xs text-fg-3">{t('explain.pressure')}</p>
           <p className="mt-0.5 flex items-baseline gap-1.5 text-sm">
             <span className="font-mono tabular-nums text-fg-1">{e.press.toFixed(2)}</span>
@@ -130,19 +130,21 @@ function Measured({ e }: { e: MatchEvent }) {
   const vB = e.vB ?? 0
   return (
     <>
-      <div className="mt-2.5 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="mt-3 rounded-xl bg-s2 px-4 pb-3 pt-4">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="font-mono text-[40px] font-semibold leading-none tracking-tight tabular-nums text-fg-1" aria-label={`${t('explain.ratio')} ${(e.dq ?? 0).toFixed(2)}`}>
+              {(e.dq ?? 0).toFixed(2)}
+            </p>
+            <p className="mt-1.5 text-sm text-fg-3">{t('explain.decision_quality')}</p>
+          </div>
           {e.band ? <DqBand band={e.band} size="lg" /> : null}
-          <span className="text-xs text-fg-3">{t('explain.decision_quality')}</span>
         </div>
-        <p className="font-mono text-2xl font-medium tabular-nums text-fg-1" aria-label={`${t('explain.ratio')} ${(e.dq ?? 0).toFixed(2)}`}>
-          {(e.dq ?? 0).toFixed(2)}
-        </p>
+        <DqScale value={e.dq ?? 0} />
       </div>
-      <DqScale value={e.dq ?? 0} />
 
-      <div className="mt-2.5 rounded-md border border-hair bg-canvas px-2.5 py-2">
-        <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('explain.working')}</p>
+      <div className="mt-2.5 rounded-lg bg-canvas px-2.5 py-2">
+        <p className="text-xs font-medium text-fg-4">{t('explain.working')}</p>
         <p className="mt-0.5 font-mono text-[12.5px] tabular-nums text-fg-1">V(at arrival) ÷ V(best at release)</p>
         <p className="font-mono text-[12.5px] tabular-nums text-fg-2">
           = {vA.toFixed(2)} ÷ {vB.toFixed(2)} = {(e.dq ?? 0).toFixed(2)}
@@ -151,7 +153,7 @@ function Measured({ e }: { e: MatchEvent }) {
       </div>
 
       <div className="mt-2.5">
-        <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('explain.alternatives')}</p>
+        <p className="text-xs font-medium text-fg-4">{t('explain.alternatives')}</p>
         <table className="mt-1 w-full text-xs">
           <thead>
             <tr className="text-left text-fg-3">
@@ -187,7 +189,7 @@ function EventOnly({ e }: { e: MatchEvent }) {
   return (
     <>
       <div className="mt-3 rounded-md border border-dashed border-hair-strong p-2.5 pattern-rule">
-        <p className="flex items-center gap-1.5 font-mono text-2xs uppercase tracking-wider text-fg-2">
+        <p className="flex items-center gap-1.5 text-xs font-medium text-fg-2">
           <TriangleAlert className="size-3" aria-hidden />
           {t('explain.eo_label')}
         </p>
@@ -197,8 +199,8 @@ function EventOnly({ e }: { e: MatchEvent }) {
           <Threshold id="event_only" />
         </p>
       </div>
-      <div className="mt-3 rounded-md border border-hair bg-canvas p-2.5">
-        <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('explain.working')}</p>
+      <div className="mt-3 rounded-lg bg-canvas p-2.5">
+        <p className="text-xs font-medium text-fg-4">{t('explain.working')}</p>
         <p className="mt-1 text-xs text-fg-2">{t('explain.eo_inputs')}</p>
         <p className="mt-1 text-xs text-fg-3">{t('explain.eo_no_alts')}</p>
       </div>
@@ -217,13 +219,13 @@ function Run({ e }: { e: MatchEvent }) {
     <>
       <div className="mt-3 flex items-end justify-between">
         <div>
-          <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('explain.ovm')}</p>
+          <p className="text-xs font-medium text-fg-4">{t('explain.ovm')}</p>
           <p className="mt-1 text-sm text-fg-2">{t('explain.ovm_sub')}</p>
         </div>
         <p className="font-mono text-2xl font-medium tabular-nums text-fg-1">+{(e.ovm ?? 0).toFixed(2)}</p>
       </div>
-      <div className="mt-3 rounded-md border border-hair bg-canvas p-2.5">
-        <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('explain.working')}</p>
+      <div className="mt-3 rounded-lg bg-canvas p-2.5">
+        <p className="text-xs font-medium text-fg-4">{t('explain.working')}</p>
         <p className="mt-1 font-mono text-[13px] tabular-nums text-fg-1">
           V(end) − V(start) = {(e.ovmTo ?? 0).toFixed(2)} − {(e.ovmFrom ?? 0).toFixed(2)}
         </p>
@@ -251,7 +253,7 @@ function Effort({ e }: { e: MatchEvent }) {
           <span className="font-mono tabular-nums">{e.dur.toFixed(1)} s</span>
         </Row>
       </dl>
-      <p className="mt-3 rounded-md border border-hair p-2.5 text-xs text-fg-2">{t('explain.effort_note')}</p>
+      <p className="mt-3 rounded-lg bg-s2 p-2.5 text-xs text-fg-2">{t('explain.effort_note')}</p>
       <Confidence e={e} />
     </>
   )
@@ -295,7 +297,7 @@ export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchE
   const e = event
   const measured = !e.est && !!e.band
   return (
-    <section aria-label={t('explain.title')} aria-live="polite" className={cn('rounded-lg border bg-s1 p-3.5', e.est ? 'border-dashed border-hair-strong' : 'border-hair-strong')}>
+    <section aria-label={t('explain.title')} aria-live="polite" className={cn('rounded-lg border bg-s1 p-3.5', e.est ? 'border-dashed border-hair-strong' : 'border-transparent')}>
       <Head e={e} htAt={htAt} />
       {e.est ? <EventOnly e={e} /> : e.band ? <Measured e={e} /> : e.type === 'run' ? <Run e={e} /> : e.type === 'effort' ? <Effort e={e} /> : <Simple e={e} />}
       <Collapsible.Root open={how} onOpenChange={setHow} className="mt-3 border-t border-hair pt-2.5">

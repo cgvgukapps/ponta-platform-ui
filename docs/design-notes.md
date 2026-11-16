@@ -140,3 +140,16 @@ Changes made after the first design review. The backend is not connected yet; ev
 8. **Navigation.** The "Coming later" group is hidden (`SHOW_LATER_NAV` in `AppShell.tsx`); the routes remain.
 
 Not changed: tokens, contrast (98 pairs re-verified, none failing), the three colour collisions and the three visual channels.
+
+## 7. Visual redesign to the founder's references (16 November 2026)
+
+References: a calm tool UI (neutral near-blacks, white primary buttons, generous type, lists with dividers, soft filled tiles, thin icons, one gradient flourish on the AI input) and a set of simple, high-impact components (one big figure with a small label, pill steppers, white selected pills). The analytics system is unchanged: Data check marks, decision-quality colours and scale, team colours, the confidence channel and the naming rules.
+
+1. **Palette:** neutral near-black (`#161616`, `#1c1c1c`, `#242424`, `#2a2a2a`) instead of cool navy. Panels are fills; outlines removed from panels, cards, tags, inputs and selects. Dashed outlines remain where they carry meaning (event-only estimates, low confidence, in development).
+2. **Primary button:** white fill, near-black label. Blue is state only.
+3. **Type:** Geist throughout, one step larger (body 14 px); the old mono class now means Geist with tabular figures; Geist Mono kept for code. The 33 uppercase mono labels became sentence-case labels.
+4. **Components:** decision quality as a 40 px figure tile in the replay; larger Data check counts; a pill stepper in Add data; white selected pills for saved views; 1.5 px icons; softer radii.
+5. **The one flourish:** the Ask composer has a blue to rose-red gradient edge (`--flourish-start`, `--flourish-end`).
+6. **Two CSS bugs fixed:** unlayered `button { color: inherit }` and `* { border-color }` rules were overriding Tailwind utilities (the primary label colour and every `border-transparent`). Both now sit in `@layer base`.
+
+Contrast: 104 pairs checked, none failing (surface 3, quiet text, link blue and the Poor band were adjusted; the white button label pair was added).

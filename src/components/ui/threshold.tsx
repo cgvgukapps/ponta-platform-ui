@@ -24,7 +24,7 @@ export function Threshold({ id, children, className }: { id: string; children?: 
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-[300px]">
-        <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('threshold.label')}</p>
+        <p className="text-xs font-medium text-fg-4">{t('threshold.label')}</p>
         <p className="mt-1 text-sm font-medium text-fg-1">{g.term}</p>
         {g.short ? <p className="mt-0.5 font-mono text-xs tabular-nums text-fg-2">{g.short}</p> : null}
         <p className="mt-2 text-sm text-fg-2">{g.definition}</p>

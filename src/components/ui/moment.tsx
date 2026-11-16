@@ -112,7 +112,7 @@ export function MomentCard({ event, matchId, engine, caption, fluid }: { event: 
   const frame = engine && engine.opts.players ? engine.frame(event.t) : undefined
   return (
     <div className={cn('flex shrink-0 flex-col gap-1.5', fluid ? 'w-full min-w-0' : 'w-[236px]')}>
-      <Link to={`/matches/${matchId}/replay?event=${event.id}`} tabIndex={-1} aria-hidden className="overflow-hidden rounded-md border border-hair-strong hover:border-accent">
+      <Link to={`/matches/${matchId}/replay?event=${event.id}`} tabIndex={-1} aria-hidden className="overflow-hidden rounded-lg border border-transparent hover:border-accent">
         <MomentThumb event={event} frame={frame} />
       </Link>
       <CitationChip event={event} matchId={matchId} engine={engine} compact />

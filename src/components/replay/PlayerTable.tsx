@@ -12,7 +12,7 @@ import { playerLabel } from '@/lib/events'
 import { useClock, type PlaybackStore } from './playback'
 import type { Team } from '@/lib/types'
 
-const th = 'sticky top-0 z-10 bg-s1 px-2 py-1.5 text-right font-mono text-2xs font-medium uppercase tracking-wider text-fg-3'
+const th = 'sticky top-0 z-10 bg-s1 px-2 py-1.5 text-right text-xs font-medium text-fg-3'
 
 function Blocked({ why }: { why: string }) {
   return (

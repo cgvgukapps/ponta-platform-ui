@@ -106,7 +106,9 @@ function Composer({ onSend, disabled, big, placeholder, initial }: { onSend: (q:
         e.preventDefault()
         send()
       }}
-      className={cn('border border-hair-strong bg-s1', big ? 'flex flex-col rounded-lg p-3' : 'flex items-end gap-2 rounded-xl p-2 pl-3')}
+      // The product's one flourish: a blue to rose-red edge on the AI input, as in the reference.
+      style={{ border: '1.5px solid transparent', background: 'linear-gradient(var(--surface-1), var(--surface-1)) padding-box, linear-gradient(90deg, var(--flourish-start), var(--flourish-end)) border-box' }}
+      className={cn(big ? 'flex flex-col rounded-2xl p-3' : 'flex items-end gap-2 rounded-2xl p-2 pl-3')}
     >
       <label htmlFor="ask-input" className="sr-only">
         {t('ask.input_label')}
@@ -156,9 +158,9 @@ function ParityStatement({ turn, match }: { turn: Turn; match?: Match }) {
   const statements = a.kind === 'answer' && !limiting ? [{ state: 'full' as const, text: t('ask.all_full') }, ...a.statements] : a.statements
   if (!statements.length) return null
   return (
-    <section aria-label={t('ask.parity_statement')} className="rounded-md border border-hair-strong bg-s1">
+    <section aria-label={t('ask.parity_statement')} className="rounded-xl bg-s1">
       <div className="flex flex-wrap items-center gap-2 border-b border-hair px-3 py-2">
-        <span className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('ask.data_check')}</span>
+        <span className="text-xs font-medium text-fg-4">{t('ask.data_check')}</span>
         {match ? <TierBadge tier={match.tier} status={match.tierStatus} /> : null}
         {match ? <span className="text-xs text-fg-3">{match.sources.map((s) => PROVIDER_NAME[s.provider]).join(' + ')}</span> : null}
       </div>
@@ -180,11 +182,11 @@ function ParityStatement({ turn, match }: { turn: Turn; match?: Match }) {
 function Refusal({ turn, onAsk, match }: { turn: Turn; onAsk: (q: string) => void; match?: Match }) {
   const r = turn.answer!.refusal!
   return (
-    <section aria-label={t('ask.refusal')} className="overflow-hidden rounded-lg border border-hair-strong bg-s1">
+    <section aria-label={t('ask.refusal')} className="overflow-hidden rounded-xl bg-s1">
       <div className="flex items-start gap-3 border-b border-hair px-4 py-3">
         <ParityIcon state="blocked" size={18} className="mt-0.5 shrink-0" />
         <div>
-          <p className="font-mono text-2xs uppercase tracking-wider text-fg-3">{t('ask.cannot_answer')}</p>
+          <p className="text-xs font-medium text-fg-3">{t('ask.cannot_answer')}</p>
           <h3 className="mt-0.5 text-md font-semibold text-fg-1">{r.title}</h3>
         </div>
       </div>
@@ -312,7 +314,7 @@ function AnswerView({ turn, match, lp, onAsk }: { turn: Turn; match?: Match; lp?
         <div className="flex flex-col gap-3 anim-fade-up">
           {a.thresholds.length ? (
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
-              <span className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('ask.thresholds')}</span>
+              <span className="text-xs font-medium text-fg-4">{t('ask.thresholds')}</span>
               {a.thresholds.map((id) => (
                 <Threshold key={id} id={id} />
               ))}
@@ -403,9 +405,9 @@ export function AskPage() {
               <h1 className="text-2xl font-semibold text-fg-1">{t('ask.title')}</h1>
               <p className="mt-2 max-w-[62ch] text-base text-fg-2">{t('ask.intro')}</p>
 
-              <section aria-label={t('ask.about')} className="mt-8 flex flex-col gap-2.5 rounded-lg border border-hair bg-s1 px-4 py-3">
+              <section aria-label={t('ask.about')} className="mt-8 flex flex-col gap-2.5 rounded-xl bg-s1 px-4 py-3">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('ask.about')}</span>
+                  <span className="text-xs font-medium text-fg-4">{t('ask.about')}</span>
                   {ctxMatch ? (
                     <span className="flex items-center gap-3">
                       <TierBadge tier={ctxMatch.tier} status={ctxMatch.tierStatus} />
@@ -434,10 +436,10 @@ export function AskPage() {
                         type="button"
                         disabled={!ctxMatch}
                         onClick={() => send(p.q)}
-                        className="group flex h-full w-full flex-col gap-2 rounded-lg border border-hair-strong bg-s1 p-3.5 text-left transition-colors hover:border-hair-hover hover:bg-s2 disabled:opacity-50"
+                        className="group flex h-full w-full flex-col gap-2 rounded-xl bg-s1 p-3.5 text-left transition-colors hover:border-hair-hover hover:bg-s2 disabled:opacity-50"
                       >
                         <span className="flex items-center justify-between gap-2">
-                          <span className="font-mono text-2xs uppercase tracking-wider text-fg-3">{t(p.topic)}</span>
+                          <span className="text-xs font-medium text-fg-3">{t(p.topic)}</span>
                           {state ? (
                             <span className={cn('inline-flex items-center gap-1.5 text-xs', state === 'blocked' ? 'text-parity-dim' : state === 'degraded' ? 'text-parity' : 'text-fg-3')}>
                               <ParityIcon state={state} size={11} />
@@ -480,7 +482,7 @@ export function AskPage() {
                   return (
                     <article key={turn.id} aria-label={turn.question} className={cn('flex flex-col gap-5', i > 0 && 'mt-10 border-t border-hair pt-10')}>
                       <div className="flex justify-end">
-                        <div className="max-w-[78%] rounded-xl rounded-tr-sm border border-hair-strong bg-s2 px-4 py-2.5">
+                        <div className="max-w-[78%] rounded-2xl rounded-tr-md bg-s2 px-4 py-2.5">
                           <p className="sr-only">{t('ask.you_asked')}</p>
                           <p className="text-base leading-6 text-fg-1">{turn.question}</p>
                         </div>

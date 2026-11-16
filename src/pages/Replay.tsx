@@ -290,7 +290,7 @@ function EventsPane(props: { lp: LoadedPack; store: PlaybackStore; cited: string
 function Toolbar({ lp, store, overlays, setOverlays, avail }: { lp: LoadedPack; store: PlaybackStore; overlays: Overlays; setOverlays: React.Dispatch<React.SetStateAction<Overlays>>; avail: (d: ToggleDef) => { state: ParityState | null; blocked: boolean; reason?: string } }) {
   return (
     <div className="flex flex-wrap items-center gap-2" role="toolbar" aria-label={t('replay.overlays')}>
-      <span className="mr-1 font-mono text-2xs uppercase tracking-wider text-fg-4">{t('replay.overlays')}</span>
+      <span className="mr-1 text-xs font-medium text-fg-4">{t('replay.overlays')}</span>
       {TOGGLES.map((d) => {
         const a = avail(d)
         return <OverlayToggle key={d.key} def={d} on={overlays[d.key] && !a.blocked} state={a.state} reason={a.reason} disabled={a.blocked} onChange={(v) => setOverlays((o) => ({ ...o, [d.key]: v }))} />

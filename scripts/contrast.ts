@@ -50,7 +50,9 @@ const T = (theme: 'dark' | 'print', fgs: string[], bgs: string[], min: number, u
 const pairs: Pair[] = [
   ...T('dark', ['fg-1', 'fg-2', 'fg-3', 'fg-4'], ['canvas', 'surface-1', 'surface-2', 'surface-3'], 4.5, 'Text'),
   ...T('dark', ['accent-text'], ['canvas', 'surface-1', 'surface-2', 'surface-3'], 4.5, 'Link and accent text'),
-  ...T('dark', ['on-accent'], ['accent-fill', 'accent-fill-hover', 'accent-fill-active'], 4.5, 'Primary button label'),
+  ...T('dark', ['on-accent'], ['accent-fill', 'accent-fill-hover', 'accent-fill-active'], 4.5, 'Checked control (blue fill)'),
+  ...T('dark', ['on-primary'], ['primary-fill', 'primary-fill-hover', 'primary-fill-active'], 4.5, 'Primary button label'),
+  ...T('print', ['on-primary'], ['primary-fill', 'primary-fill-hover', 'primary-fill-active'], 4.5, 'Primary button label (print)'),
   ...T('dark', ['accent'], ['canvas', 'surface-1', 'surface-2'], 3, 'Focus ring, selection (graphic)'),
   ...T('dark', ['parity-ink', 'parity-ink-dim'], ['surface-1', 'surface-2', 'surface-3'], 4.5, 'Parity text and icon'),
   ...T('dark', ['parity-ink'], ['mix:parity-ink@0.25/surface-1', 'mix:parity-ink@0.25/surface-2'], 4.5, 'Degraded badge text on its light fill'),

@@ -53,13 +53,13 @@ export function PlayerProfile() {
               [t('player.carries'), stats.carries],
               [t('player.runs'), stats.runs],
             ].map(([l, v]) => (
-              <div key={l as string} className="rounded-lg border border-hair bg-s1 px-4 py-3">
+              <div key={l as string} className="rounded-xl bg-s1 px-4 py-3">
                 <dt className="text-xs text-fg-3">{l}</dt>
                 <dd className="mt-1 font-mono text-2xl tabular-nums text-fg-1">{v}</dd>
               </div>
             ))}
           </dl>
-          <section className="mt-6 rounded-lg border border-hair bg-s1 p-5" aria-labelledby="dq-dist">
+          <section className="mt-6 rounded-xl bg-s1 p-5" aria-labelledby="dq-dist">
             <h2 id="dq-dist" className="text-md font-semibold text-fg-1">
               {t('player.dq_title')}
             </h2>
@@ -83,7 +83,7 @@ export function PlayerProfile() {
             <MomentGroup title={t('player.top')} events={stats.best} lp={q.data!} />
             <MomentGroup title={t('player.review')} events={stats.low} lp={q.data!} />
           </section>
-          <section className="mt-6 rounded-lg border border-hair bg-s1 p-5">
+          <section className="mt-6 rounded-xl bg-s1 p-5">
             <h2 className="text-md font-semibold text-fg-1">{t('player.physical')}</h2>
             <p className="mt-0.5 text-sm text-fg-3">{t('player.physical_sub')}</p>
             <p className="mt-3 font-mono text-lg tabular-nums text-fg-1">

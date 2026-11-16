@@ -45,7 +45,7 @@ export function BriefPrint() {
           <>
             <div className="mb-6 flex items-center justify-between border-b border-hair pb-4">
               <img src="/brand/ponta-logo-black.png" alt="Ponta" className="h-5 w-auto" onError={(e) => ((e.currentTarget.style.display = 'none'), undefined)} />
-              <span className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('print.sample')}</span>
+              <span className="text-xs font-medium text-fg-4">{t('print.sample')}</span>
             </div>
             <BriefHeader match={match.data!} brief={brief.data!} lp={pack.data!} variant="print" />
             <div className="mt-6">
@@ -60,7 +60,7 @@ export function BriefPrint() {
               </h2>
               <table className="mt-2 w-full border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-hair-strong text-left font-mono text-2xs uppercase tracking-wider text-fg-3">
+                  <tr className="border-b border-hair-strong text-left text-xs font-medium text-fg-3">
                     <th className="py-1.5 pr-2 font-medium">{t('print.col_ref')}</th>
                     <th className="py-1.5 pr-2 font-medium">{t('print.col_event')}</th>
                     <th className="py-1.5 pr-2 font-medium">{t('print.col_time')}</th>

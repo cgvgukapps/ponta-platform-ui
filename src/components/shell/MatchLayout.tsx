@@ -46,7 +46,7 @@ function ProcessingPanel({ match }: { match: Match }) {
   const stages = PROCESSING_STAGES.map((s) => t(`stage.${s}`))
   return (
     <div className="mx-auto max-w-xl px-6 py-14">
-      <div className="rounded-lg border border-hair-strong bg-s1 p-6">
+      <div className="rounded-xl bg-s1 p-6">
         <div className="mb-5 flex items-center gap-2.5">
           {match.status === 'processing' ? <Loader2 className="size-4 animate-spin-slow text-accent-text" aria-hidden /> : <Clock className="size-4 text-fg-3" aria-hidden />}
           <h2 className="text-md font-semibold text-fg-1">{match.status === 'processing' ? t('proc.title_processing') : t('proc.title_queued')}</h2>
@@ -66,7 +66,7 @@ function IssuePanel({ match }: { match: Match }) {
       <InlineAlert tone={failed ? 'danger' : 'warn'} icon={failed ? <XCircle className="size-4" /> : <TriangleAlert className="size-4" />} title={failed ? t('proc.failed_title') : t('proc.attention_title')}>
         <p>{match.issue}</p>
       </InlineAlert>
-      <div className="mt-5 rounded-lg border border-hair-strong bg-s1 p-5">
+      <div className="mt-5 rounded-xl bg-s1 p-5">
         <h3 className="text-sm font-medium text-fg-1">{t('proc.what_next')}</h3>
         <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-fg-2">
           <li>{failed ? t('proc.next_failed_1') : t('proc.next_attention_1')}</li>

@@ -9,7 +9,7 @@ export function Toaster() {
   return (
     <div aria-live="polite" className="pointer-events-none fixed bottom-4 right-4 z-[70] flex w-80 flex-col gap-2">
       {toasts.map((x) => (
-        <div key={x.id} role="status" className="anim-fade-up pointer-events-auto flex items-start gap-2.5 rounded-lg border border-hair-strong bg-s2 p-3">
+        <div key={x.id} role="status" className="anim-fade-up pointer-events-auto flex items-start gap-2.5 rounded-xl bg-s2 p-3">
           {x.tone === 'error' ? <TriangleAlert className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden /> : <Check className="mt-0.5 size-4 shrink-0 text-fg-2" aria-hidden />}
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-fg-1">{x.title}</p>
@@ -31,7 +31,7 @@ export function Skeleton({ className }: { className?: string }) {
 export function EmptyState({ icon, title, body, actions, className }: { icon?: ReactNode; title: string; body: string; actions?: ReactNode; className?: string }) {
   return (
     <div className={cn('mx-auto flex max-w-md flex-col items-center gap-3 px-6 py-16 text-center', className)}>
-      {icon ? <div className="flex size-10 items-center justify-center rounded-lg border border-hair-strong bg-s2 text-fg-2">{icon}</div> : null}
+      {icon ? <div className="flex size-10 items-center justify-center rounded-xl bg-s2 text-fg-2">{icon}</div> : null}
       <h2 className="text-md font-semibold text-fg-1">{title}</h2>
       <p className="text-sm text-fg-3">{body}</p>
       {actions ? <div className="mt-1 flex gap-2">{actions}</div> : null}

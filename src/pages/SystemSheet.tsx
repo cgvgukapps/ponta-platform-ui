@@ -30,7 +30,7 @@ function Swatch({ v }: { v: string }) {
 function Group({ title, items }: { title: string; items: string[] }) {
   return (
     <div>
-      <h3 className="mb-2 font-mono text-2xs uppercase tracking-wider text-fg-4">{title}</h3>
+      <h3 className="mb-2 text-xs font-medium text-fg-4">{title}</h3>
       <ul className="flex flex-col gap-1.5">
         {items.map((i) => (
           <Swatch key={i} v={i} />

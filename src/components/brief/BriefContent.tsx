@@ -38,7 +38,7 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
   return (
     <header>
       <div className="flex flex-wrap items-center gap-2.5">
-        <span className="font-mono text-2xs uppercase tracking-wider text-fg-3">{t('brief.kicker')}</span>
+        <span className="text-xs font-medium text-fg-3">{t('brief.kicker')}</span>
         <AiMarker tone={variant === 'print' ? 'print' : 'dark'} />
       </div>
 
@@ -56,9 +56,9 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
         <TierBadge tier={match.tier} status={match.tierStatus} size="lg" className="shrink-0" />
       </div>
 
-      <section aria-label={t('brief.data_panel')} className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] overflow-hidden rounded-lg border border-hair-strong bg-s2">
+      <section aria-label={t('brief.data_panel')} className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] overflow-hidden rounded-xl bg-s2">
         <div className="border-r border-hair px-5 py-4">
-          <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('brief.parity_label')}</p>
+          <p className="text-xs font-medium text-fg-4">{t('brief.parity_label')}</p>
           <div className="mt-2.5 flex items-start gap-6">
             {(['full', 'degraded', 'blocked'] as const).map((s) => (
               <div key={s} className={cn(s === 'blocked' ? 'text-parity-dim' : 'text-parity')}>
@@ -72,7 +72,7 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
           </div>
         </div>
         <div className="px-5 py-4">
-          <p className="font-mono text-2xs uppercase tracking-wider text-fg-4">{t('brief.limits_label')}</p>
+          <p className="text-xs font-medium text-fg-4">{t('brief.limits_label')}</p>
           <div className="mt-2.5 flex flex-col gap-2">
             <LimitationLine state="degraded" ids={degraded} />
             <LimitationLine state="blocked" ids={blocked} />
@@ -165,8 +165,8 @@ export function BriefBody({ brief, lp, matchId, variant, onAsk }: { brief: Brief
 
 export function BriefLimitations({ brief }: { brief: Brief }) {
   return (
-    <section aria-labelledby="lim" className="avoid-break rounded-lg border border-hair bg-s2 px-5 py-4">
-      <h2 id="lim" className="flex items-center gap-2 font-mono text-2xs font-medium uppercase tracking-wider text-fg-3">
+    <section aria-labelledby="lim" className="avoid-break rounded-xl bg-s2 px-5 py-4">
+      <h2 id="lim" className="flex items-center gap-2 text-xs font-medium text-fg-3">
         <Info className="size-3.5" aria-hidden />
         {t('brief.limitations')}
       </h2>

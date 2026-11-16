@@ -72,7 +72,7 @@ function OrgSwitcher({ collapsed }: { collapsed: boolean }) {
   return (
     <Menu>
       <MenuTrigger asChild>
-        <button aria-label={t('shell.org_switcher')} className={cn('flex w-full items-center gap-2.5 rounded-md border border-hair-strong bg-s1 text-left transition-colors hover:bg-s2', collapsed ? 'h-11 justify-center px-0' : 'h-11 px-[5px]')}>
+        <button aria-label={t('shell.org_switcher')} className={cn('flex w-full items-center gap-2.5 rounded-lg bg-s2 text-left transition-colors hover:bg-s3', collapsed ? 'h-11 justify-center px-0' : 'h-11 px-[5px]')}>
           <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-s3 font-mono text-xs font-semibold text-fg-1">{initials}</span>
           {!collapsed ? (
             <>
@@ -163,7 +163,7 @@ export function AppShell() {
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[100] focus:rounded-md focus:bg-s3 focus:px-3 focus:py-1.5">
         {t('shell.skip')}
       </a>
-      <aside aria-label={t('shell.primary_nav')} className={cn('relative flex shrink-0 flex-col bg-s1 transition-[width] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-px after:bg-hair duration-[var(--dur-slow)]', collapsed ? 'w-14' : 'w-60')}>
+      <aside aria-label={t('shell.primary_nav')} className={cn('relative flex shrink-0 flex-col bg-canvas transition-[width] after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-px after:bg-hair duration-[var(--dur-slow)]', collapsed ? 'w-14' : 'w-60')}>
         <div className={cn('flex h-12 shrink-0 items-center', collapsed ? 'justify-center' : 'pl-[10.2px]')}>
           <NavLink to="/matches" aria-label={t('shell.home')}>
             {collapsed ? <img src="/brand/ponta-icon-blue.png" alt="Ponta" className="h-[18px] w-auto" /> : <img src="/brand/ponta-logo-white.png" alt="Ponta" className="h-[18px] w-auto" />}
@@ -179,7 +179,7 @@ export function AppShell() {
         </nav>
         {SHOW_LATER_NAV ? (
         <div className="mt-5 flex flex-col gap-0.5 px-2" role="group" aria-label={t('nav.later_group')}>
-          {!collapsed ? <p className="px-3 pb-1 font-mono text-2xs uppercase tracking-wider text-fg-4">{t('nav.later_group')}</p> : <div className="flex h-5 items-center px-3" aria-hidden><div className="h-px w-full bg-hair" /></div>}
+          {!collapsed ? <p className="px-3 pb-1 text-xs font-medium text-fg-4">{t('nav.later_group')}</p> : <div className="flex h-5 items-center px-3" aria-hidden><div className="h-px w-full bg-hair" /></div>}
           <NavItem to="/players/h10" base="/players" icon={<Users />} label={t('nav.players')} collapsed={collapsed} tag={t('nav.later')} />
           <DisabledNav icon={<Bookmark />} label={t('nav.shortlists')} collapsed={collapsed} tag={t('nav.later')} />
           <DisabledNav icon={<LayoutDashboard />} label={t('nav.team_dashboards')} collapsed={collapsed} tag={t('nav.later')} />
@@ -213,7 +213,7 @@ export function AppShell() {
               onChange={(e) => setQ(e.target.value)}
               aria-label={t('shell.search')}
               placeholder={t('shell.search')}
-              className="h-8 w-full rounded-md border border-hair-strong bg-s1 pl-8 pr-10 text-sm text-fg-1 placeholder:text-fg-4 hover:border-hair-hover focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
+              className="h-9 w-full rounded-lg bg-s2 pl-8 pr-10 text-sm text-fg-1 placeholder:text-fg-4 hover:bg-s3 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
             />
             <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-sm border border-hair-strong px-1 font-mono text-2xs text-fg-4">/</kbd>
           </form>

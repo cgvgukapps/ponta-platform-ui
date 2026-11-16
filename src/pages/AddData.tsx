@@ -32,17 +32,17 @@ const STEPS = ['source', 'preview', 'parity', 'process'] as const
 /** Four equal segments: a bar above each label, so progress reads at a glance and every step lines up with the grid. */
 function Stepper({ step }: { step: number }) {
   return (
-    <ol className="grid grid-cols-4 gap-3" aria-label={t('add.steps')}>
+    // Pill stepper (reference 2): the current step expands to show its name; others are numbered dots.
+    <ol className="inline-flex items-center gap-1.5 rounded-full bg-s1 p-1.5" aria-label={t('add.steps')}>
       {STEPS.map((s, i) => {
         const done = i < step
         const cur = i === step
         return (
-          <li key={s} aria-current={cur ? 'step' : undefined}>
-            <span aria-hidden className={cn('block h-[3px] rounded-full transition-colors duration-[var(--dur-base)]', done ? 'bg-fg-3' : cur ? 'bg-accent' : 'bg-hair-strong')} />
-            <span className="mt-2.5 flex items-center gap-2">
-              <span className={cn('flex size-5 shrink-0 items-center justify-center rounded-full border font-mono text-2xs tabular-nums', done ? 'border-fg-3 bg-fg-3 text-canvas' : cur ? 'border-accent text-fg-1' : 'border-hair-strong text-fg-4')}>{done ? <Check className="size-3" aria-hidden /> : i + 1}</span>
-              <span className={cn('text-sm', cur ? 'font-medium text-fg-1' : done ? 'text-fg-2' : 'text-fg-4')}>{t(`add.step_${s}`)}</span>
+          <li key={s} aria-current={cur ? 'step' : undefined} className={cn('flex h-10 items-center rounded-full transition-colors duration-[var(--dur-base)]', cur ? 'gap-2.5 bg-s3 pl-1.5 pr-4' : 'bg-s2')}>
+            <span className={cn('flex size-7 shrink-0 items-center justify-center rounded-full text-sm tabular-nums', cur ? 'bg-primary-fill text-on-primary' : done ? 'text-fg-2' : 'text-fg-4', !cur && 'size-10')}>
+              {done ? <Check className="size-4" aria-hidden /> : i + 1}
             </span>
+            {cur ? <span className="text-sm font-medium text-fg-1">{t(`add.step_${s}`)}</span> : <span className="sr-only">{t(`add.step_${s}`)}</span>}
           </li>
         )
       })}
@@ -75,14 +75,14 @@ function WizardFooter({ children }: { children: React.ReactNode }) {
   return <div className="sticky bottom-0 z-10 -mx-8 mt-auto flex items-center justify-between gap-3 border-t border-hair bg-canvas/95 px-8 py-4 backdrop-blur">{children}</div>
 }
 
-const cardCls = 'overflow-hidden rounded-lg border border-hair bg-s1'
+const cardCls = 'overflow-hidden rounded-xl bg-s1'
 
 /* ---------------- Step 1: source ---------------- */
 
 function ConnectRow({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
   return (
     <li aria-disabled="true" className="flex items-center gap-3 px-4 py-3.5">
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-hair-strong bg-s2 text-fg-2">{icon}</span>
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-transparent bg-s2 text-fg-2">{icon}</span>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-medium text-fg-1">{title}</p>
         <p className="mt-0.5 text-xs text-fg-3">{body}</p>
@@ -140,8 +140,8 @@ function SourceStep({ onPick }: { onPick: (s: Sample) => void }) {
             <ul className="grid grid-cols-2 gap-3">
               {SAMPLES.map((s) => (
                 <li key={s.id}>
-                  <button onClick={() => onPick(s)} className="flex h-full w-full items-start gap-3 rounded-lg border border-hair bg-s1 p-4 text-left transition-colors hover:border-hair-hover hover:bg-s2">
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-hair-strong bg-s2 text-fg-2">
+                  <button onClick={() => onPick(s)} className="flex h-full w-full items-start gap-3 rounded-xl bg-s1 p-4 text-left transition-colors hover:border-hair-hover hover:bg-s2">
+                    <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-transparent bg-s2 text-fg-2">
                       <FileText className="size-4" aria-hidden />
                     </span>
                     <span className="min-w-0">
@@ -277,7 +277,7 @@ function PreviewStep({ sample, match, onBack, onNext, onReplace, resolved }: { s
                   const name = resolved && sample.id === 'mismatch' && i === 1 ? f.name.replace('Game_1', 'Game_3') : f.name
                   return (
                     <li key={f.name} className="flex items-start gap-3 px-4 py-3">
-                      <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-md border border-hair-strong bg-s2 text-fg-3">
+                      <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg border border-transparent bg-s2 text-fg-3">
                         <FileText className="size-4" aria-hidden />
                       </span>
                       <div className="min-w-0 flex-1">

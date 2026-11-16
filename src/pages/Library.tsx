@@ -129,7 +129,7 @@ function SortTh({ label, k, sort, setSort, className }: { label: string; k: Sort
   const active = sort.k === k
   return (
     <th scope="col" aria-sort={active ? (sort.dir === 1 ? 'ascending' : 'descending') : 'none'} className={cn('h-8 px-3 text-left align-middle', className)}>
-      <button onClick={() => setSort({ k, dir: active ? (sort.dir === 1 ? -1 : 1) : 1 })} className={cn('inline-flex items-center gap-1 whitespace-nowrap rounded-sm font-mono text-2xs font-medium uppercase tracking-wider hover:text-fg-1', active ? 'text-fg-1' : 'text-fg-3')}>
+      <button onClick={() => setSort({ k, dir: active ? (sort.dir === 1 ? -1 : 1) : 1 })} className={cn('inline-flex items-center gap-1 whitespace-nowrap rounded-sm text-xs font-medium hover:text-fg-1', active ? 'text-fg-1' : 'text-fg-3')}>
         {label}
         {active ? sort.dir === 1 ? <ArrowUp className="size-3" aria-hidden /> : <ArrowDown className="size-3" aria-hidden /> : <ArrowUpDown className="size-3 opacity-50" aria-hidden />}
       </button>
@@ -247,14 +247,14 @@ export function Library() {
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2" role="group" aria-label={t('lib.saved')}>
-        <span className="mr-1 flex items-center gap-1.5 font-mono text-2xs uppercase tracking-wider text-fg-4">
+        <span className="mr-1 flex items-center gap-1.5 text-xs font-medium text-fg-4">
           <Bookmark className="size-3" aria-hidden />
           {t('lib.saved')}
         </span>
         {SAVED.map((s) => {
           const on = Object.entries(s.apply).every(([k, v]) => filters[k as keyof Filters] === v)
           return (
-            <button key={s.id} aria-pressed={on} onClick={() => setFilters(on ? NO_FILTER : { ...NO_FILTER, ...s.apply })} className={cn('h-6 rounded-full border px-2.5 text-xs transition-colors duration-[var(--dur-fast)]', on ? 'border-accent bg-accent-tint text-fg-1' : 'border-hair-strong text-fg-2 hover:bg-s2 hover:text-fg-1')}>
+            <button key={s.id} aria-pressed={on} onClick={() => setFilters(on ? NO_FILTER : { ...NO_FILTER, ...s.apply })} className={cn('h-7 rounded-full border border-transparent px-3 text-xs transition-colors duration-[var(--dur-fast)]', on ? 'bg-primary-fill text-on-primary' : 'bg-s2 text-fg-2 hover:bg-s3 hover:text-fg-1')}>
               {t(s.label)}
             </button>
           )
@@ -282,16 +282,16 @@ export function Library() {
       ) : rows.length === 0 ? (
         <EmptyState icon={<FileSearch className="size-5" aria-hidden />} title={t('lib.no_results')} body={t('lib.no_results_body')} actions={<Button onClick={() => setFilters(NO_FILTER)}>{t('lib.clear_filters')}</Button>} />
       ) : view === 'table' ? (
-        <div className="mt-4 overflow-x-auto rounded-lg border border-hair bg-s1">
+        <div className="mt-4 overflow-x-auto rounded-xl bg-s1">
           <table className="w-full min-w-[960px] [&_td]:px-2.5 [&_th]:px-2.5 border-collapse text-sm">
             <caption className="sr-only">{t('lib.title')}</caption>
             <thead className="sticky top-0 z-10 bg-s1">
               <tr className="border-b border-hair">
                 <SortTh label={t('lib.col_fixture')} k="fixture" sort={sort} setSort={setSort} />
                 <SortTh label={t('lib.col_date')} k="date" sort={sort} setSort={setSort} />
-                <th scope="col" className="h-8 px-3 text-left font-mono text-2xs font-medium uppercase tracking-wider text-fg-3">{t('lib.col_providers')}</th>
+                <th scope="col" className="h-8 px-3 text-left text-xs font-medium text-fg-3">{t('lib.col_providers')}</th>
                 <SortTh label={t('lib.col_tier')} k="tier" sort={sort} setSort={setSort} />
-                <th scope="col" className="h-8 px-3 text-left font-mono text-2xs font-medium uppercase tracking-wider text-fg-3">{t('lib.col_parity')}</th>
+                <th scope="col" className="h-8 px-3 text-left text-xs font-medium text-fg-3">{t('lib.col_parity')}</th>
                 <SortTh label={t('lib.col_status')} k="status" sort={sort} setSort={setSort} />
                 <th scope="col" className="h-8 w-[112px] px-3"><span className="sr-only">{t('lib.col_actions')}</span></th>
               </tr>
@@ -332,7 +332,7 @@ export function Library() {
       ) : (
         <div className="mt-4 grid grid-cols-3 gap-3">
           {rows.map((m) => (
-            <article key={m.id} className="group flex flex-col gap-3 rounded-lg border border-hair bg-s1 p-4 transition-colors hover:border-hair-strong hover:bg-s2">
+            <article key={m.id} className="group flex flex-col gap-3 rounded-xl bg-s1 p-4 transition-colors hover:border-hair-strong hover:bg-s2">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <Link to={`/matches/${m.id}`} className="block truncate text-sm font-medium text-fg-1 hover:underline">
