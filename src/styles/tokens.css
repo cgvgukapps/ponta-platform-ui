@@ -28,12 +28,12 @@
   --fg-3: #9ca3ae;
   --fg-4: #8d94a0;
 
-  /* ---- Primary action: Ponta blue fill, white label (reference: the accent is the action
-     colour). #1A6EF0 is the brand blue nudged so the white label passes AA (4.6:1). */
-  --primary-fill: #1a6ef0;
-  --primary-fill-hover: #1766e2;
-  --primary-fill-active: #1459c6;
-  --on-primary: #ffffff;
+  /* ---- Primary action: cool white fill, near-black label (revised 16 November 2026; the blue
+     fill was retired). Blue stays for focus, selection marks, toggles and graphics. */
+  --primary-fill: #f4f6fa;
+  --primary-fill-hover: #ffffff;
+  --primary-fill-active: #dfe3ea;
+  --on-primary: #0e1116;
 
   /* ---- Ask composer: a thin blue-tinted edge, and a soft blue horizon glow behind the
      empty state (reference). Used nowhere else. ----------------------------------- */
@@ -123,9 +123,10 @@
   --control-border: rgba(14, 17, 22, 0.55);
   --hairline-dashed: rgba(14, 17, 22, 0.38);
   --desk: #eceef2;
-  --primary-fill: #1a6ef0;
-  --primary-fill-hover: #1766e2;
-  --primary-fill-active: #1459c6;
+  /* On paper the white button would vanish, so the light theme inverts it: near-black, white label. */
+  --primary-fill: #0e1116;
+  --primary-fill-hover: #000000;
+  --primary-fill-active: #2a2f37;
   --on-primary: #ffffff;
   --accent-tint: rgba(30, 118, 250, 0.08);
   --fg-1: #0e1116;

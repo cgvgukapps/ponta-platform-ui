@@ -28,12 +28,12 @@ Semi-transparent tokens are composited over the surface listed in the row.
 | dark | `--on-accent` | `--accent-fill` | 4.63:1 | 4.5:1 | Pass | Checked control (blue fill) |
 | dark | `--on-accent` | `--accent-fill-hover` | 5.41:1 | 4.5:1 | Pass | Checked control (blue fill) |
 | dark | `--on-accent` | `--accent-fill-active` | 8.18:1 | 4.5:1 | Pass | Checked control (blue fill) |
-| dark | `--on-primary` | `--primary-fill` | 4.63:1 | 4.5:1 | Pass | Primary button label |
-| dark | `--on-primary` | `--primary-fill-hover` | 5.20:1 | 4.5:1 | Pass | Primary button label |
-| dark | `--on-primary` | `--primary-fill-active` | 6.41:1 | 4.5:1 | Pass | Primary button label |
-| print | `--on-primary` | `--primary-fill` | 4.63:1 | 4.5:1 | Pass | Primary button label (print) |
-| print | `--on-primary` | `--primary-fill-hover` | 5.20:1 | 4.5:1 | Pass | Primary button label (print) |
-| print | `--on-primary` | `--primary-fill-active` | 6.41:1 | 4.5:1 | Pass | Primary button label (print) |
+| dark | `--on-primary` | `--primary-fill` | 17.48:1 | 4.5:1 | Pass | Primary button label |
+| dark | `--on-primary` | `--primary-fill-hover` | 18.91:1 | 4.5:1 | Pass | Primary button label |
+| dark | `--on-primary` | `--primary-fill-active` | 14.69:1 | 4.5:1 | Pass | Primary button label |
+| print | `--on-primary` | `--primary-fill` | 18.91:1 | 4.5:1 | Pass | Primary button label (print) |
+| print | `--on-primary` | `--primary-fill-hover` | 21.00:1 | 4.5:1 | Pass | Primary button label (print) |
+| print | `--on-primary` | `--primary-fill-active` | 13.46:1 | 4.5:1 | Pass | Primary button label (print) |
 | dark | `--accent` | `--canvas` | 4.53:1 | 3:1 | Pass | Focus ring, selection (graphic) |
 | dark | `--accent` | `--surface-1` | 4.22:1 | 3:1 | Pass | Focus ring, selection (graphic) |
 | dark | `--accent` | `--surface-2` | 3.87:1 | 3:1 | Pass | Focus ring, selection (graphic) |

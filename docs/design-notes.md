@@ -228,3 +228,7 @@ The old threads column kept earlier choices: a grey column with a hard edge, a b
 - Each row is one 13 px title line (full title on hover) and a quiet line with the opponent and time.
 - The open conversation takes the grey highlight the rail uses; no coloured fill or underline.
 - "Threads" is now "Conversations" everywhere, matching the panel's "New conversation".
+
+## 16. Primary buttons back to white (16 November 2026)
+
+The blue-filled primary (`#1a6ef0`, section 8) is retired at the founder's request. Primary actions are a cool white fill `#f4f6fa` (hover `#ffffff`, active `#dfe3ea`) with a near-black label `#0e1116` (17.5:1). The same tokens carry the Ask send button, the current step in Add data, the "This match" pill and step number in the Data check, and active saved-view chips. On the light print brief and the shareable match page the primary inverts to near-black with a white label, since a white button disappears on paper. Ponta blue stays for focus edges, selection marks (checks, toggles, checkboxes), the composer edge, icon tiles and graphics.
