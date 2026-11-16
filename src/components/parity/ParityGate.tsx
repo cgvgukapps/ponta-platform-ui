@@ -100,7 +100,6 @@ function FamilyRow({ family, report }: { family: (typeof FAMILIES)[number]; repo
  * suggestion on its own tile and a single primary action.
  */
 function Ladder({ match }: { match: Match }) {
-  const { toast } = useApp()
   const report = useMemo(() => parityFor(match), [match])
   const optical = parityFor({ ...getMatchesSync().find((m) => m.parityProfile === 'optical_full')! })
   const improvable = (Object.keys(report.metrics) as MetricId[]).filter((k) => report.metrics[k].state !== 'full' && optical.metrics[k].state === 'full' && !report.metrics[k].inDevelopment).length
@@ -117,25 +116,24 @@ function Ladder({ match }: { match: Match }) {
       <h3 id="ladder-title" className="text-base font-semibold text-fg-1">
         {t('gate.ladder_title')}
       </h3>
-      <p className="mt-1 text-sm text-fg-3">{t('gate.ladder_intro')}</p>
 
-      <ol className="mt-4 flex flex-col">
+      <ol className="mt-3 flex flex-col">
         {steps.map((s) => {
           const here = s.tier === match.tier
           return (
-            <li key={s.tier} aria-current={here ? 'step' : undefined} className="flex gap-3.5 border-t border-hair py-3.5 first:border-t-0 first:pt-1">
+            <li key={s.tier} aria-current={here ? 'step' : undefined} className="flex gap-3 border-t border-hair py-3.5 first:border-t-0">
               <span
                 aria-hidden
-                className={cn('flex size-6 shrink-0 items-center justify-center rounded-full text-sm font-medium tabular-nums', here ? 'bg-primary-fill text-on-primary' : 'bg-s3 text-fg-3')}
+                className={cn('mt-px flex size-6 shrink-0 items-center justify-center rounded-full text-sm font-medium tabular-nums', here ? 'bg-primary-fill text-on-primary' : 'bg-s3 text-fg-3')}
               >
                 {s.tier}
               </span>
-              {/* Two sizes in the whole panel: the heading, and 14 px for everything else.
-                  Hierarchy comes from weight and shade only. */}
               <div className="min-w-0 flex-1 text-sm">
-                <div className="flex items-baseline justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-2">
                   <h4 className={cn('font-medium', here || s.live ? 'text-fg-1' : 'text-fg-2')} title={s.who}>{s.title}</h4>
-                  <span className="shrink-0 text-fg-3">{here ? t('gate.you_are_here') : !s.live ? t('tier.in_development') : ''}</span>
+                  {/* Two different shapes of label: this match is white, like the current step; in development is quiet grey. */}
+                  {here ? <span className="inline-flex h-5 items-center rounded-full bg-primary-fill px-2 text-xs font-medium text-on-primary">{t('gate.you_are_here')}</span> : null}
+                  {!s.live ? <span className="inline-flex h-5 items-center rounded-full bg-s3 px-2 text-xs text-fg-3">{t('tier.in_development')}</span> : null}
                 </div>
                 <p className="mt-1 text-fg-3">{s.unlocks}</p>
               </div>
@@ -144,20 +142,11 @@ function Ladder({ match }: { match: Match }) {
         })}
       </ol>
 
-      <p className="mt-3 rounded-lg bg-s2 p-4 text-sm text-fg-1">{suggestion}</p>
-      <div className="mt-3 flex flex-col items-stretch gap-1">
-        <Link to={`/matches/new?match=${match.id}`} className={buttonStyles({ variant: 'primary' })}>
-          <Plus className="size-4" aria-hidden />
-          {t('gate.add_source')}
-        </Link>
-        <button
-          type="button"
-          onClick={() => toast({ title: t('gate.toast_notify'), body: t('gate.toast_notify_body') })}
-          className="h-9 rounded-lg text-sm text-fg-3 transition-colors hover:bg-s2 hover:text-fg-1"
-        >
-          {t('gate.notify')}
-        </button>
-      </div>
+      <p className="mt-2 border-t border-hair pt-4 text-sm text-fg-2">{suggestion}</p>
+      <Link to={`/matches/new?match=${match.id}`} className={cn(buttonStyles({ variant: 'primary' }), 'mt-3 w-full')}>
+        <Plus className="size-4" aria-hidden />
+        {t('gate.add_source')}
+      </Link>
     </aside>
   )
 }
