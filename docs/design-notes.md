@@ -232,3 +232,16 @@ The old threads column kept earlier choices: a grey column with a hard edge, a b
 ## 16. Primary buttons back to white (16 November 2026)
 
 The blue-filled primary (`#1a6ef0`, section 8) is retired at the founder's request. Primary actions are a cool white fill `#f4f6fa` (hover `#ffffff`, active `#dfe3ea`) with a near-black label `#0e1116` (17.5:1). The same tokens carry the Ask send button, the current step in Add data, the "This match" pill and step number in the Data check, and active saved-view chips. On the light print brief and the shareable match page the primary inverts to near-black with a white label, since a white button disappears on paper. Ponta blue stays for focus edges, selection marks (checks, toggles, checkboxes), the composer edge, icon tiles and graphics.
+
+## 17. Replay event card (16 November 2026)
+
+The card showed everything at once: an audit id leading the header, a scale with unexplained ticks, a five-column table (`#`, Option, `V`, `p`, `V × p`) the reader had to compare to learn what happened, two boxed tiles of figures, and five controls in one row. It now reads top to bottom as an answer:
+
+1. **Header:** action and players, with the time and half on the right. The event id moves to the working ("Reference").
+2. **Score tile:** the rating and its band; the 0 to 1.5 scale drawn as the four bands in their own colours, with 1.0 marked; one plain sentence, "Played option 2 of 4. The highest-scoring was X, 20 m forward." (or "Played the highest-scoring of the 4 options."). The sentence is built from the ranked options, not generated. CJK names do not break mid-word.
+3. **How this is calculated** sits in the score tile and opens the working, the full `V`, `p`, `V × p` table (with column definitions on hover), the definitions and the reference. While it is open, the option bars hide so the options are not shown twice.
+4. **Options:** one row each, with a bar for value × chance; the played option is marked and its bar is the pitch's yellow; the highest-scoring bar is the lightest grey.
+5. **Facts line:** Pressure and Tracking on one line; low confidence keeps its dashed edge and note.
+6. **Footer:** "Play from 5 s before", then Ask, Copy link and the disabled Video as small icons with tooltips.
+
+Off-ball runs use the same score tile. The card is about 60 px shorter than before at 1440 × 900, so the events list keeps three rows.
