@@ -120,26 +120,25 @@ function Ladder({ match }: { match: Match }) {
             <li key={s.tier} aria-current={here ? 'step' : undefined} className="flex gap-3.5 border-t border-hair py-3.5 first:border-t-0 first:pt-1">
               <span
                 aria-hidden
-                className={cn('flex size-7 shrink-0 items-center justify-center rounded-full text-sm font-medium tabular-nums', here ? 'bg-primary-fill text-on-primary' : 'bg-s3 text-fg-3')}
+                className={cn('flex size-6 shrink-0 items-center justify-center rounded-full text-sm font-medium tabular-nums', here ? 'bg-primary-fill text-on-primary' : 'bg-s3 text-fg-3')}
               >
                 {s.tier}
               </span>
-              <div className="min-w-0 flex-1">
+              {/* Two sizes in the whole panel: the heading, and 14 px for everything else.
+                  Hierarchy comes from weight and shade only. */}
+              <div className="min-w-0 flex-1 text-sm">
                 <div className="flex items-baseline justify-between gap-3">
-                  <h4 className={cn('text-sm font-medium', here || s.live ? 'text-fg-1' : 'text-fg-2')}>{s.title}</h4>
-                  <span className="shrink-0 text-xs text-fg-3">{here ? t('gate.you_are_here') : !s.live ? t('tier.in_development') : ''}</span>
+                  <h4 className={cn('font-medium', here || s.live ? 'text-fg-1' : 'text-fg-2')} title={s.who}>{s.title}</h4>
+                  <span className="shrink-0 text-fg-3">{here ? t('gate.you_are_here') : !s.live ? t('tier.in_development') : ''}</span>
                 </div>
-                <p className="mt-0.5 text-xs text-fg-3">{s.who}</p>
-                <p className={cn('mt-1.5 text-sm', here || s.live ? 'text-fg-2' : 'text-fg-3')}>{s.unlocks}</p>
+                <p className="mt-1 text-fg-3">{s.unlocks}</p>
               </div>
             </li>
           )
         })}
       </ol>
 
-      <div className="mt-3 rounded-lg bg-s2 p-4">
-        <p className="text-sm text-fg-1">{suggestion}</p>
-      </div>
+      <p className="mt-3 rounded-lg bg-s2 p-4 text-sm text-fg-1">{suggestion}</p>
       <div className="mt-3 flex flex-col items-stretch gap-1">
         <Link to={`/matches/new?match=${match.id}`} className={buttonStyles({ variant: 'primary' })}>
           <Plus className="size-4" aria-hidden />
