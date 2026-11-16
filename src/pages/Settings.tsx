@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Download, MoreHorizontal, Plug, Trash2, UserPlus } from 'lucide-react'
 import { t } from '@/i18n'
@@ -14,15 +14,37 @@ import { Tag } from '@/components/ui/badges'
 
 const TABS = ['organisation', 'members', 'connections', 'privacy', 'billing'] as const
 
-function Panel({ title, description, children, className }: { title: string; description?: string; children: React.ReactNode; className?: string }) {
+function Panel({ title, description, children, footer, className, flush }: { title: string; description?: string; children: React.ReactNode; footer?: React.ReactNode; className?: string; flush?: boolean }) {
   return (
-    <section className={`rounded-xl border border-hair bg-s1 ${className ?? ''}`}>
-      <header className="border-b border-hair px-5 py-3.5">
-        <h2 className="text-md font-semibold text-fg-1">{title}</h2>
+    <section className={`overflow-hidden rounded-xl border border-hair bg-s1 ${className ?? ''}`}>
+      <header className="px-5 pb-1 pt-4">
+        <h2 className="text-base font-semibold text-fg-1">{title}</h2>
         {description ? <p className="mt-0.5 text-sm text-fg-3">{description}</p> : null}
       </header>
-      <div className="px-5 py-4">{children}</div>
+      <div className={flush ? '' : 'px-5 pb-2'}>{children}</div>
+      {footer ? <footer className="flex items-center justify-end gap-2 border-t border-hair bg-s2/40 px-5 py-3">{footer}</footer> : null}
     </section>
+  )
+}
+
+/** Reference settings row: the label and its help on the left, the control on the right. */
+function Row({ label, hint, children, plain }: { label: string; hint?: string; children: (id: string) => React.ReactNode; plain?: boolean }) {
+  const id = useId()
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,360px)] items-center gap-6 border-t border-hair py-4 first:border-t-0">
+      <div>
+        {/* A row whose control is a button or names itself keeps its label as plain text. */}
+        {plain ? (
+          <p className="text-sm font-medium text-fg-1">{label}</p>
+        ) : (
+          <label htmlFor={id} className="text-sm font-medium text-fg-1">
+            {label}
+          </label>
+        )}
+        {hint ? <p className="mt-0.5 text-xs leading-4 text-fg-3">{hint}</p> : null}
+      </div>
+      <div className="flex min-w-0 justify-end">{children(id)}</div>
+    </div>
   )
 }
 
@@ -63,40 +85,45 @@ export function SettingsPage() {
         ) : (
           <>
             <TabsContent value="organisation" className="mt-6 flex flex-col gap-5">
-              <Panel title={t('settings.org_title')} description={t('settings.org_desc')}>
-                <div className="grid max-w-[560px] gap-4">
-                  <Field label={t('settings.org_name')}>{(id) => <Input id={id} value={name} onChange={(e) => setName(e.target.value)} />}</Field>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Field label={t('settings.org_kind')}>{(id) => <Input id={id} value={s.org.kind} readOnly />}</Field>
-                    <Field label={t('settings.org_tz')}>{(id) => <Input id={id} value={s.org.timezone} readOnly />}</Field>
-                  </div>
-                  <div>
-                    <p className="mb-1.5 text-sm font-medium text-fg-1">{t('settings.squads')}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {s.org.squads.map((x: string) => (
-                        <Tag key={x}>{x}</Tag>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5 flex gap-2">
+              <Panel
+                title={t('settings.org_title')}
+                description={t('settings.org_desc')}
+                footer={
                   <Button variant="primary" onClick={() => toast({ title: t('settings.saved') })}>
                     {t('common.save')}
                   </Button>
+                }
+              >
+                <div className="mt-2">
+                  <Row label={t('settings.org_name')}>{(id) => <Input id={id} value={name} onChange={(e) => setName(e.target.value)} />}</Row>
+                  <Row label={t('settings.org_kind')}>{(id) => <Input id={id} value={s.org.kind} readOnly />}</Row>
+                  <Row label={t('settings.org_tz')}>{(id) => <Input id={id} value={s.org.timezone} readOnly />}</Row>
+                  <Row label={t('settings.squads')} plain>
+                    {() => (
+                      <ul className="flex flex-wrap justify-end gap-1.5">
+                        {s.org.squads.map((x: string) => (
+                          <li key={x} className="inline-flex h-7 items-center rounded-full bg-s2 px-3 text-sm text-fg-1">
+                            {x}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Row>
                 </div>
               </Panel>
               <Panel title={t('settings.brief_title')} description={t('settings.brief_desc')}>
-                <div className="flex flex-col gap-3">
-                  <Switch checked={watermark} onCheckedChange={setWatermark} label={t('settings.brief_ai_mark')} />
-                  <p className="-mt-1 pl-[44px] text-xs text-fg-3">{t('settings.brief_ai_hint')}</p>
-                  <Switch checked={sharing} onCheckedChange={setSharing} label={t('settings.brief_share')} />
+                <div className="mt-2">
+                  <Row label={t('settings.brief_ai_mark')} hint={t('settings.brief_ai_hint')}>
+                    {(id) => <Switch id={id} hideLabel checked={watermark} onCheckedChange={setWatermark} label={t('settings.brief_ai_mark')} />}
+                  </Row>
+                  <Row label={t('settings.brief_share')}>{(id) => <Switch id={id} hideLabel checked={sharing} onCheckedChange={setSharing} label={t('settings.brief_share')} />}</Row>
                 </div>
               </Panel>
             </TabsContent>
 
             <TabsContent value="members" className="mt-6 flex flex-col gap-5">
               <Panel title={t('settings.members_title')} description={t('settings.members_desc')}>
-                <div className="-mx-5 -mt-4">
+                <div className="-mx-5 mt-2">
                   <table className="w-full border-collapse text-sm">
                     <thead>
                       <tr className="border-b border-hair text-left text-xs font-medium text-fg-3">
@@ -135,7 +162,7 @@ export function SettingsPage() {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-4">
+                <div className="mb-2 mt-4">
                   <Button onClick={() => setInvite(true)}>
                     <UserPlus className="size-3.5" aria-hidden />
                     {t('settings.invite')}
@@ -143,7 +170,7 @@ export function SettingsPage() {
                 </div>
               </Panel>
               <Panel title={t('settings.roles_title')}>
-                <dl className="grid gap-x-6 gap-y-2.5 sm:grid-cols-[160px_1fr]">
+                <dl className="mb-2 mt-3 grid gap-x-6 gap-y-2.5 sm:grid-cols-[160px_1fr]">
                   {s.roles.map((r: { role: string; can: string }) => (
                     <div key={r.role} className="contents">
                       <dt className="text-sm font-medium text-fg-1">{r.role}</dt>
@@ -185,7 +212,7 @@ export function SettingsPage() {
 
             <TabsContent value="connections" className="mt-6 flex flex-col gap-5">
               <Panel title={t('settings.conn_title')} description={t('settings.conn_desc')}>
-                <ul className="-mx-5 -mt-4 divide-y divide-[var(--hairline)]">
+                <ul className="-mx-5 mt-2 divide-y divide-[var(--hairline)] border-t border-hair">
                   {s.connections.map((c: { provider: string; name: string; kind: string; status: string; detail: string }) => (
                     <li key={c.provider} className="flex items-center gap-4 px-5 py-3">
                       <span className="flex size-8 items-center justify-center rounded-lg border border-transparent bg-s2 text-fg-2">
@@ -208,13 +235,14 @@ export function SettingsPage() {
 
             <TabsContent value="privacy" className="mt-6 flex flex-col gap-5">
               <Panel title={t('settings.priv_title')} description={t('settings.priv_desc')}>
-                <div className="grid max-w-[560px] gap-5">
-                  <Field label={t('settings.retention')} hint={t('settings.retention_hint')}>
+                <div className="mt-2">
+                  <Row label={t('settings.retention')} hint={t('settings.retention_hint')} plain>
                     {() => (
                       <Select
                         value={retention}
                         onValueChange={setRetention}
                         aria-label={t('settings.retention')}
+                        className="w-full"
                         options={[
                           { value: '12', label: t('settings.months', { n: 12 }) },
                           { value: '36', label: t('settings.months', { n: 36 }) },
@@ -223,24 +251,30 @@ export function SettingsPage() {
                         ]}
                       />
                     )}
-                  </Field>
-                  <Checkbox checked label={t('settings.pseudonymise')} onCheckedChange={() => toast({ title: t('settings.pseudo_locked') })} />
-                  <Field label={t('settings.region')}>{(id) => <Input id={id} readOnly value={t('settings.region_value')} />}</Field>
+                  </Row>
+                  <Row label={t('settings.pseudonymise')}>{(id) => <Switch id={id} hideLabel checked onCheckedChange={() => toast({ title: t('settings.pseudo_locked') })} label={t('settings.pseudonymise')} />}</Row>
+                  <Row label={t('settings.region')}>{(id) => <Input id={id} readOnly value={t('settings.region_value')} />}</Row>
                 </div>
               </Panel>
-              <Panel title={t('settings.export_title')} description={t('settings.export_desc')}>
-                <div className="flex gap-2">
-                  <Button onClick={() => toast({ title: t('settings.export_requested'), body: t('settings.proto_action') })}>
-                    <Download className="size-3.5" aria-hidden />
-                    {t('settings.export_btn')}
-                  </Button>
+              <Panel title={t('settings.data_title')} description={t('settings.data_desc')}>
+                <div className="mt-2">
+                  <Row label={t('settings.export_title')} hint={t('settings.export_desc')} plain>
+                    {() => (
+                      <Button onClick={() => toast({ title: t('settings.export_requested'), body: t('settings.proto_action') })}>
+                        <Download className="size-3.5" aria-hidden />
+                        {t('settings.export_btn')}
+                      </Button>
+                    )}
+                  </Row>
+                  <Row label={t('settings.delete_title')} hint={t('settings.delete_desc')} plain>
+                    {() => (
+                      <Button variant="destructive" onClick={() => setDel(true)}>
+                        <Trash2 className="size-3.5" aria-hidden />
+                        {t('settings.delete_btn')}
+                      </Button>
+                    )}
+                  </Row>
                 </div>
-              </Panel>
-              <Panel title={t('settings.delete_title')} description={t('settings.delete_desc')}>
-                <Button variant="destructive" onClick={() => setDel(true)}>
-                  <Trash2 className="size-3.5" aria-hidden />
-                  {t('settings.delete_btn')}
-                </Button>
               </Panel>
               <Modal
                 open={del}
@@ -275,7 +309,7 @@ export function SettingsPage() {
 
             <TabsContent value="billing" className="mt-6">
               <Panel title={t('settings.billing_title')}>
-                <p className="max-w-[60ch] text-sm text-fg-2">{t('settings.billing_body')}</p>
+                <p className="mb-2 mt-2 max-w-[60ch] text-sm text-fg-2">{t('settings.billing_body')}</p>
               </Panel>
             </TabsContent>
           </>

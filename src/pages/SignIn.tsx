@@ -21,10 +21,12 @@ export function SignIn() {
     }, 500)
   }
   return (
-    <div className="flex min-h-full flex-col items-center justify-center bg-canvas px-6 py-12">
-      <main className="w-full max-w-[360px]" id="main">
-        <img src="/brand/ponta-logo-white.png" alt="Ponta" className="h-6 w-auto" />
-        <h1 className="mt-8 font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{t('signin.title')}</h1>
+    <div className="relative flex min-h-full flex-col items-center justify-center overflow-hidden bg-canvas px-6 py-12">
+      {/* Reference: the same soft blue horizon as the Ask empty state, behind one card. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[60%]" style={{ background: 'radial-gradient(90% 65% at 50% 115%, var(--glow), transparent 62%)' }} />
+      <img src="/brand/ponta-logo-white.png" alt="Ponta" className="relative mb-8 h-6 w-auto" />
+      <main className="relative w-full max-w-[400px] rounded-2xl border border-hair bg-s1 px-8 pb-8 pt-7 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.6)]" id="main">
+        <h1 className="font-serif text-[30px] font-normal leading-9 tracking-tight text-fg-1">{t('signin.title')}</h1>
         <p className="mt-1.5 text-sm text-fg-3">{t('signin.tagline')}</p>
         <form
           className="mt-8 flex flex-col gap-4"
@@ -48,11 +50,11 @@ export function SignIn() {
             {t('signin.sso')}
           </Button>
         </form>
-        <p className="mt-8 flex items-center gap-2 text-xs text-fg-4">
-          <FlaskConical className="size-3.5" aria-hidden />
-          {t('signin.prototype')}
-        </p>
       </main>
+      <p className="relative mt-6 flex max-w-[400px] items-center gap-2 text-xs text-fg-3">
+        <FlaskConical className="size-3.5 shrink-0" aria-hidden />
+        {t('signin.prototype')}
+      </p>
     </div>
   )
 }

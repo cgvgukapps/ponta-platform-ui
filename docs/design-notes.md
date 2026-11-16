@@ -175,3 +175,11 @@ Contrast: 104 pairs, none failing.
 ## 9. Coverage (brief v2, 5.2)
 
 A metric can be Full while some decisions go unscored. The Data check carries a fourth tile, the share of passes and carries scored, and one plain line beneath the tiles listing why the rest were not (ball not detected, goalkeeper, set piece, outside tracked frames), ending "Findings use the scored decisions only." The brief header and the print view show the same figure and line. A low share is stated in the same neutral text as a high one: no warning colour, no alert, no threshold. The pre-processing check in Add data leaves coverage out, because it is measured during analysis. Sources without tracking show "Not measured". Mock figures sit on `Match.coverage`; the SkillCorner mock stays close to the 95.4% the engine measured on the real sample, and `m_0372` (21.4% of frames dropped, about 20 minutes) is the low-coverage example.
+
+## 10. Reference details (16 November 2026)
+
+- **Tinted label pills.** Parity and decision-quality badges are rounded pills with a low fill in their own hue and no hard edge. The parity icon still carries the state by how full it is; Blocked keeps a faint outline because it has no fill. The estimate band keeps its dashed edge. Band text was nudged (dark Poor `#f87c5e`; print Poor `#a8341a`, Suboptimal `#855300`) so every pill passes 4.5:1 on its tint; the pairs are in `docs/contrast.md`.
+- **Selected state.** A selected event (Replay), thread (Ask) and match (the match picker) take the accent tint with a 2 px blue underline. Hover and keyboard cursor stay grey, so selection is the only blue row.
+- **Icon tiles.** The Add data sample cards lead with a 40 px blue-tinted icon tile, one icon per kind of data, and an arrow that brightens on hover.
+- **Chart style.** Pass decision quality on the player sketch is a column chart: one neutral series, the most common band in blue, 4 px rounded tops on a shared baseline, dashed gridlines, a direct count and share per column, a hover tooltip and a screen-reader table.
+- **Sign-in** sits in one card on the Ask screen's blue horizon. **Settings** uses two-column rows (label and help left, control right), pill squads, a card footer for Save, and one "Your data" card for export and deletion.

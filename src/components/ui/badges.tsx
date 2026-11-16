@@ -26,10 +26,12 @@ export function ParityIcon({ state, size = 14, className }: { state: ParityState
   )
 }
 
+/* Tinted label pills (reference): a low fill in the state's own hue, no hard edge. The icon still
+   carries the state by how full it is; Blocked keeps a faint outline because it has no fill. */
 const parityTone: Record<ParityState, string> = {
-  full: 'border-transparent bg-parity text-on-parity',
-  degraded: 'border-parity bg-parity/25 text-parity',
-  blocked: 'border-parity-dim bg-transparent text-parity-dim',
+  full: 'border-transparent bg-parity/20 text-parity',
+  degraded: 'border-transparent bg-parity/10 text-parity',
+  blocked: 'border-hair-strong bg-transparent text-parity-dim',
 }
 
 export function ParityBadge({ state, size = 'md', inDevelopment, className }: { state: ParityState; size?: 'sm' | 'md' | 'lg'; inDevelopment?: boolean; className?: string }) {
@@ -38,8 +40,8 @@ export function ParityBadge({ state, size = 'md', inDevelopment, className }: { 
   return (
     <span
       className={cn(
-        'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm border font-medium',
-        size === 'lg' ? 'h-7 px-2 text-sm' : size === 'md' ? 'h-5 px-1.5 text-2xs' : 'h-5 px-1 text-2xs',
+        'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border font-medium',
+        size === 'lg' ? 'h-7 px-2.5 text-sm' : size === 'md' ? 'h-5 pl-1.5 pr-2 text-2xs' : 'h-5 px-1.5 text-2xs',
         parityTone[state],
         className,
       )}
@@ -163,10 +165,10 @@ export function ConfidenceIndicator({ value, className }: { value: number; class
 
 /* ---- Decision-quality bands (traffic-light colours live here only) ------------ */
 const bandClass: Record<Band, string> = {
-  poor: 'text-dq-poor bg-[color-mix(in_srgb,var(--dq-poor)_14%,transparent)] border-[color-mix(in_srgb,var(--dq-poor)_45%,transparent)]',
-  suboptimal: 'text-dq-suboptimal bg-[color-mix(in_srgb,var(--dq-suboptimal)_14%,transparent)] border-[color-mix(in_srgb,var(--dq-suboptimal)_45%,transparent)]',
-  good: 'text-dq-good bg-[color-mix(in_srgb,var(--dq-good)_13%,transparent)] border-[color-mix(in_srgb,var(--dq-good)_45%,transparent)]',
-  optimal: 'text-dq-optimal bg-[color-mix(in_srgb,var(--dq-optimal)_14%,transparent)] border-[color-mix(in_srgb,var(--dq-optimal)_45%,transparent)]',
+  poor: 'text-dq-poor bg-[color-mix(in_srgb,var(--dq-poor)_14%,transparent)]',
+  suboptimal: 'text-dq-suboptimal bg-[color-mix(in_srgb,var(--dq-suboptimal)_14%,transparent)]',
+  good: 'text-dq-good bg-[color-mix(in_srgb,var(--dq-good)_14%,transparent)]',
+  optimal: 'text-dq-optimal bg-[color-mix(in_srgb,var(--dq-optimal)_14%,transparent)]',
 }
 
 export function BandGlyph({ band, className, size = 12 }: { band: Band; className?: string; size?: number }) {
@@ -182,7 +184,7 @@ export function BandGlyph({ band, className, size = 12 }: { band: Band; classNam
 
 export function DqBand({ band, size = 'md', className }: { band: Band; size?: 'sm' | 'md' | 'lg'; className?: string }) {
   return (
-    <span className={cn('inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm border font-medium', size === 'lg' ? 'h-7 px-2.5 text-sm' : size === 'md' ? 'h-5 px-1.5 text-2xs' : 'h-4 px-1 text-2xs', bandClass[band], className)}>
+    <span className={cn('inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full font-medium', size === 'lg' ? 'h-7 px-3 text-sm' : size === 'md' ? 'h-5 pl-1.5 pr-2 text-2xs' : 'h-4 pl-1 pr-1.5 text-2xs', bandClass[band], className)}>
       <BandGlyph band={band} size={size === 'lg' ? 14 : 12} />
       {t(`band.${band}`)}
     </span>
@@ -198,7 +200,7 @@ export function EstimateBand({ lo, hi, size = 'md', className }: { lo: Band; hi:
   const hiI = BAND_ORDER.indexOf(hi)
   const range = lo === hi ? t(`band.${lo}`) : t('band.range', { lo: t(`band.${lo}`), hi: t(`band.${hi}`) })
   return (
-    <span className={cn('pattern-rule inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm border border-dashed border-hair-dashed font-medium text-fg-1', size === 'lg' ? 'h-7 px-2.5 text-sm' : size === 'md' ? 'h-5 px-1.5 text-2xs' : 'h-4 px-1 text-2xs', className)}>
+    <span className={cn('pattern-rule inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-dashed border-hair-dashed font-medium text-fg-1', size === 'lg' ? 'h-7 px-2.5 text-sm' : size === 'md' ? 'h-5 px-1.5 text-2xs' : 'h-4 px-1 text-2xs', className)}>
       <svg width={size === 'lg' ? 14 : 12} height={size === 'lg' ? 14 : 12} viewBox="0 0 12 12" aria-hidden>
         {[0, 1, 2, 3].map((i) => (
           <rect key={i} x={0.75 + i * 3} y={11 - (i + 1) * 2.6} width="1.8" height={(i + 1) * 2.6} rx="0.4" fill={i <= li ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="0.8" strokeDasharray={i > li && i <= hiI ? '1.2 1' : undefined} opacity={i <= hiI ? 1 : 0.2} />

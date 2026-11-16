@@ -57,7 +57,7 @@ export function Select({ value, onValueChange, options, placeholder, className, 
         <SelectPrimitive.Content position="popper" sideOffset={4} className="z-50 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xl bg-s2 p-1 text-sm">
           <SelectPrimitive.Viewport>
             {options.map((o) => (
-              <SelectPrimitive.Item key={o.value} value={o.value} className="relative flex h-7 cursor-default select-none items-center rounded-sm pl-7 pr-2 text-fg-1 outline-none data-[highlighted]:bg-s3 data-[disabled]:opacity-45">
+              <SelectPrimitive.Item key={o.value} value={o.value} className="relative flex h-7 cursor-default select-none items-center rounded-sm pl-7 pr-2 text-fg-1 outline-none data-[highlighted]:bg-s3 data-[state=checked]:bg-accent-tint data-[state=checked]:shadow-[inset_0_-2px_0_var(--accent)] data-[disabled]:opacity-45">
                 <SelectPrimitive.ItemIndicator className="absolute left-2">
                   <Check className="size-3.5 text-accent-text" aria-hidden />
                 </SelectPrimitive.ItemIndicator>
@@ -88,7 +88,7 @@ export function Checkbox({ checked, onCheckedChange, label, id }: { checked: boo
   )
 }
 
-export function Switch({ checked, onCheckedChange, label, id }: { checked: boolean; onCheckedChange: (v: boolean) => void; label: string; id?: string }) {
+export function Switch({ checked, onCheckedChange, label, id, hideLabel }: { checked: boolean; onCheckedChange: (v: boolean) => void; label: string; id?: string; hideLabel?: boolean }) {
   const auto = useId()
   const sid = id ?? auto
   return (
@@ -96,7 +96,7 @@ export function Switch({ checked, onCheckedChange, label, id }: { checked: boole
       <SwitchPrimitive.Root id={sid} checked={checked} onCheckedChange={onCheckedChange} className="relative h-5 w-9 shrink-0 rounded-full border border-transparent bg-s3 transition-colors data-[state=checked]:border-accent data-[state=checked]:bg-accent-fill">
         <SwitchPrimitive.Thumb className="block size-3 translate-x-px rounded-full bg-fg-1 transition-transform duration-[var(--dur-base)] data-[state=checked]:translate-x-[13px]" />
       </SwitchPrimitive.Root>
-      <label htmlFor={sid} className="text-sm text-fg-1">
+      <label htmlFor={sid} className={hideLabel ? 'sr-only' : 'text-sm text-fg-1'}>
         {label}
       </label>
     </span>

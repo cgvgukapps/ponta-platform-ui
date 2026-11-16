@@ -72,7 +72,7 @@
   --heat-8: #ffdff8;
 
   /* Decision quality bands: the only place traffic-light colours are used */
-  --dq-poor: #f56d4b;
+  --dq-poor: #f87c5e;
   --dq-suboptimal: #f29d2e;
   --dq-good: #a3d93b;
   --dq-optimal: #33c26b;
@@ -136,8 +136,8 @@
   --parity-ink: #5c5340;
   --parity-ink-dim: #6d6552;
   --on-parity: #ffffff;
-  --dq-poor: #b83a1c;
-  --dq-suboptimal: #8f5a00;
+  --dq-poor: #a8341a;
+  --dq-suboptimal: #855300;
   --dq-good: #4a6b00;
   --dq-optimal: #11703a;
 }

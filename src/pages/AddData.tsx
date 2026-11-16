@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { Check, CheckCircle2, CircleDashed, FileText, Plug, TriangleAlert, Upload, X, Radio, Activity, ListChecks, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
+import { Check, CheckCircle2, CircleDashed, FileText, Plug, TriangleAlert, Upload, X, Radio, Activity, ListChecks, ArrowLeft, ArrowRight, ArrowUpRight, FileWarning, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 import { PROCESSING_STAGES, type Match } from '@/lib/types'
@@ -24,6 +24,13 @@ const SAMPLES: Sample[] = [
   { id: 'gps', matchId: 'm_0402', files: [{ name: 'statsports_session_squad.csv', size: '86 MB' }] },
   { id: 'mismatch', matchId: 'm_0398', files: [{ name: 'Sample_Game_3_RawTrackingData_Home_Team.csv', size: '312 MB' }, { name: 'Sample_Game_1_RawEventsData.csv', size: '1.1 MB' }] },
 ]
+
+const SAMPLE_ICON: Record<SampleId, React.ReactNode> = {
+  optical: <Radio className="size-5" aria-hidden />,
+  events: <ListChecks className="size-5" aria-hidden />,
+  gps: <Activity className="size-5" aria-hidden />,
+  mismatch: <FileWarning className="size-5" aria-hidden />,
+}
 
 const STEPS = ['source', 'preview', 'parity', 'process'] as const
 
@@ -140,14 +147,14 @@ function SourceStep({ onPick }: { onPick: (s: Sample) => void }) {
             <ul className="grid grid-cols-2 gap-3">
               {SAMPLES.map((s) => (
                 <li key={s.id}>
-                  <button onClick={() => onPick(s)} className="flex h-full w-full items-start gap-3 rounded-xl border border-hair bg-s1 p-4 text-left transition-colors hover:border-hair-hover hover:bg-s2">
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-transparent bg-s2 text-fg-2">
-                      <FileText className="size-4" aria-hidden />
+                  {/* Reference card: an icon tile on top, then a title and one line. */}
+                  <button onClick={() => onPick(s)} className="group flex h-full w-full flex-col items-start rounded-xl border border-hair bg-s1 p-4 text-left transition-colors hover:border-hair-hover hover:bg-s2">
+                    <span className="flex w-full items-start justify-between">
+                      <span className="flex size-10 items-center justify-center rounded-[10px] bg-accent-tint text-accent">{SAMPLE_ICON[s.id]}</span>
+                      <ArrowUpRight className="size-4 text-fg-4 transition-colors group-hover:text-fg-1" aria-hidden />
                     </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-medium text-fg-1">{t(`add.sample_${s.id}`)}</span>
-                      <span className="mt-1 block text-xs leading-4 text-fg-3">{t(`add.sample_${s.id}_body`)}</span>
-                    </span>
+                    <span className="mt-4 block text-sm font-medium text-fg-1">{t(`add.sample_${s.id}`)}</span>
+                    <span className="mt-1 block text-xs leading-4 text-fg-3">{t(`add.sample_${s.id}_body`)}</span>
                   </button>
                 </li>
               ))}

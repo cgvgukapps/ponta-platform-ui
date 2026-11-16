@@ -100,7 +100,7 @@ export function EventList({ events, cited, selectedId, currentT, onSelect, filte
                 aria-selected={sel}
                 onClick={() => onSelect(e)}
                 style={{ position: 'absolute', top: i * ROW, height: ROW, left: 0, right: 0 }}
-                className={cn('flex items-center gap-2.5 border-b border-hair px-3 text-left transition-colors duration-[var(--dur-fast)] hover:bg-s2', sel && 'bg-s3', i === nowIdx && !sel && 'bg-s2')}
+                className={cn('flex items-center gap-2.5 border-b border-hair px-3 text-left transition-colors duration-[var(--dur-fast)] hover:bg-s2', sel && 'bg-accent-tint shadow-[inset_0_-2px_0_var(--accent)] hover:bg-accent-tint', i === nowIdx && !sel && 'bg-s2')}
               >
                 <span className="w-[42px] shrink-0 font-mono text-xs tabular-nums text-fg-2">{fmtClock(e.t)}</span>
                 <TeamDot team={e.team} size={8} />

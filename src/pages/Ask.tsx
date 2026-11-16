@@ -68,7 +68,7 @@ function Sidebar({ threads, activeId, matches }: { threads: Thread[]; activeId: 
             const active = th.id === activeId
             return (
               <li key={th.id}>
-                <Link to={`/ask/${th.id}`} aria-current={active ? 'page' : undefined} className={cn('block rounded-md px-3 py-2 transition-colors duration-[var(--dur-fast)]', active ? 'bg-s3' : 'hover:bg-s2')}>
+                <Link to={`/ask/${th.id}`} aria-current={active ? 'page' : undefined} className={cn('block rounded-md px-3 py-2 transition-colors duration-[var(--dur-fast)]', active ? 'bg-accent-tint shadow-[inset_0_-2px_0_var(--accent)]' : 'hover:bg-s2')}>
                   <span className={cn('line-clamp-2 text-sm leading-5', active ? 'text-fg-1' : 'text-fg-2')}>{th.title}</span>
                   <span className="mt-1 flex items-center gap-1.5 text-xs text-fg-4">
                     <span className="truncate">{m ? opponent(m) : th.matchId}</span>
