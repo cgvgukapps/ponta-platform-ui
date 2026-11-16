@@ -42,18 +42,17 @@ export function BriefHeader({ match, brief, lp, variant, regenerating }: { match
         <AiMarker tone={variant === 'print' ? 'print' : 'dark'} />
       </div>
 
-      <div className="mt-4 flex items-start justify-between gap-6">
-        <div className="min-w-0">
-          <h1 className="text-2xl font-semibold leading-9 text-fg-1">
-            {match.home}
-            <span className="mx-2.5 inline-block translate-y-[-1px] rounded-md bg-s3 px-2 py-0.5 font-mono text-xl font-medium tabular-nums">{match.score ? `${match.score[0]}–${match.score[1]}` : 'v'}</span>
-            {match.away}
-          </h1>
-          <p className="mt-1.5 text-sm text-fg-3">
-            {match.competition} · {fmtDate(match.date)} · {match.sources.map((s) => PROVIDER_NAME[s.provider]).join(' + ')}
-          </p>
-        </div>
-        <TierBadge tier={match.tier} status={match.tierStatus} size="lg" className="shrink-0" />
+      {/* One line at desktop widths: the score is set in the same size, dimmed, not boxed. */}
+      <div className="mt-3">
+        <h1 className="text-[28px] font-semibold leading-9 tracking-tight text-fg-1">
+          {match.home}
+          <span className="mx-2.5 font-mono font-medium tabular-nums text-fg-3">{match.score ? `${match.score[0]}–${match.score[1]}` : 'v'}</span>
+          {match.away}
+        </h1>
+        <p className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm text-fg-3">
+          <span>{match.competition} · {fmtDate(match.date)} · {match.sources.map((s) => PROVIDER_NAME[s.provider]).join(' + ')}</span>
+          <TierBadge tier={match.tier} status={match.tierStatus} />
+        </p>
       </div>
 
       <section aria-label={t('brief.data_panel')} className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] overflow-hidden rounded-xl bg-s2">

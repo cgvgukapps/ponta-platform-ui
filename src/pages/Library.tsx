@@ -137,6 +137,12 @@ function SortTh({ label, k, sort, setSort, className }: { label: string; k: Sort
   )
 }
 
+/** One source is the common case and reads as quiet text; multi-source matches keep the badge and its lock. */
+function SourcesCell({ m }: { m: Match }) {
+  if (m.tier === 1 && m.tierStatus !== 'in_development') return <span className="whitespace-nowrap text-sm text-fg-3">{t('tier.name_1')}</span>
+  return <TierBadge tier={m.tier} status={m.tierStatus} />
+}
+
 function StatusCell({ m }: { m: Match }) {
   const stage = m.status === 'processing' && m.stage !== undefined ? t(`stage.${PROCESSING_STAGES[m.stage]}`) : undefined
   // Multi-source matches are checked but not analysed yet: say that, not "Ready".
@@ -315,7 +321,7 @@ export function Library() {
                     <span className="mt-0.5 block truncate text-xs text-fg-3" title={m.competition}>{m.competition}</span>
                   </td>
                   <td className="px-3 py-2.5 align-top"><Sources m={m} /></td>
-                  <td className="px-3 py-2.5 align-top"><TierBadge tier={m.tier} status={m.tierStatus} /></td>
+                  <td className="px-3 py-2.5 align-top"><SourcesCell m={m} /></td>
                   <td className="px-3 py-2.5 align-top"><ParityCell m={m} /></td>
                   <td className="px-3 py-2.5 align-top">
                     <StatusCell m={m} />
@@ -340,7 +346,7 @@ export function Library() {
                   </Link>
                   <p className="mt-0.5 truncate text-xs text-fg-3">{m.competition} · {fmtDate(m.date)}</p>
                 </div>
-                <TierBadge tier={m.tier} status={m.tierStatus} />
+                <SourcesCell m={m} />
               </div>
               <Sources m={m} />
               <div className="flex items-center justify-between gap-2">

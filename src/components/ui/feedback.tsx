@@ -44,10 +44,10 @@ export function InlineAlert({ tone = 'neutral', title, children, icon, className
     <div
       role={tone === 'danger' ? 'alert' : 'note'}
       className={cn(
-        'flex items-start gap-2.5 rounded-md border p-3 text-sm',
+        'flex items-start gap-2.5 rounded-xl border p-3.5 text-sm',
         tone === 'danger' && 'border-[color-mix(in_srgb,var(--danger)_40%,transparent)] bg-danger-tint',
         tone === 'warn' && 'border-[color-mix(in_srgb,var(--warn)_40%,transparent)] bg-warn-tint',
-        tone === 'neutral' && 'border-hair-strong bg-s2',
+        tone === 'neutral' && 'border-transparent bg-s2',
         className,
       )}
     >

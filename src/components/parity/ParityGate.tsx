@@ -54,20 +54,24 @@ function MetricRow({ id, report, familyState, familyLabel }: { id: MetricId; rep
   )
 }
 
-function FamilyCard({ family, report }: { family: (typeof FAMILIES)[number]; report: ReturnType<typeof parityFor> }) {
+/**
+ * One family as a row of a single list (reference: settings rows with the label left, the state
+ * beside it and detail beneath), instead of a card per family.
+ */
+function FamilyRow({ family, report }: { family: (typeof FAMILIES)[number]; report: ReturnType<typeof parityFor> }) {
   const state = familyState(report, family)
   return (
-    <section aria-labelledby={`fam-${family.id}`} className={'flex flex-col rounded-xl bg-s1'}>
-      <header className={cn('flex items-start justify-between gap-3 rounded-t-lg border-b border-hair px-4 py-3',)}>
-        <div>
+    <section aria-labelledby={`fam-${family.id}`} className="grid grid-cols-[220px_minmax(0,1fr)] gap-6 border-t border-hair px-5 py-5 first:border-t-0">
+      <header>
+        <div className="flex items-center gap-2.5">
           <h3 id={`fam-${family.id}`} className="text-base font-semibold text-fg-1">
             {t(`family.${family.id}`)}
           </h3>
-          <p className="mt-0.5 text-xs text-fg-3">{t(`family.${family.id}.desc`)}</p>
         </div>
-        <ParityBadge state={state} size="lg" />
+        <p className="mt-1 text-xs leading-[18px] text-fg-3">{t(`family.${family.id}.desc`)}</p>
+        <ParityBadge state={state} className="mt-3" />
       </header>
-      <div className="flex flex-col px-4 py-3">
+      <div className="flex flex-col">
         {family.metrics.map((id) => (
           <MetricRow key={id} id={id} report={report} familyState={state} familyLabel={t(`family.${family.id}`)} />
         ))}
@@ -191,9 +195,9 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
       ) : null}
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_340px] items-start gap-5">
-        <div className="grid grid-cols-2 items-start gap-4">
+        <div className="rounded-xl bg-s1">
           {FAMILIES.map((f) => (
-            <FamilyCard key={f.id} family={f} report={report} />
+            <FamilyRow key={f.id} family={f} report={report} />
           ))}
         </div>
         <div className="sticky top-4">
