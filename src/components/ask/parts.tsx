@@ -58,7 +58,8 @@ export const TOPIC_ICON: Record<string, typeof Activity> = {
 }
 
 /* ---------------- Composer ---------------- */
-export function Composer({ onSend, disabled, big, placeholder, initial, toolbar, autoFocus, above }: { onSend: (q: string) => void; disabled?: boolean; big?: boolean; placeholder: string; initial?: string; toolbar?: React.ReactNode; autoFocus?: boolean; above?: React.ReactNode }) {
+/** `compact` is the match panel: 13 px text, a lower box and a smaller send button. */
+export function Composer({ onSend, disabled, big, compact, placeholder, initial, toolbar, autoFocus, above }: { onSend: (q: string) => void; disabled?: boolean; big?: boolean; compact?: boolean; placeholder: string; initial?: string; toolbar?: React.ReactNode; autoFocus?: boolean; above?: React.ReactNode }) {
   const [v, setV] = useState(initial ?? '')
   const ref = useRef<HTMLTextAreaElement>(null)
   const inputId = useId()
@@ -107,7 +108,7 @@ export function Composer({ onSend, disabled, big, placeholder, initial, toolbar,
             send()
           }
         }}
-        className={cn('no-focus-ring max-h-40 w-full resize-none bg-transparent px-2 py-1 text-fg-1 outline-none placeholder:text-fg-4 focus-visible:outline-none', big ? 'min-h-[72px] text-base' : 'min-h-[28px] flex-1 text-base')}
+        className={cn('no-focus-ring max-h-40 w-full resize-none bg-transparent px-2 py-1 text-fg-1 outline-none placeholder:text-fg-4 focus-visible:outline-none', big ? 'min-h-[72px] text-base' : compact ? 'min-h-[24px] flex-1 text-[13px] leading-5' : 'min-h-[28px] flex-1 text-base')}
       />
       {big ? (
         <div className="mt-2 flex items-center justify-between gap-3 px-1">
@@ -122,8 +123,8 @@ export function Composer({ onSend, disabled, big, placeholder, initial, toolbar,
           </Button>
         </div>
       ) : (
-        <Button type="submit" variant="primary" size="icon" className="rounded-lg" disabled={!v.trim() || disabled} aria-label={t('ask.send')}>
-          <ArrowUp className="size-4" aria-hidden />
+        <Button type="submit" variant="primary" size={compact ? 'icon-sm' : 'icon'} className="rounded-lg" disabled={!v.trim() || disabled} aria-label={t('ask.send')}>
+          <ArrowUp className={compact ? 'size-3.5' : 'size-4'} aria-hidden />
         </Button>
       )}
     </form>

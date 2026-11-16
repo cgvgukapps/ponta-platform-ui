@@ -229,6 +229,7 @@ export function AskPanel({ match, variant, selected }: { match: Match; variant: 
             key={panel.pending?.nonce ?? 0}
             initial={panel.pending?.text ? fillRefs(panel.pending.text, who) : undefined}
             autoFocus={!!panel.pending}
+            compact
             onSend={(q) => send(q)}
             disabled={busy}
             placeholder={thread ? t('ask.placeholder_followup') : t('askp.placeholder')}
