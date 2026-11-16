@@ -12,15 +12,23 @@ import { InlineAlert } from '@/components/ui/feedback'
 import { ParityBadge, ParityIcon, Tag, TierBadge, TierGlyph } from '@/components/ui/badges'
 import { useApp } from '@/state/app'
 
-function SummaryStat({ state, n }: { state: ParityState; n: number }) {
+/**
+ * One count as a tile (reference: one large figure, a small label beneath). The state mark sits
+ * with its word, not beside the number, so the figure leads.
+ */
+function SummaryStat({ state, n, total }: { state: ParityState; n: number; total: number }) {
   return (
-    <div className="flex items-center gap-3.5 rounded-xl bg-s1 px-5 py-4">
-      <span className={cn('flex size-8 items-center justify-center', state === 'full' ? 'text-parity' : state === 'degraded' ? 'text-parity' : 'text-parity-dim')}>
-        <ParityIcon state={state} size={22} />
-      </span>
-      <div>
-        <p className="font-mono text-2xl font-semibold leading-none tabular-nums text-fg-1">{n}</p>
-        <p className="mt-1 text-xs text-fg-3">{t(`parity.${state}`)}</p>
+    <div className="flex flex-col justify-between rounded-xl bg-s1 px-5 pb-4 pt-5">
+      <p className="font-mono text-[40px] font-semibold leading-none tracking-tight tabular-nums text-fg-1">
+        {n}
+        <span className="ml-1.5 text-lg font-medium text-fg-4">/ {total}</span>
+      </p>
+      <div className="mt-4">
+        <p className={cn('flex items-center gap-2 text-sm font-medium', state === 'blocked' ? 'text-parity-dim' : 'text-parity')}>
+          <ParityIcon state={state} size={13} />
+          <span className="text-fg-1">{t(`parity.${state}`)}</span>
+        </p>
+        <p className="mt-1 text-xs text-fg-3">{t(`gate.stat_hint_${state}`)}</p>
       </div>
     </div>
   )
@@ -158,17 +166,20 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
   )
   return (
     <div className={embedded ? 'flex flex-1 flex-col' : 'mx-auto max-w-[1240px] px-6 py-6'}>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="max-w-[640px]">
-          <h2 className="text-xl font-semibold text-fg-1">{t('gate.title')}</h2>
-          <p className="mt-1.5 text-base text-fg-3">{t('gate.intro')}</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <SummaryStat state="full" n={report.summary.full} />
-          <SummaryStat state="degraded" n={report.summary.degraded} />
-          <SummaryStat state="blocked" n={report.summary.blocked} />
-        </div>
+      <div className="max-w-[720px]">
+        <h2 className="text-xl font-semibold text-fg-1">{t('gate.title')}</h2>
+        <p className="mt-1.5 text-base text-fg-3">{t('gate.intro')}</p>
       </div>
+      {(() => {
+        const total = report.summary.full + report.summary.degraded + report.summary.blocked
+        return (
+          <div className="mt-5 grid grid-cols-3 gap-3">
+            <SummaryStat state="full" n={report.summary.full} total={total} />
+            <SummaryStat state="degraded" n={report.summary.degraded} total={total} />
+            <SummaryStat state="blocked" n={report.summary.blocked} total={total} />
+          </div>
+        )
+      })()}
 
       {dev ? (
         <InlineAlert className="mt-5" icon={<FlaskConical className="size-4" />} title={t('gate.dev_title')}>
