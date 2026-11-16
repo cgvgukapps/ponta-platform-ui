@@ -70,7 +70,7 @@ export function Timeline({ lp, store, notable, cited, selectedId, onSelect }: Pr
       aria-valuemax={Math.round(duration)}
       aria-valuenow={Math.round(now)}
       aria-valuetext={fmtClock(now)}
-      className="relative select-none rounded-md border border-hair bg-s1 outline-none touch-none"
+      className="relative select-none rounded-lg bg-s1 outline-none touch-none"
       style={{ height: TIMELINE_H }}
       onPointerDown={(e) => {
         dragging.current = true

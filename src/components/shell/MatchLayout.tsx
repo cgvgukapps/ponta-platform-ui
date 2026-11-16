@@ -8,7 +8,7 @@ import { getMatch, parityFor } from '@/api'
 import { FAMILIES, PROCESSING_STAGES, type Match } from '@/lib/types'
 import { fmtDate } from '@/lib/format'
 import { PROVIDER_NAME, KIND_KEY } from '@/lib/providers'
-import { ParitySummary, Tag, TierBadge } from '@/components/ui/badges'
+import { ParitySummary, TierBadge } from '@/components/ui/badges'
 import { Skeleton, StageList, EmptyState, InlineAlert } from '@/components/ui/feedback'
 import { Button, buttonStyles } from '@/components/ui/button'
 import { useApp } from '@/state/app'
@@ -21,19 +21,6 @@ export const useMatch = () => useOutletContext<MatchCtx>().match
 export function parityStates(m: Match) {
   const r = parityFor(m)
   return FAMILIES.flatMap((f) => f.metrics.map((id) => r.metrics[id].state))
-}
-
-function SourceTags({ match }: { match: Match }) {
-  return (
-    <span className="flex items-center gap-1.5">
-      {match.sources.map((s, i) => (
-        <Tag key={i} className="gap-1.5">
-          <span className="text-fg-1">{PROVIDER_NAME[s.provider]}</span>
-          <span className="text-fg-3">{t(KIND_KEY[s.kind])}</span>
-        </Tag>
-      ))}
-    </span>
-  )
 }
 
 function ProcessingPanel({ match }: { match: Match }) {
@@ -138,12 +125,12 @@ export function MatchLayout() {
             {match.away}
           </h1>
           <p className="truncate text-xs text-fg-3">
-            {match.competition} · {fmtDate(match.date)}
+            {match.competition} · {fmtDate(match.date)} · {match.sources.map((s) => `${PROVIDER_NAME[s.provider]} ${t(KIND_KEY[s.kind]).toLowerCase()}`).join(' + ')}
           </p>
         </div>
-        <div className="hidden items-center gap-2 xl:flex">
-          <SourceTags match={match} />
-          <TierBadge tier={match.tier} status={match.tierStatus} />
+        {/* The provider is in the subtitle; the sources badge appears only when it says something (more than one source). */}
+        <div className="hidden items-center gap-3 xl:flex">
+          {match.tier > 1 || match.tierStatus === 'in_development' ? <TierBadge tier={match.tier} status={match.tierStatus} /> : null}
           {ready ? <ParitySummary summary={summary} states={states} compact /> : null}
         </div>
         <nav aria-label={t('match.sections')} className="ml-auto flex h-[52px] items-end gap-1">
@@ -154,7 +141,7 @@ export function MatchLayout() {
               className={({ isActive }) =>
                 cn(
                   'inline-flex h-10 items-center border-b-2 px-2.5 text-sm transition-colors duration-[var(--dur-base)]',
-                  isActive && !(tb as { external?: boolean }).external ? 'border-accent text-fg-1' : 'border-transparent text-fg-3 hover:text-fg-1',
+                  isActive && !(tb as { external?: boolean }).external ? 'border-fg-1 text-fg-1' : 'border-transparent text-fg-3 hover:text-fg-1',
                 )
               }
             >
