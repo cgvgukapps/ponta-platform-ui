@@ -31,9 +31,9 @@ Semi-transparent tokens are composited over the surface listed in the row.
 | dark | `--on-primary` | `--primary-fill` | 4.63:1 | 4.5:1 | Pass | Primary button label |
 | dark | `--on-primary` | `--primary-fill-hover` | 5.20:1 | 4.5:1 | Pass | Primary button label |
 | dark | `--on-primary` | `--primary-fill-active` | 6.41:1 | 4.5:1 | Pass | Primary button label |
-| print | `--on-primary` | `--primary-fill` | 18.88:1 | 4.5:1 | Pass | Primary button label (print) |
-| print | `--on-primary` | `--primary-fill-hover` | 21.00:1 | 4.5:1 | Pass | Primary button label (print) |
-| print | `--on-primary` | `--primary-fill-active` | 14.35:1 | 4.5:1 | Pass | Primary button label (print) |
+| print | `--on-primary` | `--primary-fill` | 4.63:1 | 4.5:1 | Pass | Primary button label (print) |
+| print | `--on-primary` | `--primary-fill-hover` | 5.20:1 | 4.5:1 | Pass | Primary button label (print) |
+| print | `--on-primary` | `--primary-fill-active` | 6.41:1 | 4.5:1 | Pass | Primary button label (print) |
 | dark | `--accent` | `--canvas` | 4.53:1 | 3:1 | Pass | Focus ring, selection (graphic) |
 | dark | `--accent` | `--surface-1` | 4.22:1 | 3:1 | Pass | Focus ring, selection (graphic) |
 | dark | `--accent` | `--surface-2` | 3.87:1 | 3:1 | Pass | Focus ring, selection (graphic) |
@@ -79,36 +79,36 @@ Semi-transparent tokens are composited over the surface listed in the row.
 | dark | `--control-border` | `--surface-2` | 3.98:1 | 3:1 | Pass | Form control edges (1.4.11) |
 | dark | `--conf-ink` | `--surface-1` | 7.37:1 | 3:1 | Pass | Confidence texture (graphic) |
 | dark | `--conf-ink` | `--surface-2` | 7.00:1 | 3:1 | Pass | Confidence texture (graphic) |
-| print | `--fg-1` | `--canvas` | 19.43:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-1` | `--surface-2` | 17.82:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-1` | `--surface-3` | 16.73:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-2` | `--canvas` | 13.22:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-2` | `--surface-2` | 12.12:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-2` | `--surface-3` | 11.38:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-3` | `--canvas` | 8.75:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-3` | `--surface-2` | 8.02:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-3` | `--surface-3` | 7.53:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-4` | `--canvas` | 6.31:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-4` | `--surface-2` | 5.78:1 | 4.5:1 | Pass | Print text |
-| print | `--fg-4` | `--surface-3` | 5.43:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-1` | `--canvas` | 18.91:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-1` | `--surface-2` | 16.71:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-1` | `--surface-3` | 15.26:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-2` | `--canvas` | 13.46:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-2` | `--surface-2` | 11.89:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-2` | `--surface-3` | 10.86:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-3` | `--canvas` | 8.01:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-3` | `--surface-2` | 7.08:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-3` | `--surface-3` | 6.46:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-4` | `--canvas` | 6.15:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-4` | `--surface-2` | 5.44:1 | 4.5:1 | Pass | Print text |
+| print | `--fg-4` | `--surface-3` | 4.96:1 | 4.5:1 | Pass | Print text |
 | print | `--accent-text` | `--canvas` | 6.42:1 | 4.5:1 | Pass | Print link text |
-| print | `--accent-text` | `--surface-2` | 5.88:1 | 4.5:1 | Pass | Print link text |
+| print | `--accent-text` | `--surface-2` | 5.67:1 | 4.5:1 | Pass | Print link text |
 | print | `--parity-ink` | `--canvas` | 7.59:1 | 4.5:1 | Pass | Print parity text |
-| print | `--parity-ink` | `--surface-2` | 6.96:1 | 4.5:1 | Pass | Print parity text |
+| print | `--parity-ink` | `--surface-2` | 6.71:1 | 4.5:1 | Pass | Print parity text |
 | print | `--parity-ink-dim` | `--canvas` | 5.78:1 | 4.5:1 | Pass | Print parity text |
-| print | `--parity-ink-dim` | `--surface-2` | 5.30:1 | 4.5:1 | Pass | Print parity text |
+| print | `--parity-ink-dim` | `--surface-2` | 5.11:1 | 4.5:1 | Pass | Print parity text |
 | print | `--on-parity` | `--parity-ink` | 7.59:1 | 4.5:1 | Pass | Print filled parity badge |
 | print | `--on-parity` | `--parity-ink-dim` | 5.78:1 | 4.5:1 | Pass | Print filled parity badge |
 | print | `--dq-poor` | `--canvas` | 5.74:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-poor` | `--surface-2` | 5.26:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-poor` | `--surface-2` | 5.07:1 | 4.5:1 | Pass | Print decision quality text |
 | print | `--dq-suboptimal` | `--canvas` | 5.78:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-suboptimal` | `--surface-2` | 5.30:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-suboptimal` | `--surface-2` | 5.11:1 | 4.5:1 | Pass | Print decision quality text |
 | print | `--dq-good` | `--canvas` | 6.19:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-good` | `--surface-2` | 5.67:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-good` | `--surface-2` | 5.47:1 | 4.5:1 | Pass | Print decision quality text |
 | print | `--dq-optimal` | `--canvas` | 6.17:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-optimal` | `--surface-2` | 5.66:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--control-border` | `--canvas` | 4.30:1 | 3:1 | Pass | Print control edges |
-| print | `--conf-ink` | `--canvas` | 7.39:1 | 3:1 | Pass | Print confidence texture |
+| print | `--dq-optimal` | `--surface-2` | 5.45:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--control-border` | `--canvas` | 4.18:1 | 3:1 | Pass | Print control edges |
+| print | `--conf-ink` | `--canvas` | 7.09:1 | 3:1 | Pass | Print confidence texture |
 
 ## Heat ramp
 

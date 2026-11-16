@@ -449,6 +449,7 @@ const en: Record<string, string> = {
   'mp.meta': '{provider} · match {id} · {min} min · {hz} Hz',
   'mp.data_check': 'What this data can support',
   'mp.coverage': 'Coverage',
+  'mp.coverage_tile': '{scored} of {total} passes and carries scored',
   'mp.coverage_line': '{scored} of {total} passes and carries scored ({share}).',
   'mp.cause_goalkeeper': 'Not scored: goalkeeper',
   'mp.cause_set_piece': 'Not scored: set piece',

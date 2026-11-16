@@ -9,6 +9,7 @@ import type { Band } from '@/lib/types'
 import { DqBand, ParityBadge, ParityIcon } from '@/components/ui/badges'
 import { Button } from '@/components/ui/button'
 import type { MatchPagePayload, Moment, State } from './types'
+import logo from './ponta-logo-black.png'
 
 /**
  * The shareable match page: a read-only, light, single-file page built from one payload.
@@ -74,17 +75,17 @@ function MomentRow({ m, pitch, index }: { m: Moment; pitch: MatchPagePayload['ma
   const [open, setOpen] = useState(false)
   const band = m.dq_band && m.dq_band !== 'not_scored' ? (m.dq_band as Band) : null
   return (
-    <li className="avoid-break border-b border-hair">
-      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} className="flex w-full items-center gap-3 py-2 text-left hover:bg-s2/50">
-        <span className="w-7 font-mono text-2xs text-fg-4">[{index}]</span>
-        <span className="w-12 font-mono text-xs tabular-nums text-fg-1">{m.minute_display}</span>
+    <li className="avoid-break overflow-hidden rounded-xl border border-hair bg-s1">
+      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-s2/60">
+        <span className="w-7 text-xs tabular-nums text-fg-4">{index}</span>
+        <span className="w-12 text-sm font-medium tabular-nums text-fg-1">{m.minute_display}</span>
         <span className="min-w-0 flex-1 truncate text-sm text-fg-1">{actionLabel(m)}{m.action_outcome === 'lost' ? `, ${t('mp.lost')}` : ''}</span>
         {band ? <DqBand band={band} size="sm" /> : m.movement_value !== null ? <span className="font-mono text-xs text-fg-2">{t('mp.movement_value', { v: num(m.movement_value, 3) })}</span> : null}
         <ChevronDown className={cn('size-3.5 shrink-0 text-fg-3 transition-transform no-print', open && 'rotate-180')} aria-hidden />
       </button>
-      <div className={cn('grid grid-cols-[240px_1fr] gap-5 pb-3 pl-10', open ? 'grid' : 'hidden print:grid')}>
+      <div className={cn('grid grid-cols-[260px_1fr] gap-6 border-t border-hair px-4 py-4', open ? 'grid' : 'hidden print:grid')}>
         <Snapshot m={m} pitch={pitch} />
-        <dl className="grid grid-cols-[150px_1fr] content-start gap-y-1 text-xs">
+        <dl className="grid grid-cols-[176px_1fr] content-start gap-x-3 gap-y-1.5 text-sm">
           {m.dq_score !== null ? (
             <>
               <dt className="text-fg-3">{t('mp.dq')}</dt>
@@ -122,107 +123,133 @@ function MomentRow({ m, pitch, index }: { m: Moment; pitch: MatchPagePayload['ma
   )
 }
 
+/** One large figure with a small label beneath (reference tiles). */
+function Tile({ figure, of, label, hint, mark }: { figure: string; of?: string; label: string; hint: string; mark?: React.ReactNode }) {
+  return (
+    <div className="avoid-break rounded-xl border border-hair bg-s1 px-4 pb-3.5 pt-4">
+      <p className="text-[34px] font-semibold leading-none tracking-tight tabular-nums text-fg-1">
+        {figure}
+        {of ? <span className="ml-1 text-base font-medium text-fg-4">{of}</span> : null}
+      </p>
+      <div className="mt-4">
+        <p className="flex items-center gap-1.5 text-sm font-medium text-fg-1">
+          {mark}
+          {label}
+        </p>
+        <p className="mt-0.5 text-xs text-fg-3">{hint}</p>
+      </div>
+    </div>
+  )
+}
+
 export function MatchPage({ payload }: { payload: MatchPagePayload }) {
   const p = payload
   const metrics = Object.entries(p.data_check.metrics)
+  const total = metrics.length
   let counter = 0
   return (
-    <div data-theme="print" className="min-h-full bg-desk py-6 print:bg-white print:py-0" style={{ color: 'var(--fg-1)' }}>
-      <div className="no-print mx-auto mb-4 flex w-[860px] justify-end">
+    <div data-theme="print" className="min-h-full bg-desk py-8 print:bg-white print:py-0" style={{ color: 'var(--fg-1)' }}>
+      <div className="no-print mx-auto mb-4 flex w-[880px] justify-end">
         <Button variant="primary" onClick={() => window.print()}>
-          <Printer className="size-3.5" aria-hidden />
+          <Printer className="size-4" aria-hidden />
           {t('print.print')}
         </Button>
       </div>
-      <main className="print-page mx-auto w-[860px] bg-canvas px-[56px] py-[48px] shadow-[0_0_0_1px_var(--hairline)]">
-        <header className="flex items-center justify-between border-b border-hair pb-4">
-          <span className="text-lg font-semibold tracking-tight text-fg-1">Ponta</span>
-          {p.sample_data ? <span className="text-xs font-medium text-fg-4">{t('mp.sample')}</span> : null}
+      <main className="print-page mx-auto w-[880px] rounded-2xl bg-canvas px-[56px] py-[48px] shadow-[0_0_0_1px_var(--hairline),0_24px_60px_-30px_rgba(14,17,22,0.25)] print:rounded-none print:shadow-none">
+        <header className="flex items-center justify-between">
+          <img src={logo} alt="Ponta" className="h-[22px] w-auto" />
+          {p.sample_data ? <span className="inline-flex h-6 items-center rounded-full bg-s2 px-2.5 text-xs text-fg-3">{t('mp.sample')}</span> : null}
         </header>
 
-        <section className="mt-6">
-          <p className="text-xs font-medium text-fg-3">{t('mp.kicker')}</p>
-          <h1 className="mt-1 font-serif text-[34px] font-normal leading-[42px] tracking-tight text-fg-1">{t('mp.title', { home: p.match.home, away: p.match.away })}</h1>
-          <p className="mt-1 text-sm text-fg-3">
+        <section className="mt-10">
+          <p className="text-sm text-fg-3">{t('mp.kicker')}</p>
+          <h1 className="mt-1 font-serif text-[42px] font-normal leading-[48px] tracking-tight text-fg-1">{t('mp.title', { home: p.match.home, away: p.match.away })}</h1>
+          <p className="mt-2 text-sm text-fg-3">
             {t('mp.meta', { provider: p.match.provider, id: p.match.match_id, min: p.match.duration_min.toFixed(0), hz: p.match.sample_rate_hz })}
           </p>
-          <p className="mt-3 rounded-md border border-hair bg-s1 px-3 py-2 text-sm text-fg-2">{p.statement}</p>
+          <p className="mt-5 rounded-xl bg-accent-tint px-4 py-3 text-sm text-fg-2">{p.statement}</p>
         </section>
 
-        <section className="avoid-break mt-7" aria-labelledby="dc">
-          <div className="flex items-end justify-between">
-            <h2 id="dc" className="text-md font-semibold text-fg-1">{t('mp.data_check')}</h2>
-            <span className="flex items-center gap-3 text-xs text-fg-2">
-              {(['full', 'degraded', 'blocked'] as State[]).map((k) => (
-                <span key={k} className={cn('inline-flex items-center gap-1', k === 'blocked' ? 'text-parity-dim' : 'text-parity')}>
-                  <ParityIcon state={k} size={11} />
-                  <span className="text-fg-2">{t(`parity.count_${k}`, { n: p.data_check.summary[k] })}</span>
+        <section className="avoid-break mt-8 grid grid-cols-4 gap-3" aria-label={t('mp.data_check')}>
+          {(['full', 'degraded', 'blocked'] as State[]).map((k) => (
+            <Tile
+              key={k}
+              figure={String(p.data_check.summary[k])}
+              of={`/ ${total}`}
+              label={t(`parity.${k}`)}
+              hint={t(`gate.stat_hint_${k}`)}
+              mark={<span className={k === 'blocked' ? 'text-parity-dim' : 'text-parity'}><ParityIcon state={k} size={12} /></span>}
+            />
+          ))}
+          <Tile figure={pct(p.coverage.scored_share)} label={t('mp.coverage')} hint={t('mp.coverage_tile', { scored: p.coverage.decisions_scored, total: p.coverage.decisions_total })} />
+        </section>
+
+        <section className="mt-10" aria-labelledby="dc">
+          <h2 id="dc" className="font-serif text-[26px] font-normal leading-8 tracking-tight text-fg-1">{t('mp.data_check')}</h2>
+          <ul className="mt-4 overflow-hidden rounded-xl border border-hair">
+            {metrics.map(([id, mc]) => (
+              <li key={id} className="avoid-break grid grid-cols-[200px_96px_1fr] items-start gap-3 border-t border-hair bg-s1 px-4 py-3 first:border-t-0">
+                <span className="text-sm font-medium text-fg-1">{mc.label}</span>
+                <ParityBadge state={mc.state} className="justify-self-start" />
+                <span className="text-sm text-fg-2">
+                  {mc.reason}
+                  {mc.measure ? <span className="mt-0.5 block text-xs text-fg-3">{mc.measure}</span> : null}
                 </span>
-              ))}
-            </span>
-          </div>
-          <table className="mt-3 w-full border-collapse text-xs">
-            <tbody>
-              {metrics.map(([id, mc]) => (
-                <tr key={id} className="border-b border-hair align-top">
-                  <td className="w-[190px] py-1.5 pr-3 font-medium text-fg-1">{mc.label}</td>
-                  <td className="w-[96px] py-1.5 pr-3"><ParityBadge state={mc.state} size="sm" className="!px-1.5 [&>span]:not-sr-only" /></td>
-                  <td className="py-1.5 text-fg-2">
-                    {mc.reason}
-                    {mc.measure ? <span className="ml-1.5 font-mono text-fg-3">[{mc.measure}]</span> : null}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              </li>
+            ))}
+          </ul>
         </section>
 
-        <section className="avoid-break mt-7" aria-labelledby="cov">
-          <h2 id="cov" className="text-md font-semibold text-fg-1">{t('mp.coverage')}</h2>
-          <p className="mt-1 text-sm text-fg-2">
+        <section className="avoid-break mt-10" aria-labelledby="cov">
+          <h2 id="cov" className="font-serif text-[26px] font-normal leading-8 tracking-tight text-fg-1">{t('mp.coverage')}</h2>
+          <p className="mt-2 text-sm text-fg-2">
             {t('mp.coverage_line', { scored: p.coverage.decisions_scored, total: p.coverage.decisions_total, share: pct(p.coverage.scored_share) })}
           </p>
-          <dl className="mt-2 grid grid-cols-[260px_1fr] gap-y-1 text-xs">
-            <dt className="text-fg-3">{t('mp.cause_goalkeeper')}</dt>
-            <dd className="font-mono tabular-nums">{p.coverage.not_scored_causes.goalkeeper ?? 0}</dd>
-            <dt className="text-fg-3">{t('mp.cause_set_piece')}</dt>
-            <dd className="font-mono tabular-nums">{p.coverage.not_scored_causes.set_piece ?? 0}</dd>
-            <dt className="text-fg-3">{t('mp.cause_engine')}</dt>
-            <dd className="font-mono tabular-nums">{p.coverage.not_scored_causes.no_score_from_engine ?? 0}</dd>
-            <dt className="text-fg-3">{t('mp.ball_share')}</dt>
-            <dd className="font-mono tabular-nums">{pct(p.coverage.ball_detected_share)}</dd>
-            <dt className="text-fg-3">{t('mp.player_share')}</dt>
-            <dd className="font-mono tabular-nums">{pct(p.coverage.player_observation_share)}</dd>
+          <dl className="mt-3 flex flex-col gap-1.5 rounded-xl border border-hair bg-s1 px-4 py-3 text-sm">
+            {[
+              [t('mp.cause_goalkeeper'), String(p.coverage.not_scored_causes.goalkeeper ?? 0)],
+              [t('mp.cause_set_piece'), String(p.coverage.not_scored_causes.set_piece ?? 0)],
+              [t('mp.cause_engine'), String(p.coverage.not_scored_causes.no_score_from_engine ?? 0)],
+              [t('mp.ball_share'), pct(p.coverage.ball_detected_share)],
+              [t('mp.player_share'), pct(p.coverage.player_observation_share)],
+            ].map(([k, v]) => (
+              <div key={k} className="flex items-baseline justify-between gap-4">
+                <dt className="text-fg-3">{k}</dt>
+                <dd className="tabular-nums text-fg-1">{v}</dd>
+              </div>
+            ))}
           </dl>
         </section>
 
         {p.moment_groups.map((g) => (
-          <section key={g.id} className="mt-7" aria-labelledby={`g-${g.id}`}>
-            <h2 id={`g-${g.id}`} className="text-md font-semibold text-fg-1">{g.title}</h2>
-            <p className="mt-0.5 text-xs text-fg-3">{t('mp.rule', { rule: g.rule })}</p>
+          <section key={g.id} className="mt-10" aria-labelledby={`g-${g.id}`}>
+            <h2 id={`g-${g.id}`} className="font-serif text-[26px] font-normal leading-8 tracking-tight text-fg-1">{g.title}</h2>
+            <p className="mt-1 text-sm text-fg-3">{t('mp.rule', { rule: g.rule })}</p>
             {g.moments.length ? (
-              <ul className="mt-2 border-t border-hair">
+              <ul className="mt-4 flex flex-col gap-2">
                 {g.moments.map((m) => (
                   <MomentRow key={m.event_id} m={m} pitch={p.match.pitch} index={++counter} />
                 ))}
               </ul>
             ) : (
-              <p className="mt-2 text-sm text-fg-3">{t('mp.none')}</p>
+              <p className="mt-3 text-sm text-fg-3">{t('mp.none')}</p>
             )}
           </section>
         ))}
 
         {p.notes.length ? (
-          <section className="avoid-break mt-7" aria-labelledby="notes">
-            <h2 id="notes" className="text-md font-semibold text-fg-1">{t('mp.notes')}</h2>
-            <p className="mt-0.5 text-xs text-fg-3">{t('mp.notes_sub')}</p>
-            {p.notes.map((n, i) => (
-              <p key={i} className="mt-2 text-sm text-fg-1">{n}</p>
-            ))}
+          <section className="avoid-break mt-10" aria-labelledby="notes">
+            <h2 id="notes" className="font-serif text-[26px] font-normal leading-8 tracking-tight text-fg-1">{t('mp.notes')}</h2>
+            <p className="mt-1 text-sm text-fg-3">{t('mp.notes_sub')}</p>
+            <div className="mt-3 rounded-xl border border-hair bg-s1 px-4 py-3">
+              {p.notes.map((n, i) => (
+                <p key={i} className="text-sm leading-6 text-fg-1 [&+&]:mt-2">{n}</p>
+              ))}
+            </div>
           </section>
         ) : null}
 
-        <footer className="mt-8 border-t border-hair pt-3 text-2xs text-fg-4">
+        <footer className="mt-12 border-t border-hair pt-4 text-xs text-fg-4">
           {t('mp.footer', { engine: p.engine_version, schema: p.schema_version, at: p.generated_at })}
         </footer>
       </main>

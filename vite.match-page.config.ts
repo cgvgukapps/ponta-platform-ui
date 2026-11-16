@@ -13,6 +13,8 @@ export default defineConfig({
     outDir: 'dist-match-page',
     emptyOutDir: true,
     cssCodeSplit: false,
+    // Inline the logo so the exported page stays one self-contained file.
+    assetsInlineLimit: 64 * 1024,
     chunkSizeWarningLimit: 900,
     rollupOptions: { input: path.resolve(__dirname, 'match-page.html'), output: { inlineDynamicImports: true } },
   },
