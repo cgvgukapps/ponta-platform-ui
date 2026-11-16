@@ -163,6 +163,11 @@ code,
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
+/* Dropdown and menu items (Radix) show focus as their grey highlight, not a blue ring. */
+[role='option'][data-radix-collection-item]:focus-visible,
+[role^='menuitem'][data-radix-collection-item]:focus-visible {
+  outline: none;
+}
 /* Opt-out for the Ask composer, where the box itself shows the focus context. */
 .no-focus-ring:focus-visible {
   outline: none;

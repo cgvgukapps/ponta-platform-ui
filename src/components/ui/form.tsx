@@ -57,7 +57,7 @@ export function Select({ value, onValueChange, options, placeholder, className, 
         <SelectPrimitive.Content position="popper" sideOffset={4} className="z-50 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-xl bg-s2 p-1 text-sm">
           <SelectPrimitive.Viewport>
             {options.map((o) => (
-              <SelectPrimitive.Item key={o.value} value={o.value} className="relative flex h-7 cursor-default select-none items-center rounded-sm pl-7 pr-2 text-fg-1 outline-none data-[highlighted]:bg-s3 data-[state=checked]:bg-accent-tint data-[state=checked]:shadow-[inset_0_-2px_0_var(--accent)] data-[disabled]:opacity-45">
+              <SelectPrimitive.Item key={o.value} value={o.value} className="relative flex h-7 cursor-default select-none items-center rounded-sm pl-7 pr-2 text-fg-1 outline-none data-[highlighted]:bg-s3 data-[disabled]:opacity-45">
                 <SelectPrimitive.ItemIndicator className="absolute left-2">
                   <Check className="size-3.5 text-accent-text" aria-hidden />
                 </SelectPrimitive.ItemIndicator>
