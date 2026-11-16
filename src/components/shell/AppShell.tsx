@@ -15,7 +15,7 @@ import { Toaster } from '@/components/ui/feedback'
 /**
  * Navigation rail (reference): a narrow, slightly darker column of icons with tooltips. The
  * Ponta mark sits in a top cell aligned with the top bar; the active item is a soft fill with
- * a white icon. Unbuilt areas (Players, Shortlists, Team dashboards) are not shown.
+ * a Ponta blue icon. Unbuilt areas (Players, Shortlists, Team dashboards) are not shown.
  */
 function RailItem({ to, base, icon, label }: { to: string; base?: string; icon: React.ReactNode; label: string }) {
   const { pathname } = useLocation()
@@ -27,8 +27,8 @@ function RailItem({ to, base, icon, label }: { to: string; base?: string; icon: 
         to={to}
         aria-current={isActive ? 'page' : undefined}
         className={cn(
-          'flex size-10 items-center justify-center rounded-xl transition-colors duration-[var(--dur-fast)] [&>svg]:size-[18px]',
-          isActive ? 'bg-s2 text-fg-1' : 'text-fg-3 hover:bg-s1 hover:text-fg-1',
+          'flex size-10 items-center justify-center rounded-lg transition-colors duration-[var(--dur-fast)] [&>svg]:size-[18px]',
+          isActive ? 'bg-s2 text-accent' : 'text-fg-3 hover:bg-s1 hover:text-fg-1',
         )}
       >
         {icon}
@@ -41,7 +41,7 @@ function RailItem({ to, base, icon, label }: { to: string; base?: string; icon: 
 function RailButton({ icon, label, onClick, shortcut }: { icon: React.ReactNode; label: string; onClick: () => void; shortcut?: string }) {
   return (
     <Tooltip content={shortcut ? `${label} (${shortcut})` : label} side="right">
-      <button type="button" onClick={onClick} aria-label={label} aria-keyshortcuts={shortcut} className="flex size-10 items-center justify-center rounded-xl text-fg-3 transition-colors hover:bg-s1 hover:text-fg-1 [&>svg]:size-[18px]">
+      <button type="button" onClick={onClick} aria-label={label} aria-keyshortcuts={shortcut} className="flex size-10 items-center justify-center rounded-lg text-fg-3 transition-colors hover:bg-s1 hover:text-fg-1 [&>svg]:size-[18px]">
         {icon}
       </button>
     </Tooltip>
