@@ -14,6 +14,16 @@ export interface AskStatement {
   state: ParityState | 'info'
   text: string
 }
+/**
+ * What a question is about, when it was asked from a specific place: the moments a brief point
+ * cites, or the moment selected in the replay. The answer is grounded in exactly those events.
+ */
+export interface AskContext {
+  events: string[]
+  /** Short label shown on the context chip, for example "Pass at 34:12". */
+  label: string
+}
+
 export interface AskAnswer {
   id: string
   question: string
@@ -57,7 +67,7 @@ function timeWindow(q: string, htAt: number): [number, number, string] {
 
 let counter = 100
 
-export async function askPonta(matchId: string, question: string): Promise<AskAnswer> {
+export async function askPonta(matchId: string, question: string, context?: AskContext): Promise<AskAnswer> {
   await delay(500)
   const id = `ans_${counter++}`
   const base = { id, question, matchId, statements: [] as AskStatement[], thresholds: [] as string[], playlist: [] as string[], followUps: [] as string[] }
@@ -102,6 +112,39 @@ export async function askPonta(matchId: string, question: string): Promise<AskAn
       list.push({ label: 'Show sprint efforts in the second period', prompt: 'Show sprint efforts in the second half' })
     }
     return list
+  }
+
+  // Asked about specific moments (a brief point, a selected moment). Medical and fatigue questions
+  // are still refused below, whatever the context.
+  if (context?.events.length && intent !== 'fatigue') {
+    const picked = context.events.map((id) => lp.byId.get(id)).filter((e): e is NonNullable<typeof e> => !!e).sort((a, b) => a.t - b.t)
+    if (!picked.length) return refuse('Those moments are not in this match', ['The moments this question refers to could not be found in the event record for this match.'], [], altsFor(match))
+    const tok = (team: 'h' | 'a', num: number) => `{${team === 'h' ? 'home' : 'away'}_${num}}`
+    if (picked.length === 1) {
+      const e = picked[0]
+      // The same team's passes and carries in the 20 seconds before it: the lead-up, from the event record.
+      const lead = lp.events.filter((x) => x.team === e.team && x.t < e.t && x.t >= e.t - 20 && (x.type === 'pass' || x.type === 'carry')).slice(-3)
+      const mm = String(Math.floor(e.t / 60)).padStart(2, '0')
+      const ss = String(Math.floor(e.t % 60)).padStart(2, '0')
+      return {
+        ...base,
+        kind: 'answer',
+        statements: degradedStatements(['pass_value', 'pass_alternatives']),
+        summary: `This is ${tok(e.team, e.num)}'s ${e.type === 'run' ? 'off-ball run' : e.type} at ${mm}:${ss}${lead.length ? ', after the passes and carries by the same team in the 20 seconds before it' : ''}. Open the last moment to see the options at the time and how its rating was worked out.`,
+        thresholds: e.band ? ['decision_quality', 'ring'] : ['low_confidence'],
+        playlist: [...lead.map((x) => x.id), e.id],
+        followUps: altsFor(match).slice(0, 1).map((a) => a.prompt),
+      }
+    }
+    return {
+      ...base,
+      kind: 'answer',
+      statements: degradedStatements(['pass_value', 'pass_alternatives']),
+      summary: 'These are the moments this point of the brief cites, in match order. Open each one to see the options at the time and how its rating was worked out.',
+      thresholds: ['decision_quality'],
+      playlist: picked.map((e) => e.id),
+      followUps: altsFor(match).slice(0, 1).map((a) => a.prompt),
+    }
   }
 
   if (intent === 'fatigue') {

@@ -129,7 +129,7 @@ function Bullet({ text, ids, lp, matchId, variant, refs, onAsk }: { text: string
           <CitationChip key={e.id} event={e} matchId={matchId} engine={variant === 'screen' ? lp.engine : undefined} index={variant === 'print' ? refs.get(e.id) : undefined} variant={variant === 'print' ? 'print' : 'dark'} />
         ))}
         {variant === 'screen' && onAsk ? (
-          <button onClick={onAsk} className="ml-auto inline-flex h-[22px] items-center gap-1 rounded-sm px-1.5 text-xs text-fg-3 hover:bg-s2 hover:text-fg-1">
+          <button onClick={onAsk} aria-label={t('brief.ask_about_point')} className="ml-auto inline-flex h-[22px] items-center gap-1 rounded-sm px-1.5 text-xs text-fg-3 hover:bg-s2 hover:text-fg-1">
             <MessageSquarePlus className="size-3" aria-hidden />
             {t('brief.ask_about')}
           </button>

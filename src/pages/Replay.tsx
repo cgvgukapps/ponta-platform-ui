@@ -22,6 +22,8 @@ import { ExplainCard } from '@/components/replay/ExplainCard'
 import { EventList, isNotable, type EventFilter } from '@/components/replay/EventList'
 import { PlayerTable } from '@/components/replay/PlayerTable'
 import { Legend } from '@/components/replay/Legend'
+import { AskPanel, momentLabel, useAskPanel } from '@/components/ask/AskPanel'
+import { eventTypeLabel } from '@/lib/events'
 
 const FRAME = 0.04
 
@@ -121,6 +123,17 @@ function ReplayInner({ lp, cited }: { lp: LoadedPack; cited: string[] }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null)
   const [tab, setTab] = useState('events')
+  // Ask is the third side tab here; it is the same panel that docks beside Data check and Brief.
+  const panel = useAskPanel()
+  const sideTab = panel?.open ? 'ask' : tab
+  const onSideTab = (v: string) => {
+    if (v === 'ask') panel?.setOpen(true)
+    else {
+      panel?.setOpen(false)
+      setTab(v)
+    }
+  }
+  const askAbout = (e: MatchEvent) => panel?.openWith(t('askp.moment_q', { what: eventTypeLabel(e).toLowerCase(), t: fmtClock(e.t) }), { events: [e.id], label: momentLabel(e) })
   const selected = selectedId ? lp.byId.get(selectedId) ?? null : null
 
   const citedSet = useMemo(() => new Set(cited), [cited])
@@ -287,12 +300,13 @@ function ReplayInner({ lp, cited }: { lp: LoadedPack; cited: string[] }) {
 
       <aside aria-label={t('replay.side')} className="flex w-[400px] shrink-0 flex-col gap-3 overflow-y-auto">
         <div className="shrink-0">
-          <ExplainCard event={selected} htAt={lp.data.htAt} onPlayFrom={playFrom} onCopy={copyLink} />
+          <ExplainCard event={selected} htAt={lp.data.htAt} onPlayFrom={playFrom} onCopy={copyLink} onAsk={panel ? askAbout : undefined} compact={sideTab === 'ask'} />
         </div>
-        <Tabs value={tab} onValueChange={setTab} className="flex min-h-[260px] flex-1 flex-col">
+        <Tabs value={sideTab} onValueChange={onSideTab} className="flex min-h-[260px] flex-1 flex-col">
           <TabsList label={t('replay.side_tabs')}>
             <TabsTrigger value="events">{t('replay.events')}</TabsTrigger>
             <TabsTrigger value="players">{t('replay.players')}</TabsTrigger>
+            {panel ? <TabsTrigger value="ask">{t('askp.toggle')}</TabsTrigger> : null}
           </TabsList>
           <TabsContent value="events" className="min-h-0 flex-1 pt-3 data-[state=inactive]:hidden">
             <EventsPane lp={lp} store={store} cited={cited} selectedId={selectedId} onSelect={select} filter={filter} onFilter={setFilter} />
@@ -300,6 +314,11 @@ function ReplayInner({ lp, cited }: { lp: LoadedPack; cited: string[] }) {
           <TabsContent value="players" className="min-h-0 flex-1 pt-3 data-[state=inactive]:hidden">
             <PlayerTable lp={lp} store={store} selected={selectedPlayer} onSelect={setSelectedPlayer} />
           </TabsContent>
+          {panel ? (
+            <TabsContent value="ask" className="min-h-[420px] flex-1 pt-3 data-[state=inactive]:hidden">
+              <AskPanel match={match} variant="embedded" selected={selected} />
+            </TabsContent>
+          ) : null}
         </Tabs>
       </aside>
     </div>

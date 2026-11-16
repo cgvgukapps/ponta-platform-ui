@@ -47,3 +47,22 @@ export function PlayerName({ team, num, className }: { team: Team; num: number; 
     </span>
   )
 }
+
+/**
+ * The reverse of `fillRefs`: before a question leaves the client, names from the roster and code
+ * labels ("Home 5") become tokens, so whatever the AI layer receives stays pseudonymised.
+ */
+export function toRefs(text: string, match: { home: string; away: string } | null | undefined): string {
+  let out = text
+  if (match) {
+    const pairs: [string, string][] = []
+    for (const [side, team] of [['home', match.home], ['away', match.away]] as const) {
+      const r = getRosterSync(team)
+      if (r) for (const [num, name] of Object.entries(r)) pairs.push([name, `{${side}_${num}}`])
+    }
+    // Longest names first, so "Callum Brightwater-Lee" is not caught by "Callum Brightwater".
+    pairs.sort((a, b) => b[0].length - a[0].length)
+    for (const [name, tok] of pairs) out = out.split(name).join(tok)
+  }
+  return out.replace(/\b(Home|Away) (\d{1,2})\b/g, (_, side: string, n: string) => `{${side.toLowerCase()}_${n}}`)
+}

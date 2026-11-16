@@ -238,13 +238,13 @@ export function ParityGate({ match, continueLabel, onContinue, continueTo, foote
       ) : null}
 
 
-      <div className="mt-6 grid grid-cols-[minmax(0,1fr)_340px] items-start gap-5">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)_340px] items-start gap-5 @max-[1060px]:grid-cols-1">
         <div className="rounded-xl border border-hair bg-s1">
           {FAMILIES.map((f) => (
             <FamilyRow key={f.id} family={f} report={report} />
           ))}
         </div>
-        <div className="sticky top-4">
+        <div className="sticky top-4 @max-[1060px]:static">
           <Ladder match={match} />
         </div>
       </div>

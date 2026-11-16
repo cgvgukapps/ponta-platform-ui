@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useOutletContext, useParams } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation, useOutletContext, useParams } from 'react-router-dom'
 import { ChevronLeft, Lock, Loader2, Clock, TriangleAlert, RefreshCw, Upload, XCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/cn'
@@ -13,6 +13,8 @@ import { Skeleton, StageList, EmptyState, InlineAlert } from '@/components/ui/fe
 import { Button, buttonStyles } from '@/components/ui/button'
 import { useApp } from '@/state/app'
 import { WhoProvider } from '@/lib/names'
+import { AskPanel, AskPanelProvider, useAskPanel } from '@/components/ask/AskPanel'
+import { MessageSquare } from 'lucide-react'
 
 export interface MatchCtx {
   match: Match
@@ -102,6 +104,19 @@ export function MatchLayout() {
     )
   }
   if (!match) return <EmptyState title={t('match.not_found')} body={t('match.not_found_body')} actions={<Link to="/matches" className={buttonStyles()}>{t('notfound.back')}</Link>} />
+  // The provider sits above the tabs, so the Ask panel and its conversation survive moving between
+  // Data check, Brief and Replay. Keyed by match, so another match starts closed.
+  return (
+    <AskPanelProvider key={match.id}>
+      <MatchFrame match={match} />
+    </AskPanelProvider>
+  )
+}
+
+function MatchFrame({ match }: { match: Match }) {
+  const panel = useAskPanel()!
+  const { pathname } = useLocation()
+  const onReplay = pathname.endsWith('/replay')
   const states = parityStates(match)
   const summary = parityFor(match).summary
   const ready = match.status === 'ready'
@@ -109,10 +124,7 @@ export function MatchLayout() {
     { to: `/matches/${match.id}/parity`, label: t('match.tab_parity') },
     { to: `/matches/${match.id}/brief`, label: t('match.tab_brief') },
     { to: `/matches/${match.id}/replay`, label: t('match.tab_replay') },
-    { to: `/ask?match=${match.id}`, label: t('match.tab_ask'), external: true },
   ]
-  const onReplayNote = null
-  void onReplayNote
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="flex min-h-[52px] shrink-0 flex-wrap items-center gap-x-4 gap-y-1 border-b border-hair bg-canvas px-5">
@@ -142,20 +154,40 @@ export function MatchLayout() {
               className={({ isActive }) =>
                 cn(
                   'inline-flex h-10 items-center border-b-2 px-2.5 text-sm transition-colors duration-[var(--dur-base)]',
-                  isActive && !(tb as { external?: boolean }).external ? 'border-fg-1 text-fg-1' : 'border-transparent text-fg-3 hover:text-fg-1',
+                  isActive ? 'border-fg-1 text-fg-1' : 'border-transparent text-fg-3 hover:text-fg-1',
                 )
               }
             >
               {tb.label}
             </NavLink>
           ))}
+          {/* Ask is a panel, not a page: it opens beside whatever tab is showing. */}
+          {ready ? (
+            <button
+              type="button"
+              aria-pressed={panel.open}
+              onClick={() => panel.setOpen(!panel.open)}
+              className={cn(
+                'ml-2 mb-1.5 inline-flex h-8 items-center gap-1.5 self-end rounded-lg px-3 text-sm transition-colors duration-[var(--dur-base)]',
+                panel.open ? 'bg-accent-tint text-fg-1 shadow-[inset_0_0_0_1px_var(--composer-edge)]' : 'text-fg-2 hover:bg-s2 hover:text-fg-1',
+              )}
+            >
+              <MessageSquare className={cn('size-4', panel.open ? 'text-accent' : 'text-fg-3')} aria-hidden />
+              {t('askp.toggle')}
+            </button>
+          ) : null}
         </nav>
       </div>
-      <div className="min-h-0 flex-1 overflow-auto">
-        {match.status === 'processing' || match.status === 'queued' ? <ProcessingPanel match={match} /> : match.status === 'failed' || match.status === 'needs_attention' ? <IssuePanel match={match} /> : <WhoProvider match={match}>
-            <Outlet context={{ match } satisfies MatchCtx} />
-          </WhoProvider>}
-      </div>
+      <WhoProvider match={match}>
+        <div className="flex min-h-0 flex-1">
+          {/* A size container: pages narrow their own layout when the panel takes the right side. */}
+          <div className="@container min-h-0 min-w-0 flex-1 overflow-auto">
+            {match.status === 'processing' || match.status === 'queued' ? <ProcessingPanel match={match} /> : match.status === 'failed' || match.status === 'needs_attention' ? <IssuePanel match={match} /> : <Outlet context={{ match } satisfies MatchCtx} />}
+          </div>
+          {/* On Replay the panel is a tab in the side column instead (see Replay). */}
+          {ready && panel.open && !onReplay ? <AskPanel match={match} variant="docked" /> : null}
+        </div>
+      </WhoProvider>
     </div>
   )
 }

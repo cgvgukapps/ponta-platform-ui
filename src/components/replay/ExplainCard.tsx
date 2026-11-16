@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Collapsible from '@radix-ui/react-collapsible'
-import { ChevronDown, Copy, Play, TriangleAlert, Video } from 'lucide-react'
+import { ChevronDown, Copy, MessageSquarePlus, Play, TriangleAlert, Video } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 import type { MatchEvent } from '@/lib/types'
@@ -316,8 +316,14 @@ function useAnnounce() {
       .join('. ')
 }
 
-export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchEvent | null; htAt: number; onPlayFrom: (e: MatchEvent) => void; onCopy: (e: MatchEvent) => void }) {
+/**
+ * `compact` is used while the Ask tab is open on Replay: the card shrinks to its header and rating
+ * so the conversation has room, and opens fully on request. `onAsk` starts a question about the moment.
+ */
+export function ExplainCard({ event, htAt, onPlayFrom, onCopy, onAsk, compact }: { event: MatchEvent | null; htAt: number; onPlayFrom: (e: MatchEvent) => void; onCopy: (e: MatchEvent) => void; onAsk?: (e: MatchEvent) => void; compact?: boolean }) {
   const [how, setHow] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  useEffect(() => setExpanded(false), [compact])
   const announce = useAnnounce()
   // Always mounted, so screen readers hear the first selection as well as later ones.
   const live = (
@@ -338,6 +344,30 @@ export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchE
   }
   const e = event
   const measured = !e.est && !!e.band
+  if (compact && !expanded) {
+    return (
+      <>
+        {live}
+        <section aria-label={t('explain.title')} className={cn('rounded-lg border bg-s1 px-3.5 py-3', e.est ? 'border-dashed border-hair-strong' : 'border-transparent')}>
+          <Head e={e} htAt={htAt} />
+          <div className="mt-2 flex items-center gap-2.5">
+            {e.band && e.dq !== undefined ? (
+              <>
+                <span className="font-mono text-xl font-semibold leading-none tabular-nums text-fg-1">{e.dq.toFixed(2)}</span>
+                <DqBand band={e.band} />
+              </>
+            ) : e.est ? (
+              <EstimateBand lo={e.est.lo} hi={e.est.hi} />
+            ) : null}
+            <Button size="sm" variant="ghost" className="ml-auto" aria-expanded={false} onClick={() => setExpanded(true)}>
+              {t('explain.show_details')}
+              <ChevronDown className="size-3.5" aria-hidden />
+            </Button>
+          </div>
+        </section>
+      </>
+    )
+  }
   return (
     <>
     {/* One short announcement per selection, rather than reading out the whole card. */}
@@ -365,12 +395,24 @@ export function ExplainCard({ event, htAt, onPlayFrom, onCopy }: { event: MatchE
               <Play className="size-3 fill-current" aria-hidden />
               {t('explain.play_from')}
             </Button>
+            {onAsk ? (
+              <Tooltip content={t('askp.ask_moment')}>
+                <Button size="icon-sm" variant="ghost" aria-label={t('askp.ask_moment')} onClick={() => onAsk(e)}>
+                  <MessageSquarePlus className="size-3.5" aria-hidden />
+                </Button>
+              </Tooltip>
+            ) : null}
             <Button size="icon-sm" variant="ghost" aria-label={t('explain.copy_link')} onClick={() => onCopy(e)}>
               <Copy className="size-3.5" aria-hidden />
             </Button>
           </div>
         </div>
         {measured ? <HowContent e={e} /> : null}
+        {compact ? (
+          <button type="button" onClick={() => setExpanded(false)} className="mt-2 text-xs text-fg-3 hover:text-fg-1">
+            {t('explain.hide_details')}
+          </button>
+        ) : null}
       </Collapsible.Root>
     </section>
     </>

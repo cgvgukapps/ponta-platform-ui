@@ -5,6 +5,7 @@ import { ChevronDown, FileDown, Link2, MessageSquarePlus, RefreshCw, Lock } from
 import { cn } from '@/lib/cn'
 import { t } from '@/i18n'
 import { useMatch, LockedPanel } from '@/components/shell/MatchLayout'
+import { useAskPanel } from '@/components/ask/AskPanel'
 import { useAsync } from '@/lib/useAsync'
 import { getBrief } from '@/api'
 import { loadPack } from '@/api/packs'
@@ -53,6 +54,7 @@ export function BriefPage() {
   const nav = useNavigate()
   const { toast } = useApp()
   const [regen, setRegen] = useState(false)
+  const panel = useAskPanel()
   const brief = useAsync(() => getBrief(match.id), [match.id])
   const pack = useAsync(() => (match.pack ? loadPack(match.id) : Promise.reject(new Error('none'))), [match.id])
 
@@ -80,17 +82,19 @@ export function BriefPage() {
   const lp = pack.data
   const b = brief.data
   const sample = b.themes[0].bullets[0].citations.map((id) => lp.byId.get(id)).find(Boolean)
-  const ask = (q?: string) => nav(`/ask?match=${match.id}${q ? `&q=${encodeURIComponent(q)}` : ''}&from=brief`)
+  // Ask opens the match's panel beside the brief, prefilled and scoped to the point's cited moments.
+  const ask = (q?: string, ids?: string[]) =>
+    panel ? panel.openWith(q, ids?.length ? { events: ids, label: t('askp.ctx_brief', { n: ids.length }) } : undefined) : nav(`/ask?match=${match.id}${q ? `&q=${encodeURIComponent(q)}` : ''}&from=brief`)
   const jump = (id: string) => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     document.getElementById(`th-${id}`)?.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' })
   }
   return (
-    <div className="mx-auto grid max-w-[1200px] grid-cols-[minmax(0,1fr)_272px] items-start gap-8 px-8 py-8">
+    <div className="mx-auto grid max-w-[1200px] grid-cols-[minmax(0,1fr)_272px] items-start gap-8 px-8 py-8 @max-[1060px]:max-w-[820px] @max-[1060px]:grid-cols-1 @max-[1060px]:gap-4 @max-[1060px]:px-6">
       <article aria-label={t('brief.kicker')} className="rounded-xl border border-hair bg-s1 px-10 py-9">
         <BriefHeader match={match} brief={b} lp={lp} variant="screen" regenerating={regen} />
         <div className={cn('mt-10 transition-opacity duration-[var(--dur-slow)]', regen && 'opacity-40')}>
-          <BriefBody brief={b} lp={lp} matchId={match.id} variant="screen" onAsk={(text) => ask(`Tell me more about this: ${text.split('.')[0]}`)} />
+          <BriefBody brief={b} lp={lp} matchId={match.id} variant="screen" onAsk={(text, ids) => ask(t('askp.brief_q', { text: text.split('.')[0] }), ids)} />
         </div>
         <div className="mt-10">
           <BriefLimitations brief={b} />
@@ -99,8 +103,8 @@ export function BriefPage() {
           </p>
         </div>
       </article>
-      <aside className="sticky top-6 flex flex-col gap-3" aria-label={t('brief.actions')}>
-        <div className="flex flex-col gap-2 rounded-xl border border-hair bg-s1 p-3">
+      <aside className="sticky top-6 flex flex-col gap-3 @max-[1060px]:static @max-[1060px]:order-first @max-[1060px]:[&>*:not(:first-child)]:hidden" aria-label={t('brief.actions')}>
+        <div className="flex flex-col gap-2 rounded-xl border border-hair bg-s1 p-3 @max-[1060px]:flex-row @max-[1060px]:items-center @max-[1060px]:p-2 @max-[1060px]:[&>div]:flex @max-[1060px]:[&>div]:gap-2">
           <Button variant="primary" onClick={() => nav(`/matches/${match.id}/brief/print`)}>
             <FileDown className="size-3.5" aria-hidden />
             {t('brief.export')}

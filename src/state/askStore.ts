@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react'
-import { askPonta, type AskAnswer } from '@/api/ask'
+import { askPonta, type AskAnswer, type AskContext } from '@/api/ask'
 import { listThreads } from '@/api'
 
 export type Phase = 'reading' | 'finding' | 'streaming' | 'verifying' | 'done'
@@ -13,6 +13,8 @@ export interface Turn {
   words: number
   /** Citations verified so far. */
   verified: number
+  /** What the question was asked about (a brief point's citations, a selected moment). */
+  context?: AskContext
 }
 export interface Thread {
   id: string
@@ -56,7 +58,7 @@ async function run(turn: Turn, animate: boolean) {
   }
   turn.phase = 'finding'
   emit()
-  const ans = await askPonta(turn.matchId, turn.question)
+  const ans = await askPonta(turn.matchId, turn.question, turn.context)
   turn.answer = ans
   if (!animate) {
     turn.phase = 'done'
@@ -109,14 +111,14 @@ export function ensureLoaded(id: string) {
   emit()
 }
 
-export function ask(threadId: string | null, matchId: string, question: string): string {
+export function ask(threadId: string | null, matchId: string, question: string, context?: AskContext): string {
   let th = threadId ? threads.get(threadId) : undefined
   if (!th) {
     th = { id: `th_new_${++n}`, title: question.length > 52 ? question.slice(0, 50).trimEnd() + '…' : question, matchId, updatedAt: new Date('2026-11-15T14:41:00Z').toISOString(), turns: [], loaded: true }
     threads.set(th.id, th)
     order = [th.id, ...order]
   }
-  const turn: Turn = { id: `${th.id}_t${th.turns.length}`, question, matchId, phase: 'reading', words: 0, verified: 0 }
+  const turn: Turn = { id: `${th.id}_t${th.turns.length}`, question, matchId, phase: 'reading', words: 0, verified: 0, context }
   th.turns.push(turn)
   th.matchId = matchId
   emit()
