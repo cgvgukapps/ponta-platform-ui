@@ -22,7 +22,7 @@ All values live in `src/styles/tokens.css`. Components use utilities mapped to t
 | | `--highlight` | `#ffd700` | Selected event, citation markers |
 | Pitch | `--pitch`, `--pitch-line`, `--pitch-hex` | `#16231b`, white 26%, white 7% | Canvas |
 | Heat | `--heat-0` to `--heat-8` | `#111034` to `#ffdff8` | Value and pressure, lightness-monotonic |
-| Decision quality | `--dq-poor` / `suboptimal` / `good` / `optimal` | `#f2603c` / `#f29d2e` / `#a3d93b` / `#33c26b` | Band chips only |
+| Decision quality (Gain) | `--dq-low-gain` / `partial-gain` / `most-gain` / `full-gain` | `#f2603c` / `#f29d2e` / `#a3d93b` / `#33c26b` | Band chips only |
 | Parity | `--parity-ink` / `-dim` / `--on-parity` | `#d2cbbb` / `#a39d90` / `#14110b` | Full, Degraded and Blocked marks |
 | Confidence | `--conf-ink` | white 62% | Level bar and dashed edge, no hue |
 | Status | `--danger`, `--warn` (+ tints) | `#f2603c`, `#f29d2e` | Errors and warnings in banners, not analytics |
@@ -130,7 +130,7 @@ Hard to implement faithfully
 
 Changes made after the first design review. The backend is not connected yet; everything is still mock data.
 
-1. **Decision quality follows the engine.** Bands are the engine's (`ANALYTICS_SPECIFICATION.md` 7.1): Poor below 0.55, Suboptimal 0.55 to 0.79, Good 0.80 to 0.94, Optimal 0.95 and above, unified across passes, carries and intercepted passes. The score is the value at arrival divided by the best option at release, clipped to 0 to 1.5, so it can exceed 1.0 when a run improved the outcome. The explain card shows a 0 to 1.5 scale with the cut-offs marked and explains any score above 1.0. The mock generator supports this (`arrival` on a key event); `evt_41207` is the example above 1.0. Key events were re-scripted so the brief's band wording still matches; event ids, times and positions are unchanged.
+1. **Decision quality follows the engine.** Bands are the engine's (`ANALYTICS_SPECIFICATION.md` 7.1): Poor below 0.55, Suboptimal 0.55 to 0.79, Good 0.80 to 0.94, Optimal 0.95 and above *(renamed 19 November 2026: Low gain, Partial gain, Most of the gain, Full gain; see section 18)*, unified across passes, carries and intercepted passes. The score is the value at arrival divided by the best option at release, clipped to 0 to 1.5, so it can exceed 1.0 when a run improved the outcome. The explain card shows a 0 to 1.5 scale with the cut-offs marked and explains any score above 1.0. The mock generator supports this (`arrival` on a key event); `evt_41207` is the example above 1.0. Key events were re-scripted so the brief's band wording still matches; event ids, times and positions are unchanged.
 2. **Citation chips lead with the moment.** A chip reads `07:48 · Pass, Home 5 to Home 6 · 0.94`. The event id moves to the hover preview, the accessible name and the printed brief, so the citation rule (`event_id`, timestamp, confidence) is still met. Where a caption already describes the action (Ask playlist), the chip is compact.
 3. **Plain names.** "Parity report" is now **Data check** everywhere, matching Ask. Tiers are named by sources: **One source**, **Two sources**, **Paired sources**, with a hover hint. Full, Degraded and Blocked keep their names.
 4. **Labelled counts.** The unlabelled `10 / 3 / 1` strip is replaced by `10 Full · 3 Degraded · 1 Blocked` with the parity marks, in the library and the match header.
@@ -245,3 +245,12 @@ The card showed everything at once: an audit id leading the header, a scale with
 6. **Footer:** "Play from 5 s before", then Ask, Copy link and the disabled Video as small icons with tooltips.
 
 Off-ball runs use the same score tile. The card is about 60 px shorter than before at 1440 × 900, so the events list keeps three rows.
+
+## 18. Gain and Choice (19 November 2026)
+
+Founder decision, following the engine (`ponta-blueprint/plaiq-review.md`). Decision quality has two scores, shown under names that say what each answers:
+
+- **Gain** is version 1, the score this prototype shows: the value where the ball arrived over the best option at release, 0 to 1.5. Its bands keep their cut-offs and colours and get descriptive names, so a band describes the action rather than judging the player: **Low gain** below 0.55, **Partial gain** 0.55 to 0.79, **Most of the gain** 0.80 to 0.94, **Full gain** 0.95 and above. Keys follow the semantic events (schema 1.5): `low_gain`, `partial_gain`, `most_gain`, `full_gain`; tokens are `--dq-low-gain` and so on.
+- **Choice** is version 2 (0 to 1, on hex cells): the chosen option's expected value over the best one's. It is not in the mock data yet. When it is shown, it sits beside Gain, marked Estimated, with its own band names (Best option, Near best, Below best, Well below best) in neutral steps of one hue, never Gain's traffic-light colours (`frontend-design-brief-v2.md`).
+- The score labels in the replay card, the match page and the printed brief read **Gain**; family and metric names keep "decision quality". The match page payload is version 1.1 (group id `low_gain_under_pressure`).
+

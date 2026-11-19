@@ -87,10 +87,10 @@ function Facts({ e, pressure = true }: { e: MatchEvent; pressure?: boolean }) {
 function DqScale({ value }: { value: number }) {
   const pct = (v: number) => `${(Math.min(DQ_MAX, Math.max(0, v)) / DQ_MAX) * 100}%`
   const segs: { band: Band; from: number; to: number }[] = [
-    { band: 'poor', from: 0, to: BAND_THRESHOLDS.suboptimal },
-    { band: 'suboptimal', from: BAND_THRESHOLDS.suboptimal, to: BAND_THRESHOLDS.good },
-    { band: 'good', from: BAND_THRESHOLDS.good, to: BAND_THRESHOLDS.optimal },
-    { band: 'optimal', from: BAND_THRESHOLDS.optimal, to: DQ_MAX },
+    { band: 'low_gain', from: 0, to: BAND_THRESHOLDS.partial_gain },
+    { band: 'partial_gain', from: BAND_THRESHOLDS.partial_gain, to: BAND_THRESHOLDS.most_gain },
+    { band: 'most_gain', from: BAND_THRESHOLDS.most_gain, to: BAND_THRESHOLDS.full_gain },
+    { band: 'full_gain', from: BAND_THRESHOLDS.full_gain, to: DQ_MAX },
   ]
   return (
     <div className="mt-3" role="img" aria-label={t('explain.scale_aria', { v: value.toFixed(2), max: DQ_MAX.toFixed(1) })}>

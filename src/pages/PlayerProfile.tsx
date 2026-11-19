@@ -22,7 +22,7 @@ export function PlayerProfile() {
     if (!q.data) return null
     const mine = q.data.events.filter((e) => e.team === team && e.num === num)
     const passes = mine.filter((e) => e.type === 'pass')
-    const bands = { poor: 0, suboptimal: 0, good: 0, optimal: 0 } as Record<Band, number>
+    const bands = { low_gain: 0, partial_gain: 0, most_gain: 0, full_gain: 0 } as Record<Band, number>
     for (const p of passes) if (p.band) bands[p.band]++
     const rated = passes.filter((p) => p.dq !== undefined)
     const best = [...rated].sort((a, b) => (b.dq ?? 0) - (a.dq ?? 0)).slice(0, 3)

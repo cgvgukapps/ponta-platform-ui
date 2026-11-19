@@ -27,7 +27,7 @@ export interface Prompt {
 }
 export const P = {
   pressure: { q: 'Where did we lose the ball under high pressure in the second half?', topic: 'ask.topic_pressure', metrics: ['pressure_index'] },
-  passing: { q: 'Show the progressive passes that were rated Optimal', topic: 'ask.topic_passing', metrics: ['pass_value', 'pass_alternatives'] },
+  passing: { q: 'Show the progressive passes with Full gain', topic: 'ask.topic_passing', metrics: ['pass_value', 'pass_alternatives'] },
   transitions: { q: 'Show the counter-attacks we conceded after losing the ball', topic: 'ask.topic_transitions', metrics: ['control_surface'] },
   offball: { q: 'Show high-value off-ball runs after the 70th minute', topic: 'ask.topic_offball', metrics: ['run_value'] },
   fatigue: { q: 'Which players looked fatigued after the 70th minute?', topic: 'ask.topic_load', metrics: ['fitness_linked'] },

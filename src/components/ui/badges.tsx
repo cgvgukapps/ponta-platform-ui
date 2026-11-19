@@ -165,10 +165,10 @@ export function ConfidenceIndicator({ value, className }: { value: number; class
 
 /* ---- Decision-quality bands (traffic-light colours live here only) ------------ */
 const bandClass: Record<Band, string> = {
-  poor: 'text-dq-poor bg-[color-mix(in_srgb,var(--dq-poor)_14%,transparent)]',
-  suboptimal: 'text-dq-suboptimal bg-[color-mix(in_srgb,var(--dq-suboptimal)_14%,transparent)]',
-  good: 'text-dq-good bg-[color-mix(in_srgb,var(--dq-good)_14%,transparent)]',
-  optimal: 'text-dq-optimal bg-[color-mix(in_srgb,var(--dq-optimal)_14%,transparent)]',
+  low_gain: 'text-dq-low-gain bg-[color-mix(in_srgb,var(--dq-low-gain)_14%,transparent)]',
+  partial_gain: 'text-dq-partial-gain bg-[color-mix(in_srgb,var(--dq-partial-gain)_14%,transparent)]',
+  most_gain: 'text-dq-most-gain bg-[color-mix(in_srgb,var(--dq-most-gain)_14%,transparent)]',
+  full_gain: 'text-dq-full-gain bg-[color-mix(in_srgb,var(--dq-full-gain)_14%,transparent)]',
 }
 
 export function BandGlyph({ band, className, size = 12 }: { band: Band; className?: string; size?: number }) {

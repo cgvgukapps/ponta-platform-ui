@@ -9,7 +9,7 @@
     "bullets": [
      {
       "id": "b1",
-      "text": "Home built out through the left side. {home_5} found {home_6} between Away's first and second lines with a pass rated Optimal, and {home_3} repeated the pattern into the left half-space.",
+      "text": "Home built out through the left side. {home_5} found {home_6} between Away's first and second lines with a pass rated Full gain, and {home_3} repeated the pattern into the left half-space.",
       "citations": [
        "evt_41207",
        "evt_41893"
@@ -17,7 +17,7 @@
      },
      {
       "id": "b2",
-      "text": "When Away pressed with both forwards, Home's passes out of the back were more often rated Suboptimal or Poor. Two clear cases: a pass under high pressure that kept the ball, and one that was lost.",
+      "text": "When Away pressed with both forwards, Home's passes out of the back more often had Partial gain or Low gain. Two clear cases: a pass under high pressure that kept the ball, and one that was lost.",
       "citations": [
        "evt_52660",
        "evt_60318"
@@ -65,7 +65,7 @@
     "bullets": [
      {
       "id": "b6",
-      "text": "{home_10} played the ball back to {home_8} when a forward pass to a teammate in the ring had the higher value. The pass kept possession, and the model rates it Suboptimal, not wrong.",
+      "text": "{home_10} played the ball back to {home_8} when a forward pass to a teammate in the ring had the higher value. The pass kept possession, and the model rates it Partial gain, not wrong.",
       "citations": [
        "evt_99482"
       ]

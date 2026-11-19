@@ -4,7 +4,7 @@
  * (ponta-blueprint/ai-layer.md). Documented in docs/match-page-payload.md.
  */
 export type State = 'full' | 'degraded' | 'blocked'
-export type BandName = 'poor' | 'suboptimal' | 'good' | 'optimal' | 'not_scored'
+export type BandName = 'low_gain' | 'partial_gain' | 'most_gain' | 'full_gain' | 'not_scored'
 
 export interface MetricCheck {
   family: string

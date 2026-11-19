@@ -72,10 +72,10 @@
   --heat-8: #ffdff8;
 
   /* Decision quality bands: the only place traffic-light colours are used */
-  --dq-poor: #f87c5e;
-  --dq-suboptimal: #f29d2e;
-  --dq-good: #a3d93b;
-  --dq-optimal: #33c26b;
+  --dq-low-gain: #f87c5e;
+  --dq-partial-gain: #f29d2e;
+  --dq-most-gain: #a3d93b;
+  --dq-full-gain: #33c26b;
 
   /* Parity states: one restrained stone hue, carried by fill, pattern, icon */
   --parity-ink: #d2cbbb; /* Full: solid fill; Degraded: outline; Blocked: dimmer */
@@ -89,7 +89,7 @@
 
   /* Product status (not analytics): errors never share a container with the home colour */
   /* Status hues sit outside the band ramp (brief v2, 5.4): danger is magenta, warn is violet, so neither
-     reads as Poor or Suboptimal, the home team's crimson or the yellow highlight. Both always ship with
+     reads as Low gain or Partial gain, the home team's crimson or the yellow highlight. Both always ship with
      an icon and a word. Checked with the dataviz palette validator: every pair above 15 dE normal vision. */
   --danger: #f05bb4;
   --danger-tint: rgba(240, 91, 180, 0.12);
@@ -140,10 +140,10 @@
   --parity-ink: #5c5340;
   --parity-ink-dim: #6d6552;
   --on-parity: #ffffff;
-  --dq-poor: #a8341a;
-  --dq-suboptimal: #855300;
-  --dq-good: #4a6b00;
-  --dq-optimal: #11703a;
+  --dq-low-gain: #a8341a;
+  --dq-partial-gain: #855300;
+  --dq-most-gain: #4a6b00;
+  --dq-full-gain: #11703a;
   --danger: #b0237a;
   --danger-tint: rgba(176, 35, 122, 0.08);
   --warn: #6544c9;

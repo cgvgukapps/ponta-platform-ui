@@ -13,13 +13,13 @@ import { useWho } from '@/lib/names'
 export type EventFilter = 'notable' | 'all' | 'cited'
 const ROW = 44
 
-/** Notable moments: cited, key, shots, poor decisions under pressure, big runs, sprints, high-pressure losses. */
+/** Notable moments: cited, key, shots, low-gain decisions under pressure, big runs, sprints, high-pressure losses. */
 export function isNotable(e: MatchEvent, citedSet: Set<string>) {
   if (citedSet.has(e.id) || e.key || e.type === 'shot') return true
   if (e.type === 'run') return (e.ovm ?? 0) >= 0.45
   if (e.type === 'effort') return e.effort?.kind === 'sprint'
   if (e.type === 'pass' || e.type === 'carry') {
-    if (e.band === 'poor' && e.press >= 0.55) return true
+    if (e.band === 'low_gain' && e.press >= 0.55) return true
     return e.outcome === 'lost' && e.press >= 0.78
   }
   return false

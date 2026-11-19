@@ -53,26 +53,26 @@ Semi-transparent tokens are composited over the surface listed in the row.
 | dark | `--parity-ink` | `--mix:parity-ink@0.2/surface-3` | 5.63:1 | 4.5:1 | Pass | Full pill text on its tint |
 | print | `--parity-ink` | `--mix:parity-ink@0.2/canvas` | 5.57:1 | 4.5:1 | Pass | Print full pill text on its tint |
 | print | `--parity-ink` | `--mix:parity-ink@0.2/surface-1` | 5.28:1 | 4.5:1 | Pass | Print full pill text on its tint |
-| dark | `--dq-poor` | `--mix:dq-poor@0.14/surface-1` | 5.46:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-poor` | `--mix:dq-poor@0.14/surface-2` | 4.97:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-poor` | `--mix:dq-poor@0.14/surface-3` | 4.55:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-suboptimal` | `--mix:dq-suboptimal@0.14/surface-1` | 6.32:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-suboptimal` | `--mix:dq-suboptimal@0.14/surface-2` | 5.74:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-suboptimal` | `--mix:dq-suboptimal@0.14/surface-3` | 5.25:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-good` | `--mix:dq-good@0.14/surface-1` | 7.79:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-good` | `--mix:dq-good@0.14/surface-2` | 7.05:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-good` | `--mix:dq-good@0.14/surface-3` | 6.44:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-optimal` | `--mix:dq-optimal@0.14/surface-1` | 6.01:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-optimal` | `--mix:dq-optimal@0.14/surface-2` | 5.46:1 | 4.5:1 | Pass | Band pill text on its tint |
-| dark | `--dq-optimal` | `--mix:dq-optimal@0.14/surface-3` | 4.99:1 | 4.5:1 | Pass | Band pill text on its tint |
-| print | `--dq-poor` | `--mix:dq-poor@0.14/canvas` | 5.30:1 | 4.5:1 | Pass | Print band pill text on its tint |
-| print | `--dq-poor` | `--mix:dq-poor@0.14/surface-1` | 5.01:1 | 4.5:1 | Pass | Print band pill text on its tint |
-| print | `--dq-suboptimal` | `--mix:dq-suboptimal@0.14/canvas` | 5.28:1 | 4.5:1 | Pass | Print band pill text on its tint |
-| print | `--dq-suboptimal` | `--mix:dq-suboptimal@0.14/surface-1` | 4.99:1 | 4.5:1 | Pass | Print band pill text on its tint |
-| print | `--dq-good` | `--mix:dq-good@0.14/canvas` | 5.06:1 | 4.5:1 | Pass | Print band pill text on its tint |
-| print | `--dq-good` | `--mix:dq-good@0.14/surface-1` | 4.78:1 | 4.5:1 | Pass | Print band pill text on its tint |
-| print | `--dq-optimal` | `--mix:dq-optimal@0.14/canvas` | 5.02:1 | 4.5:1 | Pass | Print band pill text on its tint |
-| print | `--dq-optimal` | `--mix:dq-optimal@0.14/surface-1` | 4.75:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| dark | `--dq-low-gain` | `--mix:dq-low-gain@0.14/surface-1` | 5.46:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-low-gain` | `--mix:dq-low-gain@0.14/surface-2` | 4.97:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-low-gain` | `--mix:dq-low-gain@0.14/surface-3` | 4.55:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-partial-gain` | `--mix:dq-partial-gain@0.14/surface-1` | 6.32:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-partial-gain` | `--mix:dq-partial-gain@0.14/surface-2` | 5.74:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-partial-gain` | `--mix:dq-partial-gain@0.14/surface-3` | 5.25:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-most-gain` | `--mix:dq-most-gain@0.14/surface-1` | 7.79:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-most-gain` | `--mix:dq-most-gain@0.14/surface-2` | 7.05:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-most-gain` | `--mix:dq-most-gain@0.14/surface-3` | 6.44:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-full-gain` | `--mix:dq-full-gain@0.14/surface-1` | 6.01:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-full-gain` | `--mix:dq-full-gain@0.14/surface-2` | 5.46:1 | 4.5:1 | Pass | Band pill text on its tint |
+| dark | `--dq-full-gain` | `--mix:dq-full-gain@0.14/surface-3` | 4.99:1 | 4.5:1 | Pass | Band pill text on its tint |
+| print | `--dq-low-gain` | `--mix:dq-low-gain@0.14/canvas` | 5.30:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| print | `--dq-low-gain` | `--mix:dq-low-gain@0.14/surface-1` | 5.01:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| print | `--dq-partial-gain` | `--mix:dq-partial-gain@0.14/canvas` | 5.28:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| print | `--dq-partial-gain` | `--mix:dq-partial-gain@0.14/surface-1` | 4.99:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| print | `--dq-most-gain` | `--mix:dq-most-gain@0.14/canvas` | 5.06:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| print | `--dq-most-gain` | `--mix:dq-most-gain@0.14/surface-1` | 4.78:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| print | `--dq-full-gain` | `--mix:dq-full-gain@0.14/canvas` | 5.02:1 | 4.5:1 | Pass | Print band pill text on its tint |
+| print | `--dq-full-gain` | `--mix:dq-full-gain@0.14/surface-1` | 4.75:1 | 4.5:1 | Pass | Print band pill text on its tint |
 | dark | `--fg-1` | `--mix:accent@0.14/surface-1` | 14.94:1 | 4.5:1 | Pass | Text on a selected row (accent tint) |
 | dark | `--fg-1` | `--mix:accent@0.14/canvas` | 16.21:1 | 4.5:1 | Pass | Text on a selected row (accent tint) |
 | dark | `--fg-2` | `--mix:accent@0.14/surface-1` | 9.62:1 | 4.5:1 | Pass | Text on a selected row (accent tint) |
@@ -81,18 +81,18 @@ Semi-transparent tokens are composited over the surface listed in the row.
 | dark | `--fg-3` | `--mix:accent@0.14/canvas` | 6.49:1 | 4.5:1 | Pass | Text on a selected row (accent tint) |
 | dark | `--fg-4` | `--mix:accent@0.14/surface-1` | 4.98:1 | 4.5:1 | Pass | Text on a selected row (accent tint) |
 | dark | `--fg-4` | `--mix:accent@0.14/canvas` | 5.40:1 | 4.5:1 | Pass | Text on a selected row (accent tint) |
-| dark | `--dq-poor` | `--surface-1` | 6.74:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-poor` | `--surface-2` | 6.19:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-poor` | `--surface-3` | 5.67:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-suboptimal` | `--surface-1` | 8.09:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-suboptimal` | `--surface-2` | 7.42:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-suboptimal` | `--surface-3` | 6.80:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-good` | `--surface-1` | 10.53:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-good` | `--surface-2` | 9.66:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-good` | `--surface-3` | 8.85:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-optimal` | `--surface-1` | 7.61:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-optimal` | `--surface-2` | 6.98:1 | 4.5:1 | Pass | Decision quality band text |
-| dark | `--dq-optimal` | `--surface-3` | 6.40:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-low-gain` | `--surface-1` | 6.74:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-low-gain` | `--surface-2` | 6.19:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-low-gain` | `--surface-3` | 5.67:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-partial-gain` | `--surface-1` | 8.09:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-partial-gain` | `--surface-2` | 7.42:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-partial-gain` | `--surface-3` | 6.80:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-most-gain` | `--surface-1` | 10.53:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-most-gain` | `--surface-2` | 9.66:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-most-gain` | `--surface-3` | 8.85:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-full-gain` | `--surface-1` | 7.61:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-full-gain` | `--surface-2` | 6.98:1 | 4.5:1 | Pass | Decision quality band text |
+| dark | `--dq-full-gain` | `--surface-3` | 6.40:1 | 4.5:1 | Pass | Decision quality band text |
 | dark | `--danger` | `--canvas` | 6.18:1 | 4.5:1 | Pass | Status text |
 | dark | `--danger` | `--surface-1` | 5.76:1 | 4.5:1 | Pass | Status text |
 | dark | `--danger` | `--surface-2` | 5.28:1 | 4.5:1 | Pass | Status text |
@@ -142,14 +142,14 @@ Semi-transparent tokens are composited over the surface listed in the row.
 | print | `--parity-ink-dim` | `--surface-2` | 5.11:1 | 4.5:1 | Pass | Print parity text |
 | print | `--on-parity` | `--parity-ink` | 7.59:1 | 4.5:1 | Pass | Print filled parity badge |
 | print | `--on-parity` | `--parity-ink-dim` | 5.78:1 | 4.5:1 | Pass | Print filled parity badge |
-| print | `--dq-poor` | `--canvas` | 6.62:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-poor` | `--surface-2` | 5.85:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-suboptimal` | `--canvas` | 6.49:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-suboptimal` | `--surface-2` | 5.74:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-good` | `--canvas` | 6.19:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-good` | `--surface-2` | 5.47:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-optimal` | `--canvas` | 6.17:1 | 4.5:1 | Pass | Print decision quality text |
-| print | `--dq-optimal` | `--surface-2` | 5.45:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-low-gain` | `--canvas` | 6.62:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-low-gain` | `--surface-2` | 5.85:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-partial-gain` | `--canvas` | 6.49:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-partial-gain` | `--surface-2` | 5.74:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-most-gain` | `--canvas` | 6.19:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-most-gain` | `--surface-2` | 5.47:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-full-gain` | `--canvas` | 6.17:1 | 4.5:1 | Pass | Print decision quality text |
+| print | `--dq-full-gain` | `--surface-2` | 5.45:1 | 4.5:1 | Pass | Print decision quality text |
 | print | `--control-border` | `--canvas` | 4.18:1 | 3:1 | Pass | Print control edges |
 | print | `--conf-ink` | `--canvas` | 7.09:1 | 3:1 | Pass | Print confidence texture |
 

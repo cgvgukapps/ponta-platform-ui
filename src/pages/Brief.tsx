@@ -41,7 +41,7 @@ function HowToRead({ sample, matchId, engine, eventOnly }: { sample?: MatchEvent
           {BAND_ORDER.map((b) => (
             <DqBand key={b} band={b} />
           ))}
-          {eventOnly ? <EstimateBand lo="suboptimal" hi="good" /> : null}
+          {eventOnly ? <EstimateBand lo="partial_gain" hi="most_gain" /> : null}
         </div>
         {eventOnly ? <p>{t('brief.how_est')}</p> : null}
       </Collapsible.Content>

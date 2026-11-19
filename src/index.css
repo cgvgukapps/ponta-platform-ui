@@ -78,10 +78,10 @@
   --color-away: var(--team-away);
   --color-highlight: var(--highlight);
   --color-pitch: var(--pitch);
-  --color-dq-poor: var(--dq-poor);
-  --color-dq-suboptimal: var(--dq-suboptimal);
-  --color-dq-good: var(--dq-good);
-  --color-dq-optimal: var(--dq-optimal);
+  --color-dq-low-gain: var(--dq-low-gain);
+  --color-dq-partial-gain: var(--dq-partial-gain);
+  --color-dq-most-gain: var(--dq-most-gain);
+  --color-dq-full-gain: var(--dq-full-gain);
   --color-parity: var(--parity-ink);
   --color-parity-dim: var(--parity-ink-dim);
   --color-on-parity: var(--on-parity);

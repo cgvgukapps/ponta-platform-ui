@@ -33,7 +33,7 @@
   "id": "decision_quality",
   "term": "Decision quality",
   "short": "value at arrival divided by the best option at release",
-  "definition": "The value of the outcome when the ball arrived, divided by the score of the best option in the ring when it was played. The scale runs from 0 to 1.5. Bands: Poor below 0.55, Suboptimal 0.55 to 0.79, Good 0.80 to 0.94, Optimal 0.95 and above. Above 1.0 means a run made the outcome better than any option available at release."
+  "definition": "The value of the outcome when the ball arrived, divided by the score of the best option in the ring when it was played. The scale runs from 0 to 1.5. Shown as Gain. Bands: Low gain below 0.55, Partial gain 0.55 to 0.79, Most of the gain 0.80 to 0.94, Full gain 0.95 and above. Above 1.0 means a run made the outcome better than any option available at release."
  },
  {
   "id": "control_zone",

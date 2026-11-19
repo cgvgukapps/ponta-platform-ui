@@ -50,7 +50,7 @@ const INTENTS: { id: IntentId; test: RegExp }[] = [
   { id: 'fatigue', test: /fatigu|injur|tired|exhaust|readiness|overload|risk/i },
   { id: 'loss_pressure', test: /(los[et]|loss|turnover|gave away|give away).*pressur|pressur.*(los[et]|loss|turnover)/i },
   { id: 'counters', test: /counter|transition|conceded|break against/i },
-  { id: 'progressive', test: /progressive|through|between the lines|optimal|best pass|broke/i },
+  { id: 'progressive', test: /progressive|through|between the lines|optimal|full gain|best pass|broke/i },
   { id: 'runs', test: /\bruns?\b|off-ball|movement|channel/i },
   { id: 'efforts', test: /sprint|high-speed|effort|speed|load/i },
   { id: 'loss', test: /los[et]|loss|turnover|possession/i },
@@ -182,7 +182,7 @@ export async function askPonta(matchId: string, question: string, context?: AskC
       summary: `These are Home's ball losses in the ${windowName} where the nearest opponent was within the high-pressure threshold. The playlist is in match order. Open a moment to see the pressure working and the options Home had.`,
       thresholds: ['high_pressure', 'ball_loss', 'low_confidence'],
       playlist: list.map((e) => e.id),
-      followUps: ['Show the counter-attacks we conceded after losing the ball', 'Which of these were rated Poor?'],
+      followUps: ['Show the counter-attacks we conceded after losing the ball', 'Which of these had Low gain?'],
     }
   }
 
@@ -209,7 +209,7 @@ export async function askPonta(matchId: string, question: string, context?: AskC
     if (blocked.length) return refuse('Pass decision quality is Blocked for this match', [report.metrics.pass_value.reason, report.metrics.pass_value.unlock], blocked, altsFor(match))
     const list = lp.events
       .filter((e) => e.team === 'h' && e.type === 'pass' && e.outcome === 'complete' && forwardProgress(e) >= 15 && inWin(e.t))
-      .filter((e) => (e.band ? e.band === 'optimal' : e.est?.hi === 'optimal'))
+      .filter((e) => (e.band ? e.band === 'full_gain' : e.est?.hi === 'full_gain'))
       .slice(0, 12)
     const step = Math.max(1, Math.floor(list.length / 6))
     const picked = list.filter((_, i) => i % step === 0).slice(0, 6)

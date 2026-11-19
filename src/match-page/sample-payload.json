@@ -1,8 +1,8 @@
 {
- "payload_version": "1.0",
- "schema_version": "1.0",
+ "payload_version": "1.1",
+ "schema_version": "1.5",
  "engine_version": "plaiq-0.1.0 / matrix-0.1.0",
- "generated_at": "2026-11-15T00:00:00Z",
+ "generated_at": "2026-11-19T00:00:00Z",
  "sample_data": true,
  "match": {
   "match_id": "synthetic_1",
@@ -41,7 +41,7 @@
   },
   "summary": {
    "full": 7,
-   "degraded": 3,
+   "degraded": 5,
    "blocked": 2
   },
   "coverage": {
@@ -107,11 +107,27 @@
    },
    "decision_quality": {
     "family": "decisions",
-    "label": "Decision quality",
+    "label": "Decision quality: Gain",
     "state": "full",
     "reason": "Both teams are tracked throughout.",
     "measure": "25 Hz, 0.0% of player observations missing",
     "unlock": null
+   },
+   "pass_completion": {
+    "family": "decisions",
+    "label": "Pass completion probability",
+    "state": "degraded",
+    "reason": "Fitted on another source's tracking, not this provider's: it ranks passes, but its probabilities may be off by several points. Passes without a logged target get no probability.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": "Fit the pass completion parameters on this provider's matches."
+   },
+   "decision_quality_v2": {
+    "family": "decisions",
+    "label": "Decision quality: Choice",
+    "state": "degraded",
+    "reason": "Its risk term, the pass completion probability, is fitted on another source's tracking. Passes without a logged target, including most failed passes, get no score.",
+    "measure": "25 Hz, 0.0% of player observations missing",
+    "unlock": "Fit the pass completion parameters on this provider's matches."
    },
    "event_delta_v": {
     "family": "value",
@@ -161,9 +177,9 @@
  },
  "moment_groups": [
   {
-   "id": "poor_under_pressure",
-   "title": "Lowest-rated decisions under pressure",
-   "rule": "Passes and carries rated Poor or Suboptimal with 1v1 pressure of 7 or more, lowest decision quality first.",
+   "id": "low_gain_under_pressure",
+   "title": "Lowest-gain decisions under pressure",
+   "rule": "Passes and carries with Low gain or Partial gain under 1v1 pressure of 7 or more, lowest gain first.",
    "moments": []
   },
   {
@@ -175,7 +191,7 @@
   {
    "id": "best_progressive",
    "title": "Best decisions that moved the ball forward in value",
-   "rule": "Completed passes and carries rated Optimal, largest value gain first.",
+   "rule": "Completed passes and carries with Full gain, largest value change first.",
    "moments": [
     {
      "event_id": "evt_synthetic_1_00002",
@@ -191,7 +207,7 @@
      "inferred_intended_ref": null,
      "inference_confidence": null,
      "dq_score": 1.066,
-     "dq_band": "optimal",
+     "dq_band": "full_gain",
      "chosen_option_pov": 0.0718,
      "best_option_player_ref": "home_6",
      "best_option_pov": 0.0718,
@@ -365,7 +381,7 @@
      "inferred_intended_ref": null,
      "inference_confidence": null,
      "dq_score": 1.014,
-     "dq_band": "optimal",
+     "dq_band": "full_gain",
      "chosen_option_pov": null,
      "best_option_player_ref": null,
      "best_option_pov": null,

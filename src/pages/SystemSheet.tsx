@@ -15,7 +15,7 @@ const TEXTS = ['fg-1', 'fg-2', 'fg-3', 'fg-4']
 const ACCENT = ['accent', 'accent-text', 'accent-fill', 'accent-fill-hover', 'accent-fill-active', 'accent-tint']
 const TEAMS = ['team-home', 'team-away', 'highlight', 'pitch']
 const HEAT = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => `heat-${i}`)
-const DQ = ['dq-poor', 'dq-suboptimal', 'dq-good', 'dq-optimal']
+const DQ = ['dq-low-gain', 'dq-partial-gain', 'dq-most-gain', 'dq-full-gain']
 const PARITY = ['parity-ink', 'parity-ink-dim', 'on-parity']
 const STATUS = ['danger', 'warn', 'conf-ink']
 
@@ -115,8 +115,8 @@ export function SystemSheet() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <EstimateBand lo="suboptimal" hi="good" />
-            <EstimateBand lo="good" hi="optimal" />
+            <EstimateBand lo="partial_gain" hi="most_gain" />
+            <EstimateBand lo="most_gain" hi="full_gain" />
           </div>
         </div>
       </Section>

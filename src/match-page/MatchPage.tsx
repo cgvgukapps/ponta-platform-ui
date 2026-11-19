@@ -35,7 +35,7 @@ function Scale({ value }: { value: number }) {
     <div className="mt-1.5" role="img" aria-label={t('explain.scale_aria', { v: value.toFixed(2), max: DQ_MAX.toFixed(1) })}>
       <div className="relative h-1.5 rounded-full bg-s3">
         <span className="absolute inset-y-0 left-0 rounded-full bg-fg-3" style={{ width: p(value) }} />
-        {[BAND_THRESHOLDS.suboptimal, BAND_THRESHOLDS.good, BAND_THRESHOLDS.optimal, DQ_ELEVATED].map((c) => (
+        {[BAND_THRESHOLDS.partial_gain, BAND_THRESHOLDS.most_gain, BAND_THRESHOLDS.full_gain, DQ_ELEVATED].map((c) => (
           <span key={c} aria-hidden className="absolute -top-0.5 h-2.5 w-px bg-fg-4" style={{ left: p(c) }} />
         ))}
       </div>

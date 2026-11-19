@@ -37,9 +37,9 @@ Types: `src/match-page/types.ts`. Field names in moments follow the semantic eve
 
 | Group | Rule |
 |---|---|
-| Lowest-rated decisions under pressure | Passes and carries rated Poor or Suboptimal with 1v1 pressure of 7 or more, lowest first |
+| Lowest-gain decisions under pressure (`low_gain_under_pressure`, was `poor_under_pressure`) | Passes and carries with Low gain or Partial gain under 1v1 pressure of 7 or more, lowest first |
 | Passes that lost the ball | Failed passes the engine scored, highest pressure first |
-| Best decisions that moved the ball forward in value | Completed passes and carries rated Optimal with a positive value change, largest first |
+| Best decisions that moved the ball forward in value | Completed passes and carries with Full gain and a positive value change, largest first |
 | Most valuable off-ball runs | Movements with a positive engine run bonus, highest movement value first |
 
 Four per group. The pressure figure of 7 is a selection rule for this page, not a product threshold; the engine defines none yet.
